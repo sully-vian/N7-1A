@@ -1,0 +1,95 @@
+(* Utilisation d'outils de preuve automatique à travers la passerelle Why3 pour résoudre une énigme *)
+theory Enquete
+
+   (* Définition des 3 propositions : A, B, C qui représentent le fait que les accusés sont innocents *)
+   predicate a (* a coupable *)
+   predicate b (* a coupable *)
+   predicate c (* a coupable *)
+
+   predicate da = b /\ (not c)
+   predicate db = a -> c
+   predicate dc = (not c) /\ (a \/ b)
+
+   (* 1. da,db,dc compatibles ? *)
+
+      predicate compatible = da /\ db /\ dc
+
+      goal Thm10 : (( a /\ b /\ c) -> compatible)
+
+      goal Thm11 : (( not a /\ not b /\ not c) -> compatible)
+
+      goal Thm12 : (( not a /\ not b /\ c) -> compatible)
+      
+      goal Thm13 : (( not a /\ b /\ not c) -> compatible) (* VALIDE *)
+      
+      goal Thm14 : (( not a /\ b /\ c) -> compatible)
+      
+      goal Thm15 : (( a /\ not b /\ not c) -> compatible)
+      
+      goal Thm16 : (( a /\ not b /\ c) -> compatible)
+      
+      goal Thm17 : (( a /\ b /\ not c) -> compatible)
+      
+      goal Thm18 : (( a /\ b /\ c) -> compatible)
+
+      (* ALTERNATIVE *)
+
+      goal Thm100 : not compatible
+   
+   (* 2. quel témoignage se déduit des autres ?*)
+
+      goal Thm20 : da /\ db -> dc (* VALIDE *)
+
+      goal Thm21 : dc /\ da -> db
+
+      goal Thm22 : db /\ dc -> da (* VALIDE *)
+   
+
+   (* 3. si tous innocents, qui ment ? *)
+
+      predicate innocents = not a /\ not b /\ not c
+
+      goal Thm30 : innocents -> (not da /\ not db /\ not dc)
+
+      goal Thm31 : innocents -> (not da /\ not db /\ dc)
+
+      goal Thm32 : innocents -> (not da /\ db /\ not dc) (* VALIDE *)
+      
+      goal Thm33 : innocents -> (not da /\ db /\ dc)
+
+      goal Thm34 : innocents -> (da /\ not db /\ not dc)
+
+      goal Thm35 : innocents -> (da /\ not db /\ dc)
+
+      goal Thm36 : innocents -> (da /\ db /\ not dc)
+      
+      goal Thm37 : innocents -> (da /\ db /\ dc)
+
+
+   (* 4. si tous disent vérité, qui coupable ? *)
+
+      predicate verites = da /\ db /\ dc
+
+      goal Thm40 : verites -> (not a /\ not b /\ not c)
+
+      goal Thm41 : verites -> (not a /\ not b /\ c)
+
+      goal Thm42 : verites -> (not a /\ b /\ not c) (* VALIDE *)
+
+      goal Thm43 : verites -> (not a /\ b /\ c)
+      
+      goal Thm44 : verites -> (a /\ not b /\ not c)
+
+      goal Thm45 : verites -> (a /\ not b /\ c)
+
+      goal Thm46 : verites -> (a /\ b /\ not c)
+
+      goal Thm47 : verites -> (a /\ b /\ c)
+
+
+   (* 5. si seuls innocent disent vérité, qui innocent ? *)
+
+      predicate innocents_verite = (da -> not a) /\ (db -> not b) /\ (dc -> not c)
+
+      (*goal Thm50 :*)
+end
