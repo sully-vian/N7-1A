@@ -1,0 +1,21 @@
+Algorithme de Gauss-Newton
+Vraie Jacobienne =0
+Methode diff finies = avants
+ndigits :  8 
+------------------------------------------------------------------
+         k     ||f'(beta)||   f(beta)      ||delta||    exitflag 
+------------------------------------------------------------------
+{Error using <a href="matlab:matlab.internal.language.introspective.errorDocCallback('mtimes')" style="font-weight:bold"> * </a>
+Incorrect dimensions for matrix multiplication. Check that the number of columns in the first matrix matches
+the number of rows in the second matrix. To operate on each element of the matrix individually, use TIMES
+(.*) for elementwise multiplication.
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('diff_finies_avant', '/home/vhy9665/Annee_1/opti/Optimisation/TP/TP3-diff-finies/diff_finies_avant.m', 32)" style="font-weight:bold">diff_finies_avant</a> (<a href="matlab: opentoline('/home/vhy9665/Annee_1/opti/Optimisation/TP/TP3-diff-finies/diff_finies_avant.m',32,0)">line 32</a>)
+    h = sqrt(omega) * max(abs(x),1) * sign(x);
+
+Error in <a href="matlab:matlab.internal.language.introspective.errorDocCallback('exem1_diff_finies', '/home/vhy9665/Annee_1/opti/Optimisation/TP/TP3-diff-finies/exem1_diff_finies.m', 92)" style="font-weight:bold">exem1_diff_finies</a> (<a href="matlab: opentoline('/home/vhy9665/Annee_1/opti/Optimisation/TP/TP3-diff-finies/exem1_diff_finies.m',92,0)">line 92</a>)
+	    Jres = diff_finies_avant(@res1,beta0, ndigits);
+
+<a href="matlab:helpview('matlab','error_innerdim')" style="font-weight:bold">Related documentation</a>
+} 
+C14_diff_finies
