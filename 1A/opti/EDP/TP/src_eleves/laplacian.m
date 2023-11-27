@@ -22,11 +22,28 @@ function L = laplacian(nu,dx1,dx2,N1,N2)
 %
 % 
 
-% Initialisation
-L=sparse([]);
+    % Données ui
+    nu1 = nu(1);
+    nu2 = nu(2);
+    N = N1*N2;
+    
+    % Création des vecteurs diagonaux
+    vh = zeros(N,1) - 2 * (nu1/dx1^2 + nu2/dx2^2);
+    vh1 = ones(N,1) * nu1/dx1^2;
+    vh2haut = ones(N,1) * nu2/dx2^2;
+    vh2bas = ones(N,1) * nu2/dx2^2;
 
-%%%%%%%%%%%%%%%%%%%%%%
-%%%%%% TO DO %%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%
+    
+    % Rajout des 0 (effet de bord)
+    vh2haut(1:N2:end) = 0;
+    vh2bas(N2:N2:end) = 0;
+    
+    % Matrices carrées N*N avec les diags bien placées
+    Lh = spdiags(vh, 0, N, N);
+    Lh1 = spdiags([vh1 vh1], [-N2 N2], N, N);
+    Lh2 = spdiags([vh2bas vh2haut], [-1 1], N, N);
+    
+    % Calcul final de L
+    L = Lh + Lh1 + Lh2;
 
-end    
+end

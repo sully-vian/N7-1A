@@ -22,11 +22,6 @@ function b=forcing(nu, dx1, dx2, N1, N2)
 %
 % 
 
-% Initialisation
-b=zeros(N1*N2,1);
-
-%%%%%%%%%%%%%%%%%%%%%%
-%%%%%% TO DO %%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%
+    b = -ones(N1*N2,1);
 
 end

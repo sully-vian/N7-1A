@@ -35,14 +35,15 @@ function [uhref]=diffusivity(nu,L1,L2,N1,N2)
    % Calcul de la matrice du systeme
 
    L = laplacian(nu,dx1,dx2,N1,N2);
+
+   c = forcing(nu,dx1,dx2,N1,N2);
    
    % Calcul de l'approximation de la solution de l'EDP
-   %%%%%%%%%%%%%%%%%%%%%%%%%%%
-   %%%%%%%    TO DO   %%%%%%%%
-   %%%%%%%%%%%%%%%%%%%%%%%%%%ù
-   uhref=zeros(N1*N2,1);
+  
+   uhref = L \ c;
       
   %Affichage de la solution approximee
-  fig_ref = plot_uh(uhref,dx1,dx2,N1,N2,2); drawnow;
+  fig_ref = plot_uh(uhref,dx1,dx2,N1,N2,2);
+  drawnow;
   
 end
