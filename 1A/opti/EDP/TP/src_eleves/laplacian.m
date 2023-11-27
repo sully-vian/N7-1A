@@ -44,6 +44,6 @@ function L = laplacian(nu,dx1,dx2,N1,N2)
     Lh2 = spdiags([vh2bas vh2haut], [-1 1], N, N);
     
     % Calcul final de L
-    L = Lh + Lh1 + Lh2;
+    L = -(Lh + Lh1 + Lh2);
 
 end
