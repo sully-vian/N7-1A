@@ -11,7 +11,7 @@ elevation = 40;
 % Choix de la paire de caracteristiques la plus discriminante (a modifier !) :
 load donnees_carac;
 noms_carac = {'Compacite','Contraste','Texture'};
-ind_carac_1 = 1;
+ind_carac_1 = 1; % Compacité / Contraste étale bien
 ind_carac_2 = 2;
 nom_carac_1 = noms_carac{ind_carac_1};
 nom_carac_2 = noms_carac{ind_carac_2};
@@ -112,7 +112,8 @@ figure('Name','Superposition des deux vraisemblances',...
     zlabel('Vraisemblance','Rotation',90);
     set(gca,'FontSize',20);
 
-% Orientation de la figure pour obtenir les zones de choix entre les classes
+figure(3)
+% Orientation de la figure 3 pour obtenir les zones de choix entre les classes
 elevation = 21:90;
 azimuth = linspace(azimuth,0,length(elevation));
     for k = 1:length(elevation)
