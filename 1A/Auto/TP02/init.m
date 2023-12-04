@@ -22,7 +22,7 @@ xe = [0 0]';         % (x_e, u_e) point de fonctionnement
 ue = 0;             %
 
 % Example Cas 1.1
-x0 = [pi/20 0]';       % initial point
+x0 = [pi/10 0]';       % initial point
 K = [10 1];    % constant
 % 'tf' (Modifier par 'Model Settings/Solver')
 % 'Intégrateur' (Modifier par 'Model Settings/Solver')
