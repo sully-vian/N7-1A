@@ -20,7 +20,7 @@ V = double(I(:,:,2));
 B = double(I(:,:,3));
 
 % Calcul des correlations et contrastes :
-X = [R(:) V(:) B(:)];	
+X = [R(:) V(:) B(:)];
 [correlation,contraste] = correlation_contraste(X); % FONCTION A CODER
 
 % Affichage du nuage de pixels dans le repere RVB :
@@ -36,7 +36,7 @@ rotate3d;
 grid on;
 title({'Representation 3D des pixels' ...
        'dans l''espace RVB'},'FontSize',20)
-   
+
 % Affichage de l'image RVB :
 subplot(3,3,2);
 imagesc(I);

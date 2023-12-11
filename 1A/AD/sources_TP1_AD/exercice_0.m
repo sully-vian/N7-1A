@@ -17,7 +17,7 @@ I = imread('autumn.tif');
 R = double(I(:,:,1));
 V = double(I(:,:,2));
 B = double(I(:,:,3));
-   
+
 % Affichage de l'image RVB :
 subplot(1,3,1);
 imagesc(I);

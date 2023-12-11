@@ -67,7 +67,7 @@ title(['r_{C_1C_3} = ' num2str(correlation(2),'%.2f')],'FontSize',20);
 subplot(7,3,17);
 axis off
 title(['r_{C_2C_3} = ' num2str(correlation(3),'%.2f')],'FontSize',20);
-   
+
 % Affichage de la premiere composante principale :
 colormap gray;				% Pour afficher les images en niveaux de gris
 subplot(3,3,3);

@@ -72,8 +72,8 @@ axis off
 title(['C_1 = ' num2str(vecteur_RVG2gris_normalise(1),'%.3f') '\color{red} R' ...
        '\color{black} + '  num2str(vecteur_RVG2gris_normalise(2),'%.3f') '\color{green} V' ...
        '\color{black} + ' num2str(vecteur_RVG2gris_normalise(3),'%.3f') '\color{blue} B'], ...
-      'FontSize',20);
-   
+       'FontSize',20);
+
 % Affichage de la premiere composante principale :
 colormap gray;				% Pour afficher les images en niveaux de gris
 subplot(3,3,3);
