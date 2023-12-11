@@ -2,6 +2,4 @@
 
 function I_sans_blanc = noircir_pixels_blancs(I)
 
-
-    
 end

@@ -1,10 +1,9 @@
 % Fonction estim_param_Dyx_MV (exercice_1.m)
 
-function [a_Dyx,b_Dyx,residus_Dyx] = ...
-    estim_param_Dyx_MV(x_donnees_bruitees,y_donnees_bruitees,tirages_psi)
+function [a_Dyx, b_Dyx, residus_Dyx] = estim_param_Dyx_MV(x_donnees_bruitees, y_donnees_bruitees, tirages_psi)
 
     % Extracton des données utiles
-    [x_G, y_G, x_c, y_c] = centrage_des_donnees(x_donnees_bruitees,y_donnees_bruitees);
+    [x_G, y_G, x_c, y_c] = centrage_des_donnees(x_donnees_bruitees, y_donnees_bruitees);
     nb_angles = length(tirages_psi);
 
     nb_pts = length(x_c);

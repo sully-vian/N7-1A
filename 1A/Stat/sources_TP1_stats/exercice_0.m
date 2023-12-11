@@ -8,7 +8,7 @@ H = taille_ecran(4);
 
 % Fenetre d'affichage :
 figure('Name','Points situes au voisinage d''une droite', ...
-	   'Position',[0.3*L,0.1*H,0.4*L,0.7*H]);
+	'Position',[0.3*L,0.1*H,0.4*L,0.7*H]);
 axis equal;
 hold on;
 hx = xlabel('$x$');
@@ -23,7 +23,7 @@ bornes = [-taille taille -taille taille];
 n = 100;
 sigma = 2;
 [x_droite,y_droite,x_donnees_bruitees,y_donnees_bruitees, theta_0, rho_0] ...
-			         = creation_droite_et_donnees_bruitees(taille,n,sigma);
+	= creation_droite_et_donnees_bruitees(taille,n,sigma);
 
 % Affichage de la droite :
 hd = plot(x_droite,y_droite,'b-','LineWidth',3);
@@ -33,7 +33,7 @@ hdb = plot(x_donnees_bruitees,y_donnees_bruitees,'k*','MarkerSize',5,'LineWidth'
 axis(bornes);
 grid on;
 lg = legend([hd, hdb], ...
-            '~Droite', ...
-	        '~Donnees bruitees', ...
-	        'Location','Best');
+	'~Droite', ...
+	'~Donnees bruitees', ...
+	'Location','Best');
 set(lg,'Interpreter','Latex');
