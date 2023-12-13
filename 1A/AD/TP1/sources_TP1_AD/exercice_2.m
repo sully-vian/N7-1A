@@ -11,7 +11,7 @@ figure('Name', 'ACP d''une image RVB', ...
     'Color', [0.7 0.75 0.85]);
 
 % Lecture d'une image RVB :
-I = imread('autumn.tif');
+I = imread('autumn.png');
 % I = imread('image.png');
 
 % Decoupage de l'image en trois canaux et conversion en doubles :

@@ -15,7 +15,7 @@ function [C, bornes_C, coefficients_RVG2gris] = ACP(X)
 
     % calcul des coordonnées dans la base de vect propres
     % inv(W) pr passer dans l'autre sens
-    C = (inv(W) * Xc'); % Xc' car les lignes sont les vecteurs à passer
+    C = (W \ Xc'); % Xc' car les lignes sont les vecteurs à passer
     C = C'; % On remet C dans le bon format
     %C = Xc*W;
 
