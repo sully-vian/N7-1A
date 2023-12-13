@@ -8,7 +8,7 @@ L = taille_ecran(3);
 H = taille_ecran(4);
 
 % Lecture d'une image interne a Matlab et conversion en niveaux de gris et en doubles :
-I = double(rgb2gray(imread('autumn.tif')));
+I = double(rgb2gray(imread('autumn.png')));
 
 % Calcul de l'image decorrelee :
 I_decorrelee = decorrelation_colonnes(I); % FONCTION A CODER

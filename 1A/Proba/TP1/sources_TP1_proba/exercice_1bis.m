@@ -8,7 +8,7 @@ L = taille_ecran(3);
 H = taille_ecran(4);
 
 % Lecture d'une image interne a Matlab et conversion en niveaux de gris et en doubles :
-I = double(rgb2gray(imread('autumn.tif')));
+I = double(rgb2gray(imread('autumn.png')));
 
 % Calcul de l'image decorrelee :
 I_decorrelee = decorrelation_colonnes(I); % FONCTION A CODER
@@ -25,6 +25,9 @@ title('Image decorrelee')
 % Calcul de vecteurs contenant les niveaux de gris de gauche (de droite) d'une paire de pixels :
 [Vd, Vg] = vectorisation_par_colonne(I_decorrelee); % FONCTION A CODER
 
+% Calcul des parametres de la droite de regression :
+[r, a, b] = parametres_correlation(Vd, Vg); % FONCTION A CODER
+
 % Affichage des paires de niveaux de gris sous la forme d'un nuage de points :
 subplot(1, 2, 2)
 plot(Vd, Vg, 'b+');
@@ -36,9 +39,6 @@ set(gca, 'FontSize', 15);
 axis equal;
 grid on;
 title(['Correlation entre pixels voisins : ' num2str(100 * r, '%.1f') '%'])
-
-% Calcul des parametres de la droite de regression :
-[r, a, b] = parametres_correlation(Vd, Vg); % FONCTION A CODER
 
 % Affichage de la droite de regression (d'equation y = a*x+b) :
 x = -255:255;

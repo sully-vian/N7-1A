@@ -8,7 +8,7 @@ L = taille_ecran(3);
 H = taille_ecran(4);
 
 % Lecture d'une image interne a Matlab et conversion en niveaux de gris et en doubles :
-I = double(rgb2gray(imread('autumn.tif')));
+I = double(rgb2gray(imread('autumn.png')));
 
 % Calcul de l'histogramme normalise de l'image d'origine :
 [vecteur_Imin_a_Imax, vecteurs_frequences] = histogramme_normalise(I); % FONCTION A CODER
