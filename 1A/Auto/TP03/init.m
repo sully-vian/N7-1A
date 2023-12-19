@@ -18,11 +18,13 @@ close all;
 
 t0 = 0; % temps initial
 g = 9.81; l = 10; % constantes
-xe = [0 0]'; % (x_e, u_e) point de fonctionnement
+xe = [0 0 0 0]'; % (x_e, u_e) point de fonctionnement
 ue = 0; %
 
 % Example Cas 1.1
-x0 = [pi / 10 0]'; % initial point
-K = [10 1]; % constant
+x0 = [0 pi/10 0 0]'; % initial point
 % 'tf' (Modifier par 'Model Settings/Solver')
 % 'Intégrateur' (Modifier par 'Model Settings/Solver')
+
+% calcul et affectation des matrices
+matrices
