@@ -7,7 +7,8 @@ void swap_qui_marche_pas(int a, int b);
 void swap(int *a, int *b);
 void affiche_tableau(int t[], int n);
 
-int main() {
+int main()
+{
 
   int v1 = 10;
   int v2 = 20;
@@ -23,7 +24,7 @@ int main() {
   j = *p + 3;
   q = p;
   r = &p;
-  
+
   printf(" i = %d, *p = %d, j = %d, *q = %d, **r = %d\n", i, *p, j, *q, **r);
   *p = *p + 1;
   printf(" i = %d, *p = %d, j = %d, *q = %d, **r = %d\n", i, *p, j, *q, **r);
@@ -50,8 +51,8 @@ int main() {
   p = t;
   t[0] = 1;
   t[1] = 2;
-  *(t+2) = 3;
-  *(p+3) = 4;
+  *(t + 2) = 3;
+  *(p + 3) = 4;
   p = p + 4;
   *p = 5;
   p[1] = 6;
@@ -61,19 +62,20 @@ int main() {
   affiche_tableau(t, 10);
   affiche_tableau(p, 5);
 
-  swap(t+3, t+4);
-  affiche_tableau(t,10);
+  swap(t + 3, t + 4);
+  affiche_tableau(t, 10);
 
   /* interdit : t est constant
-  t=p;  
+  t=p;
   t++ */
 
   return 0;
 }
 
-void swap_qui_marche_pas(int a, int b) {
+void swap_qui_marche_pas(int a, int b)
+{
   int aux;
-  
+
   aux = a;
   a = b;
   b = aux;
@@ -81,10 +83,11 @@ void swap_qui_marche_pas(int a, int b) {
   return;
 }
 
-void swap(int *a, int *b) {
+void swap(int *a, int *b)
+{
 
   int aux;
-  
+
   aux = *a;
   *a = *b;
   *b = aux;
@@ -92,15 +95,16 @@ void swap(int *a, int *b) {
   return;
 }
 
-void affiche_tableau(int t[], int n) {
+void affiche_tableau(int t[], int n)
+{
 
   int i;
 
-  for (i = 0; i < n; i++) {
+  for (i = 0; i < n; i++)
+  {
     printf("%d ", t[i]);
   }
   printf("\n");
 
   return;
-
 }

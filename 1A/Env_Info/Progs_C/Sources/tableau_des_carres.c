@@ -4,8 +4,9 @@
 /* prototype */
 int *tableau_des_carres(int n);
 
-/* fonction principale */ 
-int main() {
+/* fonction principale */
+int main()
+{
 
   int n;
   int nb_item;
@@ -13,52 +14,60 @@ int main() {
   int *tab; /* le tableau est alloué par la fonction */
 
   /* lecture de la valeur */
-  do {
+  do
+  {
     puts("Entrez n :");
     nb_item = scanf("%d", &n);
-    while(getchar() != '\n') {
+    while (getchar() != '\n')
+    {
       /* empty */
     }
-  } while(nb_item != 1);
+  } while (nb_item != 1);
 
   /* calcul des n premiers carrés */
   tab = tableau_des_carres(n);
-  if(tab!=NULL) {
+  if (tab != NULL)
+  {
     /* affichage */
     printf("\nles %d premiers carrés :\n", n);
-    for(i = 0; i < n; i++) {
+    for (i = 0; i < n; i++)
+    {
       printf("%d ", tab[i]);
     }
     printf("\n");
   }
-  else {
+  else
+  {
     printf("Problème d'allocation");
   }
-    
-  return 0 ;
+
+  return 0;
 }
- 
+
 /* fonction */
-int *tableau_des_carres(int dim){
+int *tableau_des_carres(int dim)
+{
 
   int *t;
   int i;
-  
-  /* création des cases du tableau */
-  t = (int *) malloc(dim*sizeof(int));
 
-  if(t!=NULL) {
+  /* création des cases du tableau */
+  t = (int *)malloc(dim * sizeof(int));
+
+  if (t != NULL)
+  {
     /* remplissage */
-    for (i = 0; i < dim; i++){
-      t[i]=(i+1)*(i+1);
+    for (i = 0; i < dim; i++)
+    {
+      t[i] = (i + 1) * (i + 1);
     }
   }
   return t;
 }
 
 /* test
-> gcc -o tableau_des_carres tableau_des_carres.c 
-> ./tableau_des_carres 
+> gcc -o tableau_des_carres tableau_des_carres.c
+> ./tableau_des_carres
 Entrez n :
 10
 

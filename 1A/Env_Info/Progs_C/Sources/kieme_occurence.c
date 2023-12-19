@@ -12,10 +12,11 @@ int kieme_occurence(int x, int k, int t[], int n);
 
 /**** Fonction principale */
 
-int main(int argc, char *charv[]) {
+int main(int argc, char *charv[])
+{
 
   int tab[] = {0, 2, 1, 2, 4, 5, 6, 4, 7, 1, 0, 3};
-  const long n = sizeof(tab)/sizeof(int);
+  const long n = sizeof(tab) / sizeof(int);
 
   int valeur;
   int indice;
@@ -24,25 +25,35 @@ int main(int argc, char *charv[]) {
   int nb_item;
 
   /* lecture de la valeur */
-  do {
+  do
+  {
     puts("\nEntrez la valeur recherchée :");
-    nb_item = scanf("%d",&valeur);
-    while(getchar() != EOL) {/* empty */;}
-  } while(nb_item != 1);
+    nb_item = scanf("%d", &valeur);
+    while (getchar() != EOL)
+    { /* empty */
+      ;
+    }
+  } while (nb_item != 1);
 
   /* lecture du k */
-  do {
+  do
+  {
     puts("\nEntrez la valeur de k :");
-    nb_item = scanf("%d",&k);
-    while(getchar() != EOL) {/* empty */;}
-  } while(nb_item != 1);
-  
+    nb_item = scanf("%d", &k);
+    while (getchar() != EOL)
+    { /* empty */
+      ;
+    }
+  } while (nb_item != 1);
+
   indice = kieme_occurence(valeur, k, tab, n);
 
-  if(indice == -1) {
+  if (indice == -1)
+  {
     printf("la valeur %d n'a pas %d occurence(s) dans le tableau\n", valeur, k);
   }
-  else {
+  else
+  {
     printf("la %d ième occurence de la valeur %d est à l'indice %d \n",
            k, valeur, indice);
   }
@@ -56,23 +67,28 @@ int main(int argc, char *charv[]) {
 /* kieme_occurence renvoie l'indice de la kieme occurence
    de x dans le tableau t de taille n ;
    si cette valeur n'est pas présente, elle renvoie -1 */
-int kieme_occurence(int x, int k, int t[], int n) {
+int kieme_occurence(int x, int k, int t[], int n)
+{
 
   int i = 0;
 
   assert(n >= 0 && k > 0);
 
-  while(i<n && k>0) {
-    if(t[i]==x) {
+  while (i < n && k > 0)
+  {
+    if (t[i] == x)
+    {
       k--;
     }
     i++;
   }
 
-  if(k == 0) {
+  if (k == 0)
+  {
     i--;
   }
-  else {
+  else
+  {
     i = -1;
   }
 
@@ -81,7 +97,7 @@ int kieme_occurence(int x, int k, int t[], int n) {
 
 /*
 > gcc -o kieme_occurence kieme_occurence.c
-> ./kieme_occurence 
+> ./kieme_occurence
 
 Entrez la valeur recherchée :
 3
@@ -90,12 +106,12 @@ Entrez la valeur de k :
 2
 la valeur 3 n'a pas 2 occurence(s) dans le tableau
 
-> ./kieme_occurence 
+> ./kieme_occurence
 
 Entrez la valeur recherchée :
 2
 
 Entrez la valeur de k :
 2
-la 2 ième occurence de la valeur 2 est à l'indice 3 
+la 2 ième occurence de la valeur 2 est à l'indice 3
 */
