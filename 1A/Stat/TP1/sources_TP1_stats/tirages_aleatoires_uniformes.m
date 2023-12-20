@@ -2,6 +2,7 @@
 
 function tirages_angles = tirages_aleatoires_uniformes(n_tirages)
 
-    tirages_angles = rand(n_tirages,1) * pi - pi/2;
+    % Tirages aleatoires d'angles : moyenne = 0 / demi-repartition = pi/2
+    tirages_angles = rand(n_tirages, 1) * pi - pi / 2;
 
 end
