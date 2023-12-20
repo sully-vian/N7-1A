@@ -1,0 +1,40 @@
+% fonction moyenne_normalisee_3v (pour l'exercice 1bis)
+
+function x = moyenne_normalisee_3v(I)
+
+    % Conversion en flottants :
+    I = single(I);
+    
+    % Calcul des couleurs normalisees :
+    somme_canaux = max(1,sum(I,3));
+    r = I(:,:,1) ./ somme_canaux;
+    v = I(:,:,2) ./ somme_canaux;
+    b = I(:,:,3) ./ somme_canaux;
+    
+    % Calcul des couleurs moyennes :
+    r_barre = mean(r(:));
+    v_barre = mean(v(:));
+
+    k = 20; % largeur pourtour et 
+    s = size(r);
+    s1 = s(1);
+    s2 = s(2);
+
+    % calcul moyenne pourtour avec masque
+    Masque1 = zeros(s1,s2);
+    Masque1(k+1:end-k, k+1:end-k) = 1; % des 1 sur le pourtour
+    rp = r(Masque1 == 1); % on garde là où ya des 1
+
+    % calcul moyenne centre avec masque
+    Masque2 = zeros(s1,s2);
+    Masque2(round((s1-k)/2):round((s1-k)/2) = 1; % des 1 au centre
+
+    rp_mean = mean(rp);
+    rc_mean = mean(rc);
+
+    r_barre = rp_mean - rc_mean;
+
+    % concaténation
+    x = [r_barre v_barre r_barre];
+
+end
