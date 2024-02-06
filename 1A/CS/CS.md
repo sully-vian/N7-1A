@@ -170,3 +170,29 @@ A = U\Sigma V^T
 $$
 
 avec $a_i = \sigma_i = \sqrt{\lambda_i} > 0, \forall i\in[\![1; r]\!]$ les valeurs simplifiées de $A$ et $(\lambda_i)_{i\in[\![1; r]\!]}$ les valeurs propres strictement positives de $A^TA$.
+
+#### Propriété: formes réduites
+
+- $A=U_1\ \Sigma_r\ V_1^T$ : libraires d'algèbre linéaire, fonction SVD : choix de la forme de la SVD
+- $A = (U_1 \dots U_r)
+\begin{pmatrix}
+    \sigma_1 & & (0) \\
+    & \ddots & \\
+    (0) & & \sigma_r
+\end{pmatrix}
+\begin{pmatrix}
+    V_1^T \\
+    \vdots \\
+    V_r^T
+\end{pmatrix}$
+Donc $A = \sum\limits_{i=1}^r \sigma_i\ U_i\ V_i^T$
+
+## II Matrice pseudo-inverse
+
+### 1) Définition et quelques propriétés
+
+#### Définition
+
+Soit $A\in M_{m,n}(\mathbb{R})$ tq $rg(A) = r \geqslant 1$ \
+Soit $A = U\Sigma V^T$ une SVD de $A$ avec $U\in O_m(\mathbb{R})$, $V\in O_n(\mathbb{R})$ \
+On appelle matrice pseudo-inverse (ou inverse généralisée) de $A$, notée $A^+$ la matrice $V\Sigma^+U^T$ \
