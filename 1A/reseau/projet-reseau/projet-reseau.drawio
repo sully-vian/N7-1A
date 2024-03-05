@@ -1,0 +1,100 @@
+<mxfile host="app.diagrams.net" modified="2024-02-29T10:56:14.436Z" agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.80 Safari/537.36" etag="_lCS4pm_Dn7UgEIsqZhD" version="23.1.8" type="device">
+  <diagram name="Page-1" id="u5iikIoWCM3mgACq238c">
+    <mxGraphModel dx="1566" dy="546" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="T236BH-KNPPCVBOZO8J2-38" value="" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontFamily=Helvetica;fontSize=12;fontColor=default;labelBackgroundColor=default;shape=link;" edge="1" parent="1" source="T236BH-KNPPCVBOZO8J2-2" target="T236BH-KNPPCVBOZO8J2-20">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="T236BH-KNPPCVBOZO8J2-45" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontFamily=Helvetica;fontSize=12;fontColor=default;labelBackgroundColor=default;shape=link;" edge="1" parent="1" source="T236BH-KNPPCVBOZO8J2-2" target="T236BH-KNPPCVBOZO8J2-24">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="T236BH-KNPPCVBOZO8J2-2" value="" style="verticalLabelPosition=bottom;sketch=0;aspect=fixed;html=1;verticalAlign=top;strokeColor=none;align=center;outlineConnect=0;shape=mxgraph.citrix.router;" vertex="1" parent="1">
+          <mxGeometry x="255" y="400" width="55" height="36.5" as="geometry" />
+        </mxCell>
+        <mxCell id="T236BH-KNPPCVBOZO8J2-4" value="" style="image;points=[];aspect=fixed;html=1;align=center;shadow=0;dashed=0;image=img/lib/allied_telesis/computer_and_terminals/Server_Desktop.svg;" vertex="1" parent="1">
+          <mxGeometry x="920" y="122.4" width="42.599999999999994" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="T236BH-KNPPCVBOZO8J2-43" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontFamily=Helvetica;fontSize=12;fontColor=default;labelBackgroundColor=default;shape=link;" edge="1" parent="1" source="T236BH-KNPPCVBOZO8J2-5" target="T236BH-KNPPCVBOZO8J2-23">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <object label="" id="T236BH-KNPPCVBOZO8J2-5">
+          <mxCell style="image;points=[];aspect=fixed;html=1;align=center;shadow=0;dashed=0;image=img/lib/allied_telesis/computer_and_terminals/Personal_Computer_with_Server.svg;" vertex="1" parent="1">
+            <mxGeometry x="30" y="72.95" width="62.400000000000006" height="62.400000000000006" as="geometry" />
+          </mxCell>
+        </object>
+        <mxCell id="T236BH-KNPPCVBOZO8J2-20" value="" style="image;points=[];aspect=fixed;html=1;align=center;shadow=0;dashed=0;image=img/lib/allied_telesis/switch/Switch_24_port_L3_Alternative.svg;" vertex="1" parent="1">
+          <mxGeometry x="120" y="391.85" width="78" height="52.8" as="geometry" />
+        </mxCell>
+        <mxCell id="T236BH-KNPPCVBOZO8J2-40" value="" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontFamily=Helvetica;fontSize=12;fontColor=default;labelBackgroundColor=default;shape=link;" edge="1" parent="1" source="T236BH-KNPPCVBOZO8J2-21" target="T236BH-KNPPCVBOZO8J2-20">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="T236BH-KNPPCVBOZO8J2-21" value="" style="image;points=[];aspect=fixed;html=1;align=center;shadow=0;dashed=0;image=img/lib/allied_telesis/computer_and_terminals/Personal_Computer_with_Server.svg;" vertex="1" parent="1">
+          <mxGeometry x="17.599999999999994" y="251.3" width="62.400000000000006" height="62.400000000000006" as="geometry" />
+        </mxCell>
+        <mxCell id="T236BH-KNPPCVBOZO8J2-42" value="" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontFamily=Helvetica;fontSize=12;fontColor=default;labelBackgroundColor=default;shape=link;" edge="1" parent="1" source="T236BH-KNPPCVBOZO8J2-22" target="T236BH-KNPPCVBOZO8J2-20">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="48.799999999999955" y="390" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="T236BH-KNPPCVBOZO8J2-22" value="" style="image;points=[];aspect=fixed;html=1;align=center;shadow=0;dashed=0;image=img/lib/allied_telesis/computer_and_terminals/Server_Desktop.svg;" vertex="1" parent="1">
+          <mxGeometry x="17.60000000000001" y="462.15" width="42.599999999999994" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="T236BH-KNPPCVBOZO8J2-44" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontFamily=Helvetica;fontSize=12;fontColor=default;labelBackgroundColor=default;shape=link;" edge="1" parent="1" source="T236BH-KNPPCVBOZO8J2-23" target="T236BH-KNPPCVBOZO8J2-24">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="T236BH-KNPPCVBOZO8J2-23" value="" style="verticalLabelPosition=bottom;sketch=0;aspect=fixed;html=1;verticalAlign=top;strokeColor=none;align=center;outlineConnect=0;shape=mxgraph.citrix.router;" vertex="1" parent="1">
+          <mxGeometry x="250" y="85.9" width="55" height="36.5" as="geometry" />
+        </mxCell>
+        <mxCell id="T236BH-KNPPCVBOZO8J2-24" value="" style="verticalLabelPosition=bottom;sketch=0;aspect=fixed;html=1;verticalAlign=top;strokeColor=none;align=center;outlineConnect=0;shape=mxgraph.citrix.router;" vertex="1" parent="1">
+          <mxGeometry x="340" y="230" width="55" height="36.5" as="geometry" />
+        </mxCell>
+        <mxCell id="T236BH-KNPPCVBOZO8J2-25" value="" style="image;points=[];aspect=fixed;html=1;align=center;shadow=0;dashed=0;image=img/lib/allied_telesis/computer_and_terminals/Server_Desktop.svg;" vertex="1" parent="1">
+          <mxGeometry x="910" y="312.5" width="42.599999999999994" height="54" as="geometry" />
+        </mxCell>
+        <mxCell id="T236BH-KNPPCVBOZO8J2-47" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontFamily=Helvetica;fontSize=12;fontColor=default;labelBackgroundColor=default;shape=link;" edge="1" parent="1" source="T236BH-KNPPCVBOZO8J2-26" target="T236BH-KNPPCVBOZO8J2-28">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="490" y="230" as="sourcePoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="T236BH-KNPPCVBOZO8J2-48" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontFamily=Helvetica;fontSize=12;fontColor=default;labelBackgroundColor=default;shape=link;" edge="1" parent="1" source="T236BH-KNPPCVBOZO8J2-26" target="T236BH-KNPPCVBOZO8J2-29">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="T236BH-KNPPCVBOZO8J2-26" value="" style="image;points=[];aspect=fixed;html=1;align=center;shadow=0;dashed=0;image=img/lib/allied_telesis/switch/Switch_24_port_L3_Alternative.svg;" vertex="1" parent="1">
+          <mxGeometry x="460" y="221.85" width="78" height="52.8" as="geometry" />
+        </mxCell>
+        <mxCell id="T236BH-KNPPCVBOZO8J2-49" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontFamily=Helvetica;fontSize=12;fontColor=default;labelBackgroundColor=default;shape=link;" edge="1" parent="1" source="T236BH-KNPPCVBOZO8J2-28" target="T236BH-KNPPCVBOZO8J2-31">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="T236BH-KNPPCVBOZO8J2-28" value="" style="verticalLabelPosition=bottom;sketch=0;aspect=fixed;html=1;verticalAlign=top;strokeColor=none;align=center;outlineConnect=0;shape=mxgraph.citrix.router;" vertex="1" parent="1">
+          <mxGeometry x="590" y="130" width="55" height="36.5" as="geometry" />
+        </mxCell>
+        <mxCell id="T236BH-KNPPCVBOZO8J2-51" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontFamily=Helvetica;fontSize=12;fontColor=default;labelBackgroundColor=default;shape=link;" edge="1" parent="1" source="T236BH-KNPPCVBOZO8J2-29" target="T236BH-KNPPCVBOZO8J2-30">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="T236BH-KNPPCVBOZO8J2-29" value="" style="verticalLabelPosition=bottom;sketch=0;aspect=fixed;html=1;verticalAlign=top;strokeColor=none;align=center;outlineConnect=0;shape=mxgraph.citrix.router;" vertex="1" parent="1">
+          <mxGeometry x="580" y="330" width="55" height="36.5" as="geometry" />
+        </mxCell>
+        <mxCell id="T236BH-KNPPCVBOZO8J2-30" value="" style="verticalLabelPosition=bottom;sketch=0;aspect=fixed;html=1;verticalAlign=top;strokeColor=none;align=center;outlineConnect=0;shape=mxgraph.citrix.router;" vertex="1" parent="1">
+          <mxGeometry x="760" y="330" width="55" height="36.5" as="geometry" />
+        </mxCell>
+        <mxCell id="T236BH-KNPPCVBOZO8J2-50" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontFamily=Helvetica;fontSize=12;fontColor=default;labelBackgroundColor=default;shape=link;" edge="1" parent="1" source="T236BH-KNPPCVBOZO8J2-31" target="T236BH-KNPPCVBOZO8J2-30">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="T236BH-KNPPCVBOZO8J2-53" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;fontFamily=Helvetica;fontSize=12;fontColor=default;labelBackgroundColor=default;shape=link;" edge="1" parent="1" source="T236BH-KNPPCVBOZO8J2-31" target="T236BH-KNPPCVBOZO8J2-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="T236BH-KNPPCVBOZO8J2-31" value="" style="verticalLabelPosition=bottom;sketch=0;aspect=fixed;html=1;verticalAlign=top;strokeColor=none;align=center;outlineConnect=0;shape=mxgraph.citrix.router;" vertex="1" parent="1">
+          <mxGeometry x="760" y="130" width="55" height="36.5" as="geometry" />
+        </mxCell>
+        <mxCell id="T236BH-KNPPCVBOZO8J2-46" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.013;entryY=0.417;entryDx=0;entryDy=0;entryPerimeter=0;fontFamily=Helvetica;fontSize=12;fontColor=default;labelBackgroundColor=default;shape=link;" edge="1" parent="1" source="T236BH-KNPPCVBOZO8J2-24" target="T236BH-KNPPCVBOZO8J2-26">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="T236BH-KNPPCVBOZO8J2-52" style="rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.047;entryY=0.611;entryDx=0;entryDy=0;entryPerimeter=0;fontFamily=Helvetica;fontSize=12;fontColor=default;labelBackgroundColor=default;shape=link;" edge="1" parent="1" source="T236BH-KNPPCVBOZO8J2-30" target="T236BH-KNPPCVBOZO8J2-25">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
