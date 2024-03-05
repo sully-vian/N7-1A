@@ -1,1 +1,4 @@
 #!/bin/bash
+
+# adressage
+ip a a 1.45.97.196 dev eth0
