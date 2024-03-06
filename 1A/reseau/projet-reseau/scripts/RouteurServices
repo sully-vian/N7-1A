@@ -1,6 +1,6 @@
 #!/bin/bash
 
 # adressage
-ip a a 1.45.97.130 dev eth0
+ip a a 1.45.97.98 dev eth0
 ip a a 1.45.97.161 dev eth2
-ip a a 1.45.97.131 dev eth1
+ip a a 1.45.97.193 dev eth1
