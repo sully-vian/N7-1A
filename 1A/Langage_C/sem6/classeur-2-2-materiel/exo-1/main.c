@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include "tab.h"
@@ -32,15 +33,18 @@ void afficher_menu() {
 }
 
 void traiter_choix(tab_t *tab, int choix, int *quitter) {
+    int elt;
     switch (choix) {
         case QUITTER:
-            *quitter = 1;
+            *quitter = false;
             break;
 
         case AJOUTER:
-            int elt;
             printf("Elément à ajouter : ");
-            scanf("%d", &elt);
+            if (scanf("%d", &elt) != 1) {
+                printf("Erreur de saisie\n");
+                break;
+            }
             ajouter(tab, elt);
             break;
 
@@ -49,39 +53,52 @@ void traiter_choix(tab_t *tab, int choix, int *quitter) {
                 printf(
                     "Vous ne pouvez pas retirer d'élément d'un tableau "
                     "vide.\n");
-            } else {
-                int elt;
-                printf("Elément à supprimer : ");
-                scanf("%d", &elt);
-                supprimer(tab, elt);
+                break;
+            }
+            printf("Elément à supprimer : ");
+            if (scanf("%d", &elt) != 1) {
+                printf("Erreur de saisie\n");
+                break;
+            }
+            supprimer(tab, elt);
 
-                if (taux(tab) < SEUIL) {
-                    printf("Le tableau est redimensionné !\n");
-                    serrer(tab);
-                }
+            if (taux(tab) < SEUIL) {
+                printf("Le tableau est redimensionné !\n");
+                serrer(tab);
             }
             break;
 
         default:
-            printf("Le choix '%d' est invalide", choix);
+            printf("Le choix '%d' est invalide\n", choix);
             break;
     }
+    while (getchar() != '\n')  // vider le buffer
+        ;
 }
 
 int main() {
     tab_t *tab = creer();
+    if (tab == NULL) {
+        printf("Erreur : l'allocation en mémoire n'a pas pu se faire\n");
+        return 1;
+    }
     int choix;
-    int quitter = 0;
+    int quitter = false;
 
     do {
         afficher_tab(tab);
         printf("Taux d'occupation : %.2lf%%\n", taux(tab));
         afficher_menu();
         printf("Choix : ");
-        scanf("%d", &choix);
+        if (scanf("%d", &choix) != 1) {
+            printf("Option invalide\n");
+            while (getchar() != '\n')  // vider le buffer
+                ;
+            continue;
+        }
         traiter_choix(tab, choix, &quitter);
 
-    } while (quitter != 1);
+    } while (!quitter);
 
     printf("Fin du programme.");
     detruire(&tab);

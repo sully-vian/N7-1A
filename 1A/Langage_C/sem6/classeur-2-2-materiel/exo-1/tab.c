@@ -1,5 +1,6 @@
 #include "tab.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 // Constante pour la taille initiale
 const int TAILLE_INIT = 4;
@@ -30,7 +31,16 @@ struct tab_t {
  */
 tab_t *creer() {
     tab_t *tab = (tab_t *)malloc(sizeof(tab_t));
-    tab->contenu = malloc(TAILLE_INIT * sizeof(int));
+    if (tab == NULL) {
+        return NULL;  // malloc failed
+    }
+
+    tab->contenu = (int *)calloc(TAILLE_INIT, sizeof(int));
+    if (tab->contenu == NULL) {
+        free(tab);
+        return NULL;  // malloc failed
+    }
+
     tab->taille = 0;
     tab->espace = TAILLE_INIT;
     return tab;
@@ -68,8 +78,15 @@ void detruire(tab_t **tab) {
  */
 void ajouter(tab_t *tab, int elt) {
     if (tab->taille == tab->espace) {
-        tab->espace *= 2;
-        tab->contenu = realloc(tab->contenu, tab->espace * sizeof(int));
+        int temp_espace = 2 * tab->espace;
+        int *temp = realloc(tab->contenu, temp_espace * sizeof(int));
+        if (temp == NULL) {
+            printf("Échec de  la réallocation de la mémoire");  // pb d'alloc
+            return;
+        } else {
+            tab->espace = temp_espace;
+            tab->contenu = temp;
+        }
     }
     tab->taille++;
     tab->contenu[tab->taille - 1] = elt;
@@ -153,7 +170,14 @@ int espace(const tab_t *tab) {
  */
 void serrer(tab_t *tab) {
     if (tab->taille > 0) {
-        tab->espace = tab->taille;
-        tab->contenu = realloc(tab->contenu, tab->espace * sizeof(int));
+        int temp_espace = tab->taille;
+        int *temp = realloc(tab->contenu, temp_espace * sizeof(int));
+        if (temp == NULL) {
+            printf("Échec de la réallocation de la mémoire");
+            return;
+        } else {
+            tab->espace = temp_espace;
+            tab->contenu = temp;
+        }
     }
 }
