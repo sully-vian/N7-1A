@@ -4,15 +4,15 @@
 % descente.m
 %---------------------------------------------------------------------------
 
-function [err_d,err_i] = erreur(A,b,x,x_exact)
-%---------------------------------------------------------------------------
-% Calcul des erreurs directe err_d et inverse err_i
-% x_exact tel que A x_exact=b; x solution numerique
-%---------------------------------------------------------------------------
-       
-     % Erreur directe
-     err_d = norm(x - x_exact) / norm(x_exact) ;
-     
-     % Erreur inverse
-     err_i = norm(A*x - b) / (norm(A)*norm(x) + norm(b));
+function [err_d, err_i] = erreur(A, b, x, x_exact)
+    %---------------------------------------------------------------------------
+    % Calcul des erreurs directe err_d et inverse err_i
+    % x_exact tel que A x_exact=b; x solution numerique
+    %---------------------------------------------------------------------------
+
+    % Erreur directe
+    err_d = norm(x - x_exact) / norm(x_exact);
+
+    % Erreur inverse
+    err_i = norm(A * x - b) / (norm(A) * norm(x) + norm(b));
 end
