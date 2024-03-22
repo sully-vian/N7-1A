@@ -1,6 +1,0 @@
-#!/bin/bash
-
-# adressage
-ip a a 1.45.97.3 dev eth1
-ip a a 1.45.97.33 dev eth0
-ip a a 1.45.97.65 dev eth2
