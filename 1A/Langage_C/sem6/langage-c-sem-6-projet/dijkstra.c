@@ -49,5 +49,35 @@ float dijkstra(const struct graphe_t *graphe,
                noeud_id_t source,
                noeud_id_t destination,
                liste_noeud_t **chemin) {
-    // TODO
+    liste_noeud_t *a_visiter = creer_liste();
+    liste_noeud_t *visites = creer_liste();
+
+    inserer_noeud_liste(a_visiter, source, NO_ID, 0);
+
+    while (!est_vide_liste(a_visiter)) {
+        // noeud courant de distance minimale
+        noeud_id_t nc = min_noeud_liste(a_visiter);
+
+        // ajout nc dans visités
+        noeud_id_t precedent = precedent_noeud_liste(a_visiter, nc);
+        float distance = distance_noeud_liste(a_visiter, nc);
+        inserer_noeud_liste(visites, nc, precedent, distance);
+
+        // suppression nc dans à visiter
+        supprimer_noeud_liste(a_visiter, nc);
+
+        size_t nb_voisins = nombre_voisins(graphe, nc);
+        noeud_id_t* voisins[nb_voisins];
+        noeud_voisins(graphe, nc, voisins);
+        for (int i = 0, i < nb_voisins, i++) {
+            noeud_id_t nv = voisins[i];
+            float distance_totale = distance + noeud_distance(graphe, nc, nv); // delta'
+            float distance_actuelle = distance_noeud_liste(a_visiter, nv); // delta
+            si (distance_totale < distance_actuelle) {
+                // nc est meilleur précédent pour nv
+                // changer val assos à nv das a_visiter pr enregistrer nc comme prec de nv et delta' comme distance
+            }}
+        // fin pour_chaque
+
+    }
 }

@@ -6,17 +6,28 @@ Vérification de la syntaxe pour dijkstra.h :
 gcc -std=c99 -c -Wall -Wextra -pedantic -Werror -fsyntax-only -x c dijkstra.h
 Vérification de la syntaxe pour dijkstra.c :
 gcc -std=c99 -c -Wall -Wextra -pedantic -Werror -fsyntax-only -x c dijkstra.c
-dijkstra.c: In function ‘dijkstra’:
-dijkstra.c:25:28: error: unused parameter ‘graphe’ [-Werror=unused-parameter]
-   25 |     const struct graphe_t* graphe,
-      |     ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
-dijkstra.c:26:16: error: unused parameter ‘source’ [-Werror=unused-parameter]
-   26 |     noeud_id_t source, noeud_id_t destination,
-      |     ~~~~~~~~~~~^~~~~~
-dijkstra.c:26:35: error: unused parameter ‘destination’ [-Werror=unused-parameter]
-   26 |     noeud_id_t source, noeud_id_t destination,
-      |                        ~~~~~~~~~~~^~~~~~~~~~~
-dijkstra.c:27:21: error: unused parameter ‘chemin’ [-Werror=unused-parameter]
-   27 |     liste_noeud_t** chemin) {
-      |     ~~~~~~~~~~~~~~~~^~~~~~
+dijkstra.c: In function 'construire_chemin_vers':
+dijkstra.c:41:48: error: passing argument 3 of 'inserer_noeud_liste' makes integer from pointer without a cast [-Werror=int-conversion]
+   41 |         inserer_noeud_liste(chemin, precedent, NULL, 0);
+      |                                                ^~~~
+      |                                                |
+      |                                                void *
+In file included from dijkstra.h:5,
+                 from dijkstra.c:1:
+liste_noeud.h:117:37: note: expected 'noeud_id_t' {aka 'long unsigned int'} but argument is of type 'void *'
+  117 |                          noeud_id_t precedent,
+      |                          ~~~~~~~~~~~^~~~~~~~~
+dijkstra.c: In function 'dijkstra':
+dijkstra.c:48:39: error: unused parameter 'graphe' [-Werror=unused-parameter]
+   48 | float dijkstra(const struct graphe_t *graphe,
+      |                ~~~~~~~~~~~~~~~~~~~~~~~^~~~~~
+dijkstra.c:49:27: error: unused parameter 'source' [-Werror=unused-parameter]
+   49 |                noeud_id_t source,
+      |                ~~~~~~~~~~~^~~~~~
+dijkstra.c:50:27: error: unused parameter 'destination' [-Werror=unused-parameter]
+   50 |                noeud_id_t destination,
+      |                ~~~~~~~~~~~^~~~~~~~~~~
+dijkstra.c:51:32: error: unused parameter 'chemin' [-Werror=unused-parameter]
+   51 |                liste_noeud_t **chemin) {
+      |                ~~~~~~~~~~~~~~~~^~~~~~
 cc1: all warnings being treated as errors

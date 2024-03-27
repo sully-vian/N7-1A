@@ -3,15 +3,15 @@
 #include <math.h>
 #include <stdlib.h>
 
-struct _cellule {
+struct cellule_t {
     noeud_id_t noeud;
     noeud_id_t precedent;
     float distance;
 };
-typedef struct _cellule _cellule;
+typedef struct cellule_t cellule_t;
 
 struct liste_noeud_t {
-    _cellule cellule;
+    cellule_t cellule;
     liste_noeud_t *suivant;
 };
 
@@ -44,7 +44,7 @@ bool est_vide_liste(const liste_noeud_t *liste) {
 }
 
 bool contient_noeud_liste(const liste_noeud_t *liste, noeud_id_t noeud) {
-    if (liste == NULL) {
+    if (est_vide_liste(liste)) {
         return false;
     } else if (liste->cellule.noeud == noeud) {
         return true;
@@ -56,7 +56,7 @@ bool contient_noeud_liste(const liste_noeud_t *liste, noeud_id_t noeud) {
 bool contient_arrete_liste(const liste_noeud_t *liste,
                            noeud_id_t source,
                            noeud_id_t destination) {
-    if (liste == NULL) {
+    if (est_vide_liste(liste)) {
         return false;
     } else if ((liste->cellule.noeud == destination) &&
                (liste->cellule.precedent == source)) {
@@ -67,7 +67,7 @@ bool contient_arrete_liste(const liste_noeud_t *liste,
 }
 
 float distance_noeud_liste(const liste_noeud_t *liste, noeud_id_t noeud) {
-    if (liste == NULL) {
+    if (est_vide_liste(liste)) {
         return INFINITY;
     } else if (liste->cellule.noeud == noeud) {
         return liste->cellule.distance;
@@ -77,7 +77,7 @@ float distance_noeud_liste(const liste_noeud_t *liste, noeud_id_t noeud) {
 }
 
 noeud_id_t precedent_noeud_liste(const liste_noeud_t *liste, noeud_id_t noeud) {
-    if (liste == NULL) {
+    if (est_vide_liste(liste)) {
         return NO_ID;
     } else if (liste->cellule.noeud == noeud) {
         return liste->cellule.precedent;
@@ -86,28 +86,27 @@ noeud_id_t precedent_noeud_liste(const liste_noeud_t *liste, noeud_id_t noeud) {
     }
 }
 
-noeud_id_t min_noeud_liste_aux(const liste_noeud_t *liste, float *min_ptr) {
-    if (est_vide_liste(liste->suivant)) {
-        *min_ptr = liste->cellule.distance;
-        return liste->cellule.noeud;
+static cellule_t min_noeud_liste_aux(const liste_noeud_t *liste) {
+    if (est_vide_liste(liste)) {
+        return liste->cellule;
     } else {
-        float min1;
-        noeud_id_t noeud1 = min_noeud_liste_aux(liste->suivant, &min1);
-        return (min1 < *min_ptr) ? noeud1 : liste->cellule.noeud;
+        cellule_t cellule_min = min_noeud_liste_aux(liste->suivant);
+        float distance = liste->cellule.distance;
+        float distance_min = cellule_min.distance;
+        return (distance < distance_min) ? liste->cellule
+                                                                : cellule_min;
     }
 }
 
 noeud_id_t min_noeud_liste(const liste_noeud_t *liste) {
-    float inf = INFINITY;
-    return min_noeud_liste_aux(liste, &inf);
+    cellule_t cellule = min_noeud_liste_aux(liste);
+    return cellule.noeud;
 }
 
 void inserer_noeud_liste(liste_noeud_t *liste,
                          noeud_id_t noeud,
                          noeud_id_t precedent,
                          float distance) {
-    // printf("insérer: début - ");
-
     // copie du premier terme de la liste fournie
     liste_noeud_t *nouv_liste = creer_liste();
     nouv_liste->cellule.noeud = liste->cellule.noeud;
@@ -120,14 +119,13 @@ void inserer_noeud_liste(liste_noeud_t *liste,
     liste->cellule.distance = distance;
     liste->cellule.precedent = precedent;
     liste->suivant = nouv_liste;
-    // printf("fin\n");
 }
 
 void changer_noeud_liste(liste_noeud_t *liste,
                          noeud_id_t noeud,
                          noeud_id_t precedent,
                          float distance) {
-    if (liste == NULL) {
+    if (est_vide_liste(liste)) {
         inserer_noeud_liste(liste, noeud, precedent, distance);
     } else if (liste->cellule.noeud == noeud) {
         liste->cellule.precedent = precedent;
@@ -138,26 +136,35 @@ void changer_noeud_liste(liste_noeud_t *liste,
 }
 
 void supprimer_noeud_liste(liste_noeud_t *liste, noeud_id_t noeud) {
-    if (liste == NULL) {
+    if (est_vide_liste(liste)) {
         return;
     } else if (liste->cellule.noeud == noeud) {
-        liste->cellule.noeud = NO_ID;
+        // copie du suivant dans l'actuel
+        liste_noeud_t *suivant = liste->suivant;
+        liste->cellule.noeud = suivant->cellule.noeud;
+        liste->cellule.precedent = suivant->cellule.precedent;
+        liste->cellule.distance = suivant->cellule.distance;
+        liste->suivant = suivant->suivant;
+
+        // supression du suivant
+        free(suivant);
+        suivant = NULL;
     } else {
         supprimer_noeud_liste(liste->suivant, noeud);
     }
 }
 
-void debug_cellule(_cellule cellule) {
+static void debugcellule_t(cellule_t cellule) {
     printf("[%lu, %lu, %.1lf]", cellule.noeud, cellule.precedent,
            cellule.distance);
 }
 
 void debug_liste(const liste_noeud_t *liste) {
-    if (liste == NULL) {
+    if (est_vide_liste(liste)) {
         printf("-|\n");
     } else {
         printf("->");
-        debug_cellule(liste->cellule);
+        debugcellule_t(liste->cellule);
         debug_liste(liste->suivant);
     }
 }

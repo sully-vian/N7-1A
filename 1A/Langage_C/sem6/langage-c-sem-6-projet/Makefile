@@ -123,6 +123,7 @@ clean:
 	-rm -f dijkstra_debug
 	-rm -f test_liste_noeud
 	-rm -f test_dijkstra
+	-rm -f foo
 
 
 

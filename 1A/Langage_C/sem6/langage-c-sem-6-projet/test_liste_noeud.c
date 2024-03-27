@@ -162,7 +162,7 @@ int main() {
             inserer_noeud_liste(t, 1, 6, 1.0);
             inserer_noeud_liste(t, 2, 7, 1.5);
             inserer_noeud_liste(t, 3, 8, -0.1);
-            printf("là plutôt\n");
+
             noeud_id_t ret = min_noeud_liste(t);
             ASSERT_EQ(ret, 3);
             detruire_liste(&t);
@@ -235,9 +235,7 @@ int main() {
             inserer_noeud_liste(t, 2, 7, 1.5);
             inserer_noeud_liste(t, 3, 8, 1.6);
             ASSERT(!contient_noeud_liste(t, 4));
-            printf("heeee\n");
             changer_noeud_liste(t, 4, 10, 10.0);
-            printf("lezgo\n");
             ASSERT_EQ_F(distance_noeud_liste(t, 1), 1.0, PRECISION);
             ASSERT_EQ_F(distance_noeud_liste(t, 2), 1.5, PRECISION);
             ASSERT_EQ_F(distance_noeud_liste(t, 3), 1.6, PRECISION);

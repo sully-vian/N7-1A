@@ -150,4 +150,11 @@ void changer_noeud_liste(liste_noeud_t *liste,
  */
 void supprimer_noeud_liste(liste_noeud_t *liste, noeud_id_t noeud);
 
+/**
+ * debug_liste : affiche la liste chaînée
+ *
+ * Pré-condition : liste != NULL
+ *
+ * @param liste [in] liste à afficher
+*/
 void debug_liste(const liste_noeud_t *liste);
