@@ -154,9 +154,13 @@ void supprimer_noeud_liste(liste_noeud_t *liste, noeud_id_t noeud) {
     }
 }
 
-static void debugcellule_t(cellule_t cellule) {
-    printf("[%lu, %lu, %.1lf]", cellule.noeud, cellule.precedent,
-           cellule.distance);
+// static void debug_cellule_t(cellule_t cellule) {
+//     printf("[%lu, %lu, %.1lf]", cellule.noeud, cellule.precedent,
+//            cellule.distance);
+// }
+
+static void debug_noeud(noeud_id_t noeud) {
+    printf("[%lu]", noeud);
 }
 
 void debug_liste(const liste_noeud_t *liste) {
@@ -164,7 +168,8 @@ void debug_liste(const liste_noeud_t *liste) {
         printf("-|\n");
     } else {
         printf("->");
-        debugcellule_t(liste->cellule);
+        // debug_cellule_t(liste->cellule);
+        debug_noeud(liste->cellule.noeud);
         debug_liste(liste->suivant);
     }
 }

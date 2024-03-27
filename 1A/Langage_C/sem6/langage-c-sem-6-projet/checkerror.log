@@ -12,12 +12,12 @@ gcc -std=c99 -c -Wall -Wextra -pedantic -Werror -fsyntax-only -x c dijkstra.c
 
 ==endcode
 In file included from <stdin>:2:
-__tmp_liste_noeud.h:13:18: error: redefinition of ‘x’
-   13 | static const int x = 1;
+__tmp_liste_noeud.h:14:18: error: redefinition of ‘x’
+   14 | static const int x = 1;
       |                  ^
 In file included from <stdin>:1:
-__tmp_liste_noeud.h:13:18: note: previous definition of ‘x’ with type ‘int’
-   13 | static const int x = 1;
+__tmp_liste_noeud.h:14:18: note: previous definition of ‘x’ with type ‘int’
+   14 | static const int x = 1;
       |                  ^
 
 [Définition de liste_noeud_t]

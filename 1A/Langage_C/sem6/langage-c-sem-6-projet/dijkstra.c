@@ -22,9 +22,9 @@
  *                     Dijkstra
  * @param noeud noeud vers lequel on veut construire le chemin depuis le départ
  */
-void construire_chemin_vers(liste_noeud_t *chemin,
-                            const liste_noeud_t *visites,
-                            noeud_id_t noeud) {
+static void construire_chemin_vers(liste_noeud_t *chemin,
+                                   const liste_noeud_t *visites,
+                                   noeud_id_t noeud) {
     noeud_id_t precedent = precedent_noeud_liste(visites, noeud);
     float distance = distance_noeud_liste(chemin, noeud);
 
@@ -61,30 +61,49 @@ float dijkstra(const struct graphe_t *graphe,
 
         // ajout nc dans visités
         noeud_id_t precedent = precedent_noeud_liste(a_visiter, nc);
-        float distance = distance_noeud_liste(a_visiter, nc);
-        inserer_noeud_liste(visites, nc, precedent, distance);
+        float dist_a_visiter = distance_noeud_liste(a_visiter, nc);
+        inserer_noeud_liste(visites, nc, precedent, dist_a_visiter);
 
         // suppression nc dans à visiter
         supprimer_noeud_liste(a_visiter, nc);
 
         size_t nb_voisins = nombre_voisins(graphe, nc);
-        printf("nb voisins calculé : %ld", nb_voisins);
-        noeud_id_t *voisins = calloc(nb_voisins, sizeof(noeud_id_t));
-        noeuds_voisins(graphe, nc, voisins);
-        for (long unsigned int i = 0; i < nb_voisins; i++) {
-            noeud_id_t nv = voisins[i];
-            float distance_totale =
-                distance + noeud_distance(graphe, nc, nv);  // delta'
-            float distance_actuelle =
-                distance_noeud_liste(a_visiter, nv);  // delta
-            if (distance_totale < distance_actuelle) {
-                // nc est meilleur précédent pour nv
 
-                changer_noeud_liste(a_visiter, nv, nc, distance_totale);
+        if (nb_voisins != 0) {
+            noeud_id_t *voisins = calloc(nb_voisins, sizeof(noeud_id_t));
+            if (voisins == NULL) {
+                // Échec de l'allocation dynamique
+                printf("Échec de l'allocation dynamique !\n");
+                return -1;
             }
+            // printf("on a %ld voisins à traiter \n", nb_voisins);
+            noeuds_voisins(graphe, nc, voisins);
+
+            for (long unsigned int i = 0; i < nb_voisins; i++) {
+                noeud_id_t nv = voisins[i];
+                if (!contient_noeud_liste(visites, nv)) {
+                    float dist_tot = distance_noeud_liste(visites, nc) +
+                                     noeud_distance(graphe, nc, nv);  // delta'
+                    float dist_act =
+                        distance_noeud_liste(a_visiter, nv);  // delta
+                    if (dist_tot < dist_act) {
+                        // nc est meilleur précédent pour nv
+                        changer_noeud_liste(a_visiter, nv, nc, dist_tot);
+                    }
+                }
+            }
+            free(voisins);
         }
     }
 
-    construire_chemin_vers(*chemin, visites, destination);
-    return distance_noeud_liste(visites, destination);
+    detruire_liste(&a_visiter);
+
+    if (chemin != NULL) {
+        *chemin = creer_liste();
+        construire_chemin_vers(*chemin, visites, destination);
+    }
+
+    float distance_totale = distance_noeud_liste(visites, destination);
+    detruire_liste(&visites);
+    return distance_totale;
 }
