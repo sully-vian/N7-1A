@@ -1,10 +1,7 @@
 #include <stdbool.h>
 #include "graphe.h"
 
-// TODO : type liste_noeud_t
 typedef struct liste_noeud_t liste_noeud_t;
-
-// TODO : typedef
 
 /**
  * creer_liste : crée une liste de noeuds, initialement vide
@@ -89,7 +86,7 @@ float distance_noeud_liste(const liste_noeud_t *liste, noeud_id_t noeud);
  * @return précédent associé au noeud dans la liste (ou `NO_ID` si noeud n'est
  * pas dans liste)
  */
-// TODO : precedent_noeud_liste
+noeud_id_t precedent_noeud_liste(const liste_noeud_t *liste, noeud_id_t noeud);
 
 /**
  * min_noeud_liste : trouve le (un) noeud de la liste dont la distance associée
@@ -103,7 +100,7 @@ float distance_noeud_liste(const liste_noeud_t *liste, noeud_id_t noeud);
  * @param liste [in] liste à parcourir
  * @return noeud qui minimise la distance, ou `NO_ID` si pas de noeud
  */
-// TODO : min_noeud_liste
+noeud_id_t min_noeud_liste(const liste_noeud_t *liste);
 
 /**
  * inserer_noeud_liste : insère le noeud donné dans la liste
@@ -115,7 +112,10 @@ float distance_noeud_liste(const liste_noeud_t *liste, noeud_id_t noeud);
  * @param precedent noeud précédent du noeud à insérer (prec(n))
  * @param distance distance du noeud à insérer (dist(n))
  */
-// TODO : inserer_noeud_liste
+void inserer_noeud_liste(liste_noeud_t *liste,
+                         noeud_id_t noeud,
+                         noeud_id_t precedent,
+                         float distance);
 
 /**
  * changer_noeud_liste : modifie les valeurs associées au noeud donné dans la
@@ -132,7 +132,10 @@ float distance_noeud_liste(const liste_noeud_t *liste, noeud_id_t noeud);
  * @param precedent nouveau noeud précédent pour noeud
  * @param distance nouvelle distance pour noeud
  */
-// TODO : changer_noeud_liste
+void changer_noeud_liste(liste_noeud_t *liste,
+                         noeud_id_t noeud,
+                         noeud_id_t precedent,
+                         float distance);
 
 /**
  * supprimer_noeud_liste : supprime le noeud donné de la liste. Si le noeud
@@ -145,4 +148,6 @@ float distance_noeud_liste(const liste_noeud_t *liste, noeud_id_t noeud);
  * @param liste [in,out] liste à modifier
  * @param noeud noeud à supprimer de liste
  */
-// TODO : supprimer_noeud_liste
+void supprimer_noeud_liste(liste_noeud_t *liste, noeud_id_t noeud);
+
+void debug_liste(const liste_noeud_t *liste);
