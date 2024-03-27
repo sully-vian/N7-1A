@@ -38,7 +38,7 @@ void construire_chemin_vers(liste_noeud_t *chemin,
     } else {
         // Ajout du point sans précédant pour l'instant, on sait qu'on va le
         // calculer ensuite. On assignera alors la distance en même temps.
-        inserer_noeud_liste(chemin, precedent, NULL, 0);
+        inserer_noeud_liste(chemin, precedent, NO_ID, 0);
 
         // appel récursif, on étend le chemin vers le noeud de départ.
         construire_chemin_vers(chemin, visites, precedent);
@@ -52,6 +52,7 @@ float dijkstra(const struct graphe_t *graphe,
     liste_noeud_t *a_visiter = creer_liste();
     liste_noeud_t *visites = creer_liste();
 
+    // ajout du noeud de départ
     inserer_noeud_liste(a_visiter, source, NO_ID, 0);
 
     while (!est_vide_liste(a_visiter)) {
@@ -67,17 +68,22 @@ float dijkstra(const struct graphe_t *graphe,
         supprimer_noeud_liste(a_visiter, nc);
 
         size_t nb_voisins = nombre_voisins(graphe, nc);
-        noeud_id_t* voisins[nb_voisins];
-        noeud_voisins(graphe, nc, voisins);
-        for (int i = 0, i < nb_voisins, i++) {
+        noeud_id_t *voisins = calloc(nb_voisins, sizeof(noeud_id_t));
+        noeuds_voisins(graphe, nc, voisins);
+        for (long unsigned int i = 0; i < nb_voisins; i++) {
             noeud_id_t nv = voisins[i];
-            float distance_totale = distance + noeud_distance(graphe, nc, nv); // delta'
-            float distance_actuelle = distance_noeud_liste(a_visiter, nv); // delta
-            si (distance_totale < distance_actuelle) {
+            float distance_totale =
+                distance + noeud_distance(graphe, nc, nv);  // delta'
+            float distance_actuelle =
+                distance_noeud_liste(a_visiter, nv);  // delta
+            if (distance_totale < distance_actuelle) {
                 // nc est meilleur précédent pour nv
-                // changer val assos à nv das a_visiter pr enregistrer nc comme prec de nv et delta' comme distance
-            }}
-        // fin pour_chaque
 
+                changer_noeud_liste(a_visiter, nv, nc, distance_totale);
+            }
+        }
     }
+
+    construire_chemin_vers(*chemin, visites, destination);
+    return distance_noeud_liste(visites, destination);
 }
