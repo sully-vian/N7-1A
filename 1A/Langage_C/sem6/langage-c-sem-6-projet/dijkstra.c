@@ -68,6 +68,7 @@ float dijkstra(const struct graphe_t *graphe,
         supprimer_noeud_liste(a_visiter, nc);
 
         size_t nb_voisins = nombre_voisins(graphe, nc);
+        printf("nb voisins calculé : %ld", nb_voisins);
         noeud_id_t *voisins = calloc(nb_voisins, sizeof(noeud_id_t));
         noeuds_voisins(graphe, nc, voisins);
         for (long unsigned int i = 0; i < nb_voisins; i++) {
