@@ -93,6 +93,7 @@ float dijkstra(const struct graphe_t *graphe,
                 }
             }
             free(voisins);
+            voisins = NULL;
         }
     }
 
