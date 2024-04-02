@@ -7,6 +7,7 @@ typedef struct liste_noeud_t liste_noeud_t;
  * creer_liste : crée une liste de noeuds, initialement vide
  *
  * Post-conditions : `r = creer_liste()` => `r != NULL`, `est_vide_liste(r)`
+ * 
  * @return liste nouvellement créée (de type liste_noeud_t)
  */
 liste_noeud_t *creer_liste();
@@ -153,8 +154,8 @@ void supprimer_noeud_liste(liste_noeud_t *liste, noeud_id_t noeud);
 /**
  * debug_liste : affiche la liste chaînée
  *
- * Pré-condition : liste != NULL
+ * Pré-conditions : liste != NULL
  *
  * @param liste [in] liste à afficher
-*/
+ */
 void debug_liste(const liste_noeud_t *liste);

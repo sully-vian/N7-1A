@@ -1,0 +1,37 @@
+Noeuds:
+- Node0: (9, 53)
+- Node1: (91, 16)
+- Node2: (63, 18)
+- Node3: (49, 51)
+- Node4: (20, 60)
+- Node5: (95, 48)
+- Node6: (92, 26)
+- Node7: (37, 29)
+- Node8: (8, 77)
+- Node9: (30, 38)
+
+Liens:
+- Node0 -> Node2
+- Node0 -> Node3
+- Node0 -> Node4
+- Node0 -> Node6
+- Node0 -> Node7
+- Node0 -> Node9
+- Node1 -> Node2
+- Node1 -> Node6
+- Node1 -> Node8
+- Node1 -> Node9
+- Node2 -> Node3
+- Node2 -> Node4
+- Node2 -> Node5
+- Node2 -> Node6
+- Node2 -> Node9
+- Node3 -> Node4
+- Node3 -> Node5
+- Node3 -> Node7
+- Node3 -> Node9
+- Node4 -> Node5
+- Node4 -> Node6
+- Node4 -> Node8
+- Node6 -> Node8
+- Node8 -> Node9

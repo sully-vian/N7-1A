@@ -124,6 +124,7 @@ clean:
 	-rm -f test_liste_noeud
 	-rm -f test_dijkstra
 	-rm -f foo
+	-rm -f creer_graphe
 
 
 

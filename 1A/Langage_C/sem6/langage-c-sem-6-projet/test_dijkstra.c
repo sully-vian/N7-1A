@@ -50,7 +50,7 @@
  *
  * @param graphe graphe dans lequel le chemin doit évoluer
  * @param chemin chemin à tester
- * @params liste des noeuds se terminant par NO_ID
+ * @param liste des noeuds se terminant par NO_ID
  *
  */
 static void ASSERT_FUN(check_chemin, const struct graphe_t* graphe, const liste_noeud_t* chemin, ...) {
@@ -87,6 +87,7 @@ int main() {
 
     BEGIN_SECTION("dijkstra/petits-graphes")
         BEGIN_TESTI("dijkstra-1noeud")
+        printf("1er test\n");
             SET_TIMEOUT(TIMEOUT);
             /*
                -> n1
@@ -105,6 +106,7 @@ int main() {
         END_TEST
 
         BEGIN_TESTI("dijkstra-2noeuds")
+        printf("2e test\n");
             SET_TIMEOUT(TIMEOUT);
             /*
                        2
@@ -127,6 +129,7 @@ int main() {
         END_TEST
 
         BEGIN_TESTI("dijkstra-3noeuds")
+        printf("3e test\n");
             SET_TIMEOUT(TIMEOUT);
             /*
                            n3
@@ -155,6 +158,7 @@ int main() {
         END_TEST
 
         BEGIN_TESTI("dijkstra-3noeuds-connexe")
+        printf("4e test\n");
             SET_TIMEOUT(TIMEOUT);
             /*
                        n3
@@ -185,6 +189,7 @@ int main() {
         END_TEST
 
         BEGIN_TESTI("dijkstra-4noeuds")
+        printf("5e test\n");
             SET_TIMEOUT(TIMEOUT);
             /*
                            2
@@ -219,6 +224,7 @@ int main() {
         END_TEST
 
         BEGIN_TESTI("dijkstra-cycle")
+        printf("6e test\n");
             SET_TIMEOUT(TIMEOUT);
             /*
                   n3 ----> n4
@@ -306,18 +312,21 @@ int main() {
         }
 
         BEGIN_TESTI("haut-gauche--bas-droite")
+        printf("7e test\n");
             SET_TIMEOUT(TIMEOUT);
             float dist = dijkstra(graphe, noeuds[0], noeuds[colonnes * lignes - 1], NULL);
             ASSERT_EQ_F(dist, (float)(lignes + colonnes - 2), PRECISION);
         END_TEST
 
         BEGIN_TESTI("haut-gauche--haut-droite")
+        printf("8e test\n");
             SET_TIMEOUT(TIMEOUT);
             float dist = dijkstra(graphe, noeuds[0], noeuds[colonnes - 1], NULL);
             ASSERT_EQ_F(dist, (float)(colonnes - 1), PRECISION);
         END_TEST
 
         BEGIN_TESTI("haut-guahce--bas-gauche")
+        printf("9e test\n");
             SET_TIMEOUT(TIMEOUT);
             float dist = dijkstra(graphe, noeuds[0], noeuds[colonnes * (lignes - 1)], NULL);
             ASSERT_EQ_F(dist, (float)(lignes - 1), PRECISION);
