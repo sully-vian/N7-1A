@@ -13,20 +13,42 @@
 
 static pid_t pid = 0;
 static pid_t pid_fils;
-static pid_t pid_ded;
 static int status;
-static bool ded;  // processus avant est ded
 
+/**
+ * traitement du signal SIGCHLD
+ */
 void traitement(int sig) {
+
     switch (sig) {
-        default:
+    
+        case SIGINT:
+        case SIGTSTP:
+            //printf("> ");
+            break;
+    
+        case SIGCHLD:
             pid = waitpid(-1, &status, WNOHANG | WUNTRACED | WCONTINUED);
-            if (pid == pid_ded) {
-                ded = true;
-                printf("processus terminé pour pid = %d !\n", pid_ded);
+            
+            if (WIFEXITED(status)) {
+                printf("sortie du processus de pid = %d\n", pid);
+            }
+            if (WIFSIGNALED(status)) {
+                printf("terminaison du processus de pid = %dpar le signal %d\n", pid, sig);
+            }
+            if (WIFSTOPPED(status)) {
+                printf("interruption du processus de pid = %d\n", pid);
+            }
+            if (WIFCONTINUED(status)) {
+                printf("reprise du processus de pid = %d\n", pid);
             }
             break;
+        
+        default:
+            printf("autre signal\n");
+            break;
     }
+
 }
 
 int main(void) {
@@ -37,8 +59,10 @@ int main(void) {
     sigemptyset(&action.sa_mask);
     action.sa_flags = SA_RESTART;
 
-    /* ajouter procédure de traitement dans cas de SIGCHLD */
+    /* ajouter des procédures de traitement à la réception de signaux */
     sigaction(SIGCHLD, &action, NULL);
+    sigaction(SIGINT, &action, NULL);
+    sigaction(SIGTSTP, &action, NULL);
 
     while (!fini) {
         printf("> ");
@@ -74,7 +98,7 @@ int main(void) {
                                     break;
 
                                 case 0: /* code fils */
-                                    if (execvp(cmd[0], cmd) == -1) {
+                                    if (execvp(cmd[0], cmd) == -1) { /* commande inconnue */
                                         printf("Commande inconnue :-(\n");
                                         exit(EXIT_FAILURE);
                                     }
@@ -84,15 +108,10 @@ int main(void) {
                                     if (commande->backgrounded == NULL) {
                                         /* père attend la terminaison du fils */
 
-                                        pid_ded = pid_fils;
-                                        ded = false;
-                                        /* tq processus avant plan pas ded */
-                                        while (!ded) {
                                             /* attendre de recevoir un signal.
                                              * Quand réception, le handler sera
                                              * appelé -> wait */
                                             pause();
-                                        }
                                     }
                                     break;
                             }
