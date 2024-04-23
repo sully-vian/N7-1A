@@ -23,8 +23,11 @@ void traitement(int sig) {
     switch (sig) {
     
         case SIGINT:
+            printf("SIGINT");
+            break;
+            
         case SIGTSTP:
-            //printf("> ");
+            printf("SIGSTP");
             break;
     
         case SIGCHLD:
