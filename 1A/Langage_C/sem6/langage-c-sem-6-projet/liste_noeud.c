@@ -15,7 +15,7 @@ struct liste_noeud_t {
     liste_noeud_t *suivant;
 };
 
-liste_noeud_t *creer_liste() {
+liste_noeud_t *creer_liste(void) {
     liste_noeud_t *liste = malloc(sizeof(liste_noeud_t));
     if (liste == NULL) {
         printf("Échec de l'allocation dynamique\n");
@@ -93,8 +93,7 @@ static cellule_t min_noeud_liste_aux(const liste_noeud_t *liste) {
         cellule_t cellule_min = min_noeud_liste_aux(liste->suivant);
         float distance = liste->cellule.distance;
         float distance_min = cellule_min.distance;
-        return (distance < distance_min) ? liste->cellule
-                                                                : cellule_min;
+        return (distance < distance_min) ? liste->cellule : cellule_min;
     }
 }
 
