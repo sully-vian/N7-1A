@@ -21,18 +21,18 @@ static int status;
 void traitement(int sig) {
 
     switch (sig) {
-    
+
         case SIGINT:
             printf("SIGINT");
             break;
-            
+
         case SIGTSTP:
             printf("SIGSTP");
             break;
-    
+
         case SIGCHLD:
             pid = waitpid(-1, &status, WNOHANG | WUNTRACED | WCONTINUED);
-            
+
             if (WIFEXITED(status)) {
                 printf("sortie du processus de pid = %d\n", pid);
             }
@@ -46,7 +46,7 @@ void traitement(int sig) {
                 printf("reprise du processus de pid = %d\n", pid);
             }
             break;
-        
+
         default:
             printf("autre signal\n");
             break;
@@ -61,6 +61,13 @@ int main(void) {
     action.sa_handler = traitement;
     sigemptyset(&action.sa_mask);
     action.sa_flags = SA_RESTART;
+
+    // masquage de SIGINT et SIGTSTP en plus de ceux déjà masqués
+    sigset_t mask;
+    sigemptyset(&mask);
+    sigaddset(&mask, SIGINT);
+    sigaddset(&mask, SIGTSTP);
+    sigprocmask(SIG_BLOCK, &mask, NULL);
 
     /* ajouter des procédures de traitement à la réception de signaux */
     sigaction(SIGCHLD, &action, NULL);
