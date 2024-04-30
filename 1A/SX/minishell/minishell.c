@@ -1,6 +1,7 @@
 #define _GNU_SOURCE
 
 #include <features.h>
+#include <fcntl.h>
 #include <signal.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -113,6 +114,43 @@ int main(void) {
                                         /* changer groupe si en arrière plan */
                                         setpgrp();
                                     }
+                                    
+                                    /* replacer l'entrée standard par commande->in */
+                                    char *in = commande->in;
+                                    if (in != NULL) { /* cmd < f */
+                                        int in_desc;
+                                        if ((in_desc = open(in, O_RDONLY)) == -1) {
+                                            fprintf(stderr, "Erreur à l'ouverture de %s", in);
+                                            exit(EXIT_FAILURE);
+                                        }
+                                        if (dup2(in_desc, 0) == -1) {
+                                            fprintf(stderr, "Erreur au dup in");
+                                            exit(EXIT_FAILURE);
+                                        }
+                                        if (close(in_desc) == -1) {
+                                            fprintf(stderr, "Erreur à la fermeture du descripteur in");
+                                            exit(EXIT_FAILURE);
+                                        }
+                                    }
+                                    
+                                    /* replacer la sortie standard par commande->out */
+                                    char *out = commande->out;
+                                    if (out != NULL) { /* cmd > f */
+                                        int out_desc;
+                                        if ((out_desc = open(out, O_WRONLY|O_CREAT|O_TRUNC, 0644)) == -1) {
+                                            fprintf(stderr, "Erreur à l'ouverture de %s", out);
+                                            exit(EXIT_FAILURE);
+                                        }
+                                        if (dup2(out_desc, 1) == -1) {
+                                            fprintf(stderr, "Erreur au dup out");
+                                            exit(EXIT_FAILURE);
+                                        }
+                                        if (close(out_desc) == -1) {
+                                            fprintf(stderr, "Erreur à la fermeture du descripteur out");
+                                            exit(EXIT_FAILURE);
+                                        }
+                                    }
+                                    
                                     if (execvp(cmd[0], cmd) == -1) { /* commande inconnue */
                                         printf("Commande inconnue :-(\n");
                                         exit(EXIT_FAILURE);
