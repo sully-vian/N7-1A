@@ -47,7 +47,7 @@ n0 = 3;
 y_echant = s(n0:Ns:end);
 BitsRecuperes = (sign(y_echant) + 1) / 2; % demapping
 erreur = abs(bits - BitsRecuperes);
-TEB = mean(erreur)
+TEB = mean(erreur);
 
 figure( ...
     "Name", "Réponse impulsionnelle globale de la chaine de transmission", ...

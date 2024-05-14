@@ -1,6 +1,7 @@
 #define _GNU_SOURCE
 
 #include <features.h>
+#include <fcntl.h>
 #include <signal.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -14,6 +15,7 @@
 static pid_t pid = 0;
 static pid_t pid_fils;
 static int status;
+static const char *prompt = "> ";
 
 /**
  * traitement du signal SIGCHLD
@@ -23,27 +25,27 @@ void traitement(int sig) {
     switch (sig) {
 
         case SIGINT:
-            printf("SIGINT");
+            // printf("\n[SIGINT]\n");
             break;
 
         case SIGTSTP:
-            printf("SIGSTP");
+            // printf("\n[SIGSTP]\n");
             break;
 
         case SIGCHLD:
             pid = waitpid(-1, &status, WNOHANG | WUNTRACED | WCONTINUED);
 
             if (WIFEXITED(status)) {
-                printf("sortie du processus de pid = %d\n", pid);
+                printf("\nsortie du processus de pid = %d\n", pid);
             }
             if (WIFSIGNALED(status)) {
-                printf("terminaison du processus de pid = %dpar le signal %d\n", pid, sig);
+                printf("\nterminaison du processus de pid = %d par le signal %d\n", pid, sig);
             }
             if (WIFSTOPPED(status)) {
-                printf("interruption du processus de pid = %d\n", pid);
+                printf("\ninterruption du processus de pid = %d\n", pid);
             }
             if (WIFCONTINUED(status)) {
-                printf("reprise du processus de pid = %d\n", pid);
+                printf("\nreprise du processus de pid = %d\n", pid);
             }
             break;
 
@@ -51,7 +53,6 @@ void traitement(int sig) {
             printf("autre signal\n");
             break;
     }
-
 }
 
 int main(void) {
@@ -62,12 +63,12 @@ int main(void) {
     sigemptyset(&action.sa_mask);
     action.sa_flags = SA_RESTART;
 
-    // masquage de SIGINT et SIGTSTP en plus de ceux déjà masqués
-    sigset_t mask;
-    sigemptyset(&mask);
-    sigaddset(&mask, SIGINT);
-    sigaddset(&mask, SIGTSTP);
-    sigprocmask(SIG_BLOCK, &mask, NULL);
+    /* masquage de SIGINT et SIGTSTP en plus de ceux déjà masqués */
+    // sigset_t mask;
+    // sigemptyset(&mask);
+    // sigaddset(&mask, SIGINT);
+    // sigaddset(&mask, SIGTSTP);
+    // sigprocmask(SIG_BLOCK, &mask, NULL);
 
     /* ajouter des procédures de traitement à la réception de signaux */
     sigaction(SIGCHLD, &action, NULL);
@@ -75,7 +76,7 @@ int main(void) {
     sigaction(SIGTSTP, &action, NULL);
 
     while (!fini) {
-        printf("> ");
+        printf(prompt);
         struct cmdline *commande = readcmd();
 
         if (commande == NULL) {
@@ -103,11 +104,53 @@ int main(void) {
                             printf("Au revoir ...\n");
                         } else {
                             switch (pid_fils = fork()) {
+
                                 case -1: /* fork fail */
                                     printf("Erreur lors du fork\n");
                                     break;
 
                                 case 0: /* code fils */
+                                    if (commande->backgrounded != NULL) {
+                                        /* changer groupe si en arrière plan */
+                                        setpgrp();
+                                    }
+
+                                    /* replacer l'entrée standard par commande->in */
+                                    char *in = commande->in;
+                                    if (in != NULL) { /* cmd < file */
+                                        int in_desc;
+                                        if ((in_desc = open(in, O_RDONLY)) == -1) {
+                                            fprintf(stderr, "Erreur à l'ouverture de %s", in);
+                                            exit(EXIT_FAILURE);
+                                        }
+                                        if (dup2(in_desc, 0) == -1) {
+                                            fprintf(stderr, "Erreur au dup in");
+                                            exit(EXIT_FAILURE);
+                                        }
+                                        if (close(in_desc) == -1) {
+                                            fprintf(stderr, "Erreur à la fermeture du descripteur in");
+                                            exit(EXIT_FAILURE);
+                                        }
+                                    }
+
+                                    /* replacer la sortie standard par commande->out */
+                                    char *out = commande->out;
+                                    if (out != NULL) { /* cmd > file */
+                                        int out_desc;
+                                        if ((out_desc = open(out, O_WRONLY|O_CREAT|O_TRUNC, 0644)) == -1) {
+                                            fprintf(stderr, "Erreur à l'ouverture de %s", out);
+                                            exit(EXIT_FAILURE);
+                                        }
+                                        if (dup2(out_desc, 1) == -1) {
+                                            fprintf(stderr, "Erreur au dup out");
+                                            exit(EXIT_FAILURE);
+                                        }
+                                        if (close(out_desc) == -1) {
+                                            fprintf(stderr, "Erreur à la fermeture du descripteur out");
+                                            exit(EXIT_FAILURE);
+                                        }
+                                    }
+
                                     if (execvp(cmd[0], cmd) == -1) { /* commande inconnue */
                                         printf("Commande inconnue :-(\n");
                                         exit(EXIT_FAILURE);
