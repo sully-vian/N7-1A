@@ -1,14 +1,14 @@
-# Ce Makefile est là pour vous aider 
+# Ce Makefile est là pour vous aider
 # Vous pouvez le modifier, ajouter des règles, en enlever ...
 # Vous pouvez ne pas vous en servir, mais ce serait un tort
 
 # Compilateur a utilliser
-CC=gcc 
+CC=gcc
 
 # Fichier à contruire
 EXE=minishell
 
-# Quelles options pour le compilateur ? 
+# Quelles options pour le compilateur ?
 CFLAGS=-Wall -Wextra -pedantic -O3
 
 # Options pour l'édition de liens
@@ -33,6 +33,9 @@ clean:
 	\rm -f *.o *~
 	\rm -f $(EXE)
 	\rm -f copier
+	\rm -f tube1
+	\rm -f tube2
+	\rm -f tube3
 	\rm -f $(TEST_FILE)
 
 archive: clean

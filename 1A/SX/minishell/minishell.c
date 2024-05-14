@@ -104,7 +104,7 @@ int main(void) {
                             printf("Au revoir ...\n");
                         } else {
                             switch (pid_fils = fork()) {
-                            
+
                                 case -1: /* fork fail */
                                     printf("Erreur lors du fork\n");
                                     break;
@@ -114,10 +114,10 @@ int main(void) {
                                         /* changer groupe si en arrière plan */
                                         setpgrp();
                                     }
-                                    
+
                                     /* replacer l'entrée standard par commande->in */
                                     char *in = commande->in;
-                                    if (in != NULL) { /* cmd < f */
+                                    if (in != NULL) { /* cmd < file */
                                         int in_desc;
                                         if ((in_desc = open(in, O_RDONLY)) == -1) {
                                             fprintf(stderr, "Erreur à l'ouverture de %s", in);
@@ -132,10 +132,10 @@ int main(void) {
                                             exit(EXIT_FAILURE);
                                         }
                                     }
-                                    
+
                                     /* replacer la sortie standard par commande->out */
                                     char *out = commande->out;
-                                    if (out != NULL) { /* cmd > f */
+                                    if (out != NULL) { /* cmd > file */
                                         int out_desc;
                                         if ((out_desc = open(out, O_WRONLY|O_CREAT|O_TRUNC, 0644)) == -1) {
                                             fprintf(stderr, "Erreur à l'ouverture de %s", out);
@@ -150,7 +150,7 @@ int main(void) {
                                             exit(EXIT_FAILURE);
                                         }
                                     }
-                                    
+
                                     if (execvp(cmd[0], cmd) == -1) { /* commande inconnue */
                                         printf("Commande inconnue :-(\n");
                                         exit(EXIT_FAILURE);
