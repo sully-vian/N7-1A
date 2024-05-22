@@ -1,7 +1,7 @@
 #define _GNU_SOURCE
 
-#include <features.h>
 #include <fcntl.h>
+#include <features.h>
 #include <signal.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -21,9 +21,7 @@ static const char *prompt = "> ";
  * traitement du signal SIGCHLD
  */
 void traitement(int sig) {
-
     switch (sig) {
-
         case SIGINT:
             // printf("\n[SIGINT]\n");
             break;
@@ -55,8 +53,49 @@ void traitement(int sig) {
     }
 }
 
+/* Ouvrir open en assurant la bonne exécution. Retourne le descripteur de fichier associé. */
+int safeopen(char *nom, int flags, mode_t mode) {
+    int desc_open;
+    if (mode) {
+        desc_open = open(nom, flags, mode);
+    } else {
+        desc_open = open(nom, flags);
+    }
+    if (desc_open == -1) {
+        fprintf(stderr, "Erreur à l'ouverture de %s", nom);
+        exit(EXIT_FAILURE);
+    }
+    return desc_open;
+}
+
+/* Fermer le fichier de descripteur `desc` en vérifiant la bonne fermeture. `nom` est utilisé en cas d'erreur. */
+void safeclose(int desc, char *nom) {
+    int desc_close = close(desc);
+    if (desc_close == -1) {
+        fprintf(stderr, "Erreur à la fermeture du descripteur %s", nom);
+        exit(EXIT_FAILURE);
+    }
+}
+
+/* Dupliquer (cf `dup2`) en assurant la bonne exécution. `nom` est utlisé en cas d'erreur. */
+void safedup2(int oldfd, int newfd, char *nom) {
+    if (dup2(oldfd, newfd) == -1) {
+        fprintf(stderr, "Erreur au dup %s", nom);
+        exit(EXIT_FAILURE);
+    }
+}
+
+/* Executer `cmd0` avec `execvp` en s'assurant de la bonne exécution. */
+void safeexecvp(char *cmd0, char *const argv[]) {
+    if (execvp(cmd0, argv) == -1) {
+        fprintf(stderr, "Commande inconnue : %s 😥", cmd0);
+        exit(EXIT_FAILURE);
+    }
+}
+
 int main(void) {
     bool fini = false;
+    int dernier_lu = -1;
 
     struct sigaction action;
     action.sa_handler = traitement;
@@ -103,68 +142,70 @@ int main(void) {
                             fini = true;
                             printf("Au revoir ...\n");
                         } else {
-                            switch (pid_fils = fork()) {
+                            int tube[2];
+                            if (commande->seq[indexseq + 1] != NULL) {
+                                pipe(tube);
+                            }
 
+                            switch (pid_fils = fork()) {
                                 case -1: /* fork fail */
                                     printf("Erreur lors du fork\n");
                                     break;
 
                                 case 0: /* code fils */
+
+                                    // changer groupe si en arrière plan
                                     if (commande->backgrounded != NULL) {
-                                        /* changer groupe si en arrière plan */
                                         setpgrp();
                                     }
 
-                                    /* replacer l'entrée standard par commande->in */
+                                    // remplacer l'entrée standard par commande->in
                                     char *in = commande->in;
                                     if (in != NULL) { /* cmd < file */
-                                        int in_desc;
-                                        if ((in_desc = open(in, O_RDONLY)) == -1) {
-                                            fprintf(stderr, "Erreur à l'ouverture de %s", in);
-                                            exit(EXIT_FAILURE);
-                                        }
-                                        if (dup2(in_desc, 0) == -1) {
-                                            fprintf(stderr, "Erreur au dup in");
-                                            exit(EXIT_FAILURE);
-                                        }
-                                        if (close(in_desc) == -1) {
-                                            fprintf(stderr, "Erreur à la fermeture du descripteur in");
-                                            exit(EXIT_FAILURE);
-                                        }
+                                        int in_desc = safeopen(in, O_RDONLY, 0);
+                                        safedup2(in_desc, 0, in);
+                                        safeclose(in_desc, in);
                                     }
 
-                                    /* replacer la sortie standard par commande->out */
+                                    // remplacer la sortie standard par commande->out
                                     char *out = commande->out;
                                     if (out != NULL) { /* cmd > file */
-                                        int out_desc;
-                                        if ((out_desc = open(out, O_WRONLY|O_CREAT|O_TRUNC, 0644)) == -1) {
-                                            fprintf(stderr, "Erreur à l'ouverture de %s", out);
-                                            exit(EXIT_FAILURE);
-                                        }
-                                        if (dup2(out_desc, 1) == -1) {
-                                            fprintf(stderr, "Erreur au dup out");
-                                            exit(EXIT_FAILURE);
-                                        }
-                                        if (close(out_desc) == -1) {
-                                            fprintf(stderr, "Erreur à la fermeture du descripteur out");
-                                            exit(EXIT_FAILURE);
-                                        }
+                                        int out_desc = safeopen(out, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+                                        safedup2(out_desc, 1, out);
+                                        safeclose(out_desc, out);
                                     }
 
-                                    if (execvp(cmd[0], cmd) == -1) { /* commande inconnue */
-                                        printf("Commande inconnue :-(\n");
-                                        exit(EXIT_FAILURE);
+                                    // redirection des tubes
+                                    if (dernier_lu != -1) {
+                                        safedup2(dernier_lu, STDIN_FILENO, "dernier_lu");
+                                        safeclose(dernier_lu, "dernier_lu1");
                                     }
+                                    if (commande->seq[indexseq + 1] != NULL) {
+                                        safeclose(tube[0], "dernier_lu2");
+                                        safedup2(tube[1], STDOUT_FILENO, "tube[1]");
+                                        safeclose(tube[1], "dernier_lu3");
+                                    }
+
+                                    // exécution de la commande
+                                    safeexecvp(cmd[0], cmd);
                                     break;
 
                                 default: /* code père */
-                                    if (commande->backgrounded == NULL) {
-                                        /* père attend la terminaison du fils */
 
-                                            /* attendre de recevoir un signal.
-                                             * Quand réception, le handler sera
-                                             * appelé -> wait */
-                                            pause();
+                                    if (dernier_lu != -1) {
+                                        safeclose(dernier_lu,"dernier_lu4");
+                                    }
+                                    if (commande->seq[indexseq + 1] != NULL) {
+                                        safeclose(tube[1], "dernier_lu5");
+                                        dernier_lu = tube[0];
+                                    }
+
+                                    // le père attend la terminaison du fils si ce dernier n'est pas en arrière plan
+                                    if (commande->backgrounded == NULL) {
+                                        /* attendre de recevoir un signal.
+                                         * Quand réception, le handler sera
+                                         * appelé -> wait */
+                                        pause();
                                     }
                                     break;
                             }
@@ -173,8 +214,15 @@ int main(void) {
                         indexseq++;
                     }
                 }
+                if (dernier_lu != -1) {
+                    // safeclose(dernier_lu, "dernier_lu6");
+                }
+                close(dernier_lu);
             }
         }
+        // safeclose(dernier_lu, "dernier_lu7");
+        close(dernier_lu);
+        dernier_lu = -1;  // reset variable pour permettre la lecture de la prochaine commande tubée
     }
     return EXIT_SUCCESS;
 }
