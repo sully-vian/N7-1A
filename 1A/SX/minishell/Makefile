@@ -37,6 +37,7 @@ clean:
 	\rm -f tube2
 	\rm -f tube3
 	\rm -f tube4
+	\rm -f tube5
 	\rm -f $(TEST_FILE)
 
 archive: clean
