@@ -23,7 +23,8 @@ int main() {
                 fprintf(stdout, "lu: %d, nblus: %d\n", lu, nblus);
             }
 
-            // n'arrive jamais puisque read est bloquant
+            // n'arrive jamais puisque read est bloquant, bien que le père se
+            // termine
             fprintf(stdout, "Sortie de boucle\n");
             break;
 
@@ -35,7 +36,7 @@ int main() {
                     exit(EXIT_FAILURE);
                 }
             }
-            pause();  // attendre un signal
+            sleep(10);
             break;
     }
 }
