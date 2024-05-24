@@ -39,8 +39,8 @@
 \lstset{style=mystyle}
 
 % Title and author
-\title{My Document}
-\author{Your Name}
+\title{Projet \texttt{minishell} - Rapport}
+\author{Vianney HERVY - 1ASN Groupe H}
 
 \begin{document}
 
@@ -52,9 +52,55 @@
 
 \section{Architecture}
 
+L'architecture de ce projet est simple état donnée qu'elle nous est presque imposée par le sujet. La majorité du code utile sur trouve dans le fichier \texttt{minishell.c}. Le package formé par \texttt{readcmd.c} et \texttt{readcmd.h} est utilisé pour extraire de la commande utilisateur les informations telles que la mise en arrière plan, les redirections, les tubes etc.
 
 \section{Choix et spécificités de conception}
 
+J'ai rapidement vu que la gestion d'erreur en C n'était pas une mince affaire. Pour éviter kes répétitions de code, j'ai créé 4 fonctions "sûres" qui gèrent les erreurs de manière uniforme. Ces fonctions sont \texttt{safeopen}, \texttt{safeclose}, \texttt{safedup2} et \texttt{safeexecvp}.
+
+\begin{lstlisting}[language=C, caption=Code des fonctions "sûres"]
+/* Ouvrir le fichier `nom` dans un descripteur de fichier en assurant la bonne execution. Retourne le descripteur de fichier associe. */
+int safeopen(char *nom, int flags, mode_t mode) {
+    int desc_open;
+    if (mode) {
+        desc_open = open(nom, flags, mode);
+    } else {
+        desc_open = open(nom, flags);
+    }
+    if (desc_open == -1) {
+        fprintf(stderr, "Erreur a l'ouverture de %s", nom);
+        exit(EXIT_FAILURE);
+    }
+    return desc_open;
+}
+
+/* Fermer le fichier de descripteur `desc` en verifiant la bonne fermeture. `nom` est utilise en cas d'erreur. */
+void safeclose(int desc, char *nom) {
+    int desc_close = close(desc);
+    if (desc_close == -1) {
+        fprintf(stderr, "Erreur a la fermeture du descripteur %s", nom);
+        exit(EXIT_FAILURE);
+    }
+}
+
+/* Dupliquer (cf `dup2`) en assurant la bonne execution. `nom` est utlise en cas d'erreur. */
+void safedup2(int oldfd, int newfd, char *nom) {
+    if (dup2(oldfd, newfd) == -1) {
+        fprintf(stderr, "Erreur au dup %s", nom);
+        exit(EXIT_FAILURE);
+    }
+}
+
+/* Executer `cmd0` avec `execvp` en s'assurant de la bonne execution. */
+void safeexecvp(char *cmd0, char *const argv[]) {
+    if (execvp(cmd0, argv) == -1) {
+        fprintf(stderr, "Commande inconnue : %s :-(", cmd0);
+        exit(EXIT_FAILURE);
+    }
+}
+\end{lstlisting}
+
+Dans les listings, je pourrais ne pas montrer ces processus de gestion d'erreur afin de garder un code concis. Toutefois, je les ai utilisé autant que possible dans le code de mon projet.
 
 \section{Méthodologie des tests}
 
@@ -114,17 +160,17 @@ La figure 2 montre un exemple de lancement de la commande \texttt{ls} avec un p�
 
 \subsection*{Étape 4 (Lancement de commandes en tâche de fond)}
 
-Pour ne pas attendre la terminaison d'un fils mis en arrière-plan, il suffit de vérifier si le champ \texttt{backgrounded} de la structure \texttt{commande} est \texttt{NULL}. Si c'est le cas, ola commande est en avant-plan et on l'attend comme implémenté dans le listing 2.
+Pour ne pas attendre la terminaison d'un fils mis en arrière plan, il suffit de vérifier si le champ \texttt{backgrounded} de la structure \texttt{commande} est \texttt{NULL}. Si c'est le cas, ola commande est en avant plan et on l'attend comme implémenté dans le listing 2.
 
 \begin{lstlisting}[language=C, caption=Ajout pour la question 4]
 default: /* code du pere */
     if (commande->backgrounded == NULL) {
-        // on n'attend pas la terminaison d'un fils mis en arriere-plan
+        // on n'attend pas la terminaison d'un fils mis en arriere plan
         wait(null);
     }
 \end{lstlisting}
 
-Pour vérifier que le père n'attend pas la terminaison d'un fils en arrière-plan, on peut lancer la commande \texttt{sleep 5 \&} et voir que le prompt est affiché directement, sans attendre avant la fin du sommeil.
+Pour vérifier que le père n'attend pas la terminaison d'un fils en arrière plan, on peut lancer la commande \texttt{sleep 5 \&} et voir que le prompt est affiché directement, sans attendre avant la fin du sommeil.
 
 \subsection*{Étape 5 (Rendu)}
 
@@ -187,13 +233,13 @@ default: /* code du pere */
 \begin{figure}[H]
     \centering
     \includegraphics[width=\textwidth]{./resources/E8.png}
-    \caption{Démonstration de la terminaison en arrière-plan du premier \texttt{sleep}}
+    \caption{Démonstration de la terminaison en arrière plan du premier \texttt{sleep}}
     \label{fig:E8}
 \end{figure}
 
-\subsection*{Étape 9 (Suspension et reprise d'un processus en arrière-plan)}
+\subsection*{Étape 9 (Suspension et reprise d'un processus en arrière plan)}
 
-Lors de l'envoi du signal \texttt{SIGSTOP} à un processus en arrière-plan, ce processus est mis en pause et passe à l'état "stopped". Lors de l'envoi du signal \texttt{SIGCONT}, le processus reprend son exécution et passe de nouveau à l'état "running".
+Lors de l'envoi du signal \texttt{SIGSTOP} à un processus en arrière plan, ce processus est mis en pause et passe à l'état "stopped". Lors de l'envoi du signal \texttt{SIGCONT}, le processus reprend son exécution et passe de nouveau à l'état "running".
 
 \subsection*{Étape 10 (Affichage d'un message indiquant le signal reçu)}
 
@@ -294,7 +340,7 @@ En enlevant le masquage réalisé juste au dessus (je l'ai comenté dans mon cod
 /* ... */
 case 0: /* code du fils */
     if (commande->backgrounded != NULL) {
-        // changer de groupe si en arriere-plan
+        // changer de groupe si en arriere plan
         setpgrp();
     }
 /* ... */

@@ -53,7 +53,7 @@ void traitement(int sig) {
     }
 }
 
-/* Ouvrir open en assurant la bonne exécution. Retourne le descripteur de fichier associé. */
+/* Ouvrir le fichier `nom` dans un descripteur de fichier en assurant la bonne exécution. Retourne le descripteur de fichier associé. */
 int safeopen(char *nom, int flags, mode_t mode) {
     int desc_open;
     if (mode) {
