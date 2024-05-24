@@ -34,16 +34,16 @@ void traitement(int sig) {
             pid = waitpid(-1, &status, WNOHANG | WUNTRACED | WCONTINUED);
 
             if (WIFEXITED(status)) {
-                printf("\nsortie du processus de pid = %d\n", pid);
+                printf("sortie du processus de pid = %d\n", pid);
             }
             if (WIFSIGNALED(status)) {
-                printf("\nterminaison du processus de pid = %d par le signal %d\n", pid, sig);
+                printf("terminaison du processus de pid = %d par le signal %d\n", pid, sig);
             }
             if (WIFSTOPPED(status)) {
-                printf("\ninterruption du processus de pid = %d\n", pid);
+                printf("interruption du processus de pid = %d\n", pid);
             }
             if (WIFCONTINUED(status)) {
-                printf("\nreprise du processus de pid = %d\n", pid);
+                printf("reprise du processus de pid = %d\n", pid);
             }
             break;
 

@@ -1,0 +1,391 @@
+\documentclass{article}
+
+% Packages
+\usepackage{amsmath} % for math
+\usepackage{geometry} % for page margins
+\usepackage{graphicx} % for images
+\usepackage{hyperref} % for content table
+\usepackage{float} % for figure positioning
+\usepackage{indentfirst} % for indenting the first paragraph
+\usepackage{listings} % for code blocks
+\usepackage{xcolor} % for setting colors
+
+% Define the colors for your code block
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+% Define the settings for your code block
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=5pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+
+% Title and author
+\title{My Document}
+\author{Your Name}
+
+\begin{document}
+
+\maketitle
+\tableofcontents
+
+\section{Introduction}
+
+
+\section{Architecture}
+
+
+\section{Choix et spécificités de conception}
+
+
+\section{Méthodologie des tests}
+
+
+\section{Étapes}
+
+\subsection*{Étape 1 (Testez le programme)}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{./resources/E1.png}
+    \caption{Test du programme}
+    \label{fig:E1}
+\end{figure}
+
+\subsection*{Étape 2 (Lancement d'une commande)}
+
+C'est le fils qui exécute la commande.
+
+\begin{lstlisting}[language=C, caption=Code de la question 2]
+/* ... */
+case 0: /* code du fils */
+    execvp(cmd[0], cmd);
+    break;
+/* ... */
+\end{lstlisting}
+
+Sur la figure 2, on voit un exemple de recouvrement: le processus père, responsable de l'affichage du prompt, n'attend pas la terminaison du fils (ici la commande \texttt{ls}) pour écrire \texttt{>}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{./resources/E2.png}
+    \caption{Exemple du lancement de la commande \texttt{ls}}
+    \label{fig:E2}
+\end{figure}
+
+\subsection*{Étape 3 (Enchaînement séquentiel des commandes)}
+
+Pour que le père attende la terminaison du fils, il suffit d'ajouter la commande bloquante \texttt{wait(null)} dans le code du père tel qu'indiqué dans le listing 1.
+
+\begin{lstlisting}[language=C, caption=Ajout pour la question 3]
+/* ... */
+default: /* code du pere */
+    wait(null); // attendre terminaison du fils
+    break;
+/* ... */
+\end{lstlisting}
+
+La figure 2 montre un exemple de lancement de la commande \texttt{ls} avec un père patient.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{./resources/E3.png}
+    \caption{Exemple du lancement de la commande \texttt{ls} avec un père patient}
+    \label{fig:E3}
+\end{figure}
+
+\subsection*{Étape 4 (Lancement de commandes en tâche de fond)}
+
+Pour ne pas attendre la terminaison d'un fils mis en arrière-plan, il suffit de vérifier si le champ \texttt{backgrounded} de la structure \texttt{commande} est \texttt{NULL}. Si c'est le cas, ola commande est en avant-plan et on l'attend comme implémenté dans le listing 2.
+
+\begin{lstlisting}[language=C, caption=Ajout pour la question 4]
+default: /* code du pere */
+    if (commande->backgrounded == NULL) {
+        // on n'attend pas la terminaison d'un fils mis en arriere-plan
+        wait(null);
+    }
+\end{lstlisting}
+
+Pour vérifier que le père n'attend pas la terminaison d'un fils en arrière-plan, on peut lancer la commande \texttt{sleep 5 \&} et voir que le prompt est affiché directement, sans attendre avant la fin du sommeil.
+
+\subsection*{Étape 5 (Rendu)}
+
+Rien à faire.
+
+\subsection*{Étape 6 (Traitement du signal \texttt{SIGCHLD})}
+
+\begin{lstlisting}[language=C, caption=ajout de la question 6]
+/* ... */
+void traitement(int sig) {
+    switch (sig) {
+        case SIGCHLD:
+            printf("Un fils vient de se terminer\n");
+            break;
+        default:
+            printf("Signal inconnu\n");
+            break;
+    }
+}
+/* ... */
+int main(void) {
+    struct sigaction action;
+    action.sa_handler = traitement;
+    sigemptyset(&action.sa_mask);
+    action.sa_flags = SA_RESTART;
+    sigaction(SIGCHLD, &action, NULL);
+}
+/* ... */
+\end{lstlisting}
+
+\subsection*{Étape 7 (Utilisation de \texttt{SINGINT} pour traiter la terminaison des processus fils)}
+
+\begin{lstlisting}[language=C, caption=ajout de la question 7]
+/* ... */
+void traitement(int sig) {
+    pid_t pid;
+    switch (sig) {
+        case SIGCHLD:
+            pid = waitpid(-1, NULL, WNOHANG | WUNTRACED | WCONTINUED);
+            printf("sortie du processus de pid = %d\n", pid);
+            break;
+        default:
+            printf("Signal inconnu\n");
+            break;
+    }
+}
+/* ... */
+\end{lstlisting}
+
+\subsection*{Étape 8 (Attendre un signal : \texttt{pause})}
+
+\begin{lstlisting}[language=C, caption=ajout de la question 8]
+/* ... */
+default: /* code du pere */
+    pause(); // attendre un signal
+    break;
+/* ... */
+\end{lstlisting}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{./resources/E8.png}
+    \caption{Démonstration de la terminaison en arrière-plan du premier \texttt{sleep}}
+    \label{fig:E8}
+\end{figure}
+
+\subsection*{Étape 9 (Suspension et reprise d'un processus en arrière-plan)}
+
+Lors de l'envoi du signal \texttt{SIGSTOP} à un processus en arrière-plan, ce processus est mis en pause et passe à l'état "stopped". Lors de l'envoi du signal \texttt{SIGCONT}, le processus reprend son exécution et passe de nouveau à l'état "running".
+
+\subsection*{Étape 10 (Affichage d'un message indiquant le signal reçu)}
+
+\begin{lstlisting}[language=C, caption=ajout de la question 10]
+/* ... */
+void traitement(int sig) {
+    pid_t pid;
+    switch (sig) {
+        case SIGCHLD:
+            pid = waitpid(-1, null, WNOHANG | WUNTRACED | WCONTINUED);
+
+            if (WIFEXITED(status)) {
+                printf("\nsortie du processus de pid = %d\n", pid);
+            }
+            if (WIFSIGNALED(status)) {
+                printf("\nterminaison du processus de pid = %d par le signal %d\n", pid, sig);
+            }
+            if (WIFSTOPPED(status)) {
+                printf("\ninterruption du processus de pid = %d\n", pid);
+            }
+            if (WIFCONTINUED(status)) {
+                printf("\nreprise du processus de pid = %d\n", pid);
+            }
+            break;
+
+        default:
+            printf("autre signal\n");
+            break;
+    }
+}
+/* ... */
+\end{lstlisting}
+
+\subsection*{Étape 11 (Rendu)}
+
+Rien à faire.
+
+\subsection*{Étape 12 (Test de la frappe au clavier de \texttt{ctrl-c} et \texttt{ctrl-z})}
+
+Lorsque le \texttt{minishell} est lancé, les signaux \texttt{SIGINT} et \texttt{SIGTSTP} causent l'arrêt du processus père ainsi que celui de chacun de ses fils.
+
+\subsection*{Étape 13 (Gestion de la frappe au clavier de \texttt{ctrl-c} et \texttt{ctrl-z})}
+
+\subsubsection*{Étape 13.1 (Changer le traitement des signaux \texttt{SIGINT} et \texttt{SIGTSTP})}
+
+\begin{lstlisting}[language=C, caption=ajout de la question 13.1]
+/* ... */
+void traitement(int sig) {
+    switch (sig) {
+        case SIGINT:
+            printf("\n[SIGINT]\n");
+            break;
+
+        case SIGTSTP:
+            printf("\n[SIGSTP]\n");
+            break;
+/* ... */
+}
+\end{lstlisting}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{./resources/E13.1.png}
+    \caption{Test de la frappe au clavier de \texttt{ctrl-c} et \texttt{ctrl-z}}
+    \label{fig:E13.1}
+\end{figure}
+
+\subsubsection*{Étape 13.2 (Ignorer les signaux \texttt{SIGINT} et \texttt{SIGTSTP})}
+
+\subsubsection*{Étape 13.3 (Masquer les signaux \texttt{SIGINT} et \texttt{SIGTSTP})}
+
+\begin{lstlisting}[language=C, caption=ajout de la question 13.3]
+    int main(void) {
+        /* ... */
+        sigset_t mask;
+        sigemptyset(&mask);
+        sigaddset(&mask, SIGINT);
+        sigaddset(&mask, SIGTSTP);
+        sigprocmask(SIG_BLOCK, &mask, NULL);
+        /* ... */
+    }
+\end{lstlisting}
+
+Sur la figure 6, on voit que le \texttt{minishell} ne réagit plus aux signaux \texttt{SIGINT} et \texttt{SIGTSTP}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{./resources/E13.3.png}
+    \caption{Test de la frappe au clavier de \texttt{ctrl-c} et \texttt{ctrl-z}}
+    \label{fig:E13.3}
+\end{figure}
+
+\subsection*{Étape 14 (Détacher les processus fils en arrière plan)}
+
+En enlevant le masquage réalisé juste au dessus (je l'ai comenté dans mon code) et en détachant les processus fils en arrière plan (à l'aide de \texttt{setpgrp}), les signaux \texttt{SIGINT} et \texttt{SIGTSTP} n'ateignent plus le processus père et ses fils en arrière plan.
+
+\begin{lstlisting}[language=C, caption=ajout de la question 14]
+/* ... */
+case 0: /* code du fils */
+    if (commande->backgrounded != NULL) {
+        // changer de groupe si en arriere-plan
+        setpgrp();
+    }
+/* ... */
+\end{lstlisting}
+
+Dans la figure 7, on voit qu'un processus en avant plan est interrompu mais qu'un processus en arrière plan n'est pas affecté par les signaux \texttt{SIGINT} et \texttt{SIGTSTP}. Le \texttt{minishell}, lui, continue de fonctionner normalement.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{./resources/E14.png}
+    \caption{Test de la frappe au clavier de \texttt{ctrl-c} et \texttt{ctrl-z}}
+    \label{fig:E14}
+\end{figure}
+
+\subsection*{Étape 15 (Rendu)}
+
+Rien à faire.
+
+\subsection*{Étape 16 (Redirections)}
+
+Pour cette étape, il faut ajouter à la fois la gestion d'entrée et de sortie. Ces deux étapes sont similaires, il suffit de remplacer le descripteur de fichier standard d'entrée (\texttt{0}) par le descripteur du fichier d'entrée et le descripteur de sortie standard (\texttt{1}) par le descripteur du fichier de sortie.
+
+Dans les deux cas, il faut :
+\begin{itemize}
+    \item[1] ouvrir le fichier avec \texttt{open}
+    \item[2] dupliquer le descripteur de fichier sur celui voulu (\texttt{0}/\texttt{1}) avec \texttt{dup2}
+    \item[3] fermer le descripteur de fichier ouvert avec \texttt{close}
+\end{itemize}
+À chacune de ces étapes, on vérifie que l'opération s'est bien déroulée pour éviter les mauvaises surprises.
+
+\begin{lstlisting}[language=C, caption=gestion des redirections]
+case 0: /* code du fils */
+    /* ... */
+    /* remplacer l'entree standard par commande->in */
+    char *in = commande->in;
+    if (in != NULL) { /* cmd < file */
+        int in_desc;
+        if ((in_desc = open(in, O_RDONLY)) == -1) {
+            fprintf(stderr, "Erreur a l'ouverture de %s", in);
+            exit(EXIT_FAILURE);
+        }
+        if (dup2(in_desc, 0) == -1) {
+            fprintf(stderr, "Erreur au dup in");
+            exit(EXIT_FAILURE);
+        }
+        if (close(in_desc) == -1) {
+            fprintf(stderr, "Erreur a la fermeture du descripteur in");
+            exit(EXIT_FAILURE);
+        }
+    }
+
+    /* remplacer la sortie standard par commande->out */
+    char *out = commande->out;
+    if (out != NULL) { /* cmd > file */
+        int out_desc;
+        if ((out_desc = open(out, O_WRONLY|O_CREAT|O_TRUNC, 0644)) == -1) {
+            fprintf(stderr, "Erreur a l'ouverture de %s", out);
+            exit(EXIT_FAILURE);
+        }
+        if (dup2(out_desc, 1) == -1) {
+            fprintf(stderr, "Erreur au dup out");
+            exit(EXIT_FAILURE);
+        }
+        if (close(out_desc) == -1) {
+            fprintf(stderr, "Erreur a la fermeture du descripteur out");
+            exit(EXIT_FAILURE);
+        }
+    }
+\end{lstlisting}
+
+Voyez dans la figure 8 un exemple de ces redirections utilisant les commandes \texttt{echo} et \texttt{cat}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{./resources/E16.png}
+    \caption{Test de la redirection de l'entrée et de la sortie}
+    \label{fig:E16}
+\end{figure}
+
+Le texte \texttt{[texte]} est bien écrit dans \texttt{f1} à la première commande, puis, le contenu de \texttt{f1} est écrit dans \texttt{f2} à la deuxième commande. La troisième commande vérifie que le contenu de \texttt{f2} est bien celui prévu.
+
+\subsection*{Étape 17 (Rendus 2)}
+
+Rien à faire.
+
+\subsection*{Étape 19 (Tubes simples)}
+
+\subsection*{Étape 20 (Pipelines)}
+
+\subsection*{Étape 21 (Rendu)}
+
+Rien à faire.
+
+\end{document}
