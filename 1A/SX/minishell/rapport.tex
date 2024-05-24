@@ -46,9 +46,7 @@
 
 \maketitle
 \tableofcontents
-
-\section{Introduction}
-
+\newpage
 
 \section{Architecture}
 
@@ -56,7 +54,7 @@ L'architecture de ce projet est simple état donnée qu'elle nous est presque im
 
 \section{Choix et spécificités de conception}
 
-J'ai rapidement vu que la gestion d'erreur en C n'était pas une mince affaire. Pour éviter kes répétitions de code, j'ai créé 4 fonctions "sûres" qui gèrent les erreurs de manière uniforme. Ces fonctions sont \texttt{safeopen}, \texttt{safeclose}, \texttt{safedup2} et \texttt{safeexecvp}.
+J'ai rapidement vu que la gestion d'erreur en C n'était pas une mince affaire. Pour éviter kes répétitions de code, j'ai créé 5 fonctions "sûres" qui gèrent les erreurs de manière uniforme. Ces fonctions sont \texttt{safeopen}, \texttt{safeclose}, \texttt{safedup2}, \texttt{safeexecvp} et \texttt{safepipe}.
 
 \begin{lstlisting}[language=C, caption=Code des fonctions "sûres"]
 /* Ouvrir le fichier `nom` dans un descripteur de fichier en assurant la bonne execution. Retourne le descripteur de fichier associe. */
@@ -94,7 +92,15 @@ void safedup2(int oldfd, int newfd, char *nom) {
 /* Executer `cmd0` avec `execvp` en s'assurant de la bonne execution. */
 void safeexecvp(char *cmd0, char *const argv[]) {
     if (execvp(cmd0, argv) == -1) {
-        fprintf(stderr, "Commande inconnue : %s :-(", cmd0);
+        fprintf(stderr, "Commande inconnue : %s", cmd0);
+        exit(EXIT_FAILURE);
+    }
+}
+
+/* Creer un tube en s'assurant du succes de l'operation */
+void safepipe(int tube[2]) {
+    if (pipe(tube) == -1) {
+        perror("Erreur lors de la creation du tube");
         exit(EXIT_FAILURE);
     }
 }
@@ -108,15 +114,16 @@ Dans les listings, je pourrais ne pas montrer ces processus de gestion d'erreur 
 \section{Étapes}
 
 \subsection*{Étape 1 (Testez le programme)}
+\addcontentsline{toc}{subsection}{Étape 1 (Testez le programme)}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{./resources/E1.png}
     \caption{Test du programme}
-    \label{fig:E1}
 \end{figure}
 
 \subsection*{Étape 2 (Lancement d'une commande)}
+\addcontentsline{toc}{subsection}{Étape 2 (Lancement d'une commande)}
 
 C'est le fils qui exécute la commande.
 
@@ -128,16 +135,16 @@ case 0: /* code du fils */
 /* ... */
 \end{lstlisting}
 
-Sur la figure 2, on voit un exemple de recouvrement: le processus père, responsable de l'affichage du prompt, n'attend pas la terminaison du fils (ici la commande \texttt{ls}) pour écrire \texttt{>}.
+Sur la figure 3, on voit un exemple de recouvrement: le processus père, responsable de l'affichage du prompt, n'attend pas la terminaison du fils (ici la commande \texttt{ls}) pour écrire \texttt{>}.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{./resources/E2.png}
     \caption{Exemple du lancement de la commande \texttt{ls}}
-    \label{fig:E2}
 \end{figure}
 
 \subsection*{Étape 3 (Enchaînement séquentiel des commandes)}
+\addcontentsline{toc}{subsection}{Étape 3 (Enchaînement séquentiel des commandes)}
 
 Pour que le père attende la terminaison du fils, il suffit d'ajouter la commande bloquante \texttt{wait(null)} dans le code du père tel qu'indiqué dans le listing 1.
 
@@ -149,16 +156,16 @@ default: /* code du pere */
 /* ... */
 \end{lstlisting}
 
-La figure 2 montre un exemple de lancement de la commande \texttt{ls} avec un père patient.
+La figure 3 montre un exemple de lancement de la commande \texttt{ls} avec un père patient.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{./resources/E3.png}
     \caption{Exemple du lancement de la commande \texttt{ls} avec un père patient}
-    \label{fig:E3}
 \end{figure}
 
 \subsection*{Étape 4 (Lancement de commandes en tâche de fond)}
+\addcontentsline{toc}{subsection}{Étape 4 (Lancement de commandes en tâche de fond)}
 
 Pour ne pas attendre la terminaison d'un fils mis en arrière plan, il suffit de vérifier si le champ \texttt{backgrounded} de la structure \texttt{commande} est \texttt{NULL}. Si c'est le cas, ola commande est en avant plan et on l'attend comme implémenté dans le listing 2.
 
@@ -173,10 +180,12 @@ default: /* code du pere */
 Pour vérifier que le père n'attend pas la terminaison d'un fils en arrière plan, on peut lancer la commande \texttt{sleep 5 \&} et voir que le prompt est affiché directement, sans attendre avant la fin du sommeil.
 
 \subsection*{Étape 5 (Rendu)}
+\addcontentsline{toc}{subsection}{Étape 5 (Rendu)}
 
 Rien à faire.
 
 \subsection*{Étape 6 (Traitement du signal \texttt{SIGCHLD})}
+\addcontentsline{toc}{subsection}{Étape 6 (Traitement du signal \texttt{SIGCHLD})}
 
 \begin{lstlisting}[language=C, caption=ajout de la question 6]
 /* ... */
@@ -202,6 +211,7 @@ int main(void) {
 \end{lstlisting}
 
 \subsection*{Étape 7 (Utilisation de \texttt{SINGINT} pour traiter la terminaison des processus fils)}
+\addcontentsline{toc}{subsection}{Étape 7 (Utilisation de \texttt{SINGINT} pour traiter la terminaison des processus fils)}
 
 \begin{lstlisting}[language=C, caption=ajout de la question 7]
 /* ... */
@@ -221,6 +231,7 @@ void traitement(int sig) {
 \end{lstlisting}
 
 \subsection*{Étape 8 (Attendre un signal : \texttt{pause})}
+\addcontentsline{toc}{subsection}{Étape 8 (Attendre un signal : \texttt{pause})}
 
 \begin{lstlisting}[language=C, caption=ajout de la question 8]
 /* ... */
@@ -234,14 +245,15 @@ default: /* code du pere */
     \centering
     \includegraphics[width=\textwidth]{./resources/E8.png}
     \caption{Démonstration de la terminaison en arrière plan du premier \texttt{sleep}}
-    \label{fig:E8}
 \end{figure}
 
 \subsection*{Étape 9 (Suspension et reprise d'un processus en arrière plan)}
+\addcontentsline{toc}{subsection}{Étape 9 (Suspension et reprise d'un processus en arrière plan)}
 
 Lors de l'envoi du signal \texttt{SIGSTOP} à un processus en arrière plan, ce processus est mis en pause et passe à l'état "stopped". Lors de l'envoi du signal \texttt{SIGCONT}, le processus reprend son exécution et passe de nouveau à l'état "running".
 
 \subsection*{Étape 10 (Affichage d'un message indiquant le signal reçu)}
+\addcontentsline{toc}{subsection}{Étape 10 (Affichage d'un message indiquant le signal reçu)}
 
 \begin{lstlisting}[language=C, caption=ajout de la question 10]
 /* ... */
@@ -274,16 +286,20 @@ void traitement(int sig) {
 \end{lstlisting}
 
 \subsection*{Étape 11 (Rendu)}
+\addcontentsline{toc}{subsection}{Étape 11 (Rendu)}
 
 Rien à faire.
 
 \subsection*{Étape 12 (Test de la frappe au clavier de \texttt{ctrl-c} et \texttt{ctrl-z})}
+\addcontentsline{toc}{subsection}{Étape 12 (Test de la frappe au clavier de \texttt{ctrl-c} et \texttt{ctrl-z})}
 
 Lorsque le \texttt{minishell} est lancé, les signaux \texttt{SIGINT} et \texttt{SIGTSTP} causent l'arrêt du processus père ainsi que celui de chacun de ses fils.
 
 \subsection*{Étape 13 (Gestion de la frappe au clavier de \texttt{ctrl-c} et \texttt{ctrl-z})}
+\addcontentsline{toc}{subsection}{Étape 13 (Gestion de la frappe au clavier de \texttt{ctrl-c} et \texttt{ctrl-z})}
 
 \subsubsection*{Étape 13.1 (Changer le traitement des signaux \texttt{SIGINT} et \texttt{SIGTSTP})}
+\addcontentsline{toc}{subsubsection}{Étape 13.1 (Changer le traitement des signaux \texttt{SIGINT} et \texttt{SIGTSTP})}
 
 \begin{lstlisting}[language=C, caption=ajout de la question 13.1]
 /* ... */
@@ -304,12 +320,13 @@ void traitement(int sig) {
     \centering
     \includegraphics[width=\textwidth]{./resources/E13.1.png}
     \caption{Test de la frappe au clavier de \texttt{ctrl-c} et \texttt{ctrl-z}}
-    \label{fig:E13.1}
 \end{figure}
 
 \subsubsection*{Étape 13.2 (Ignorer les signaux \texttt{SIGINT} et \texttt{SIGTSTP})}
+\addcontentsline{toc}{subsubsection}{Étape 13.2 (Ignorer les signaux \texttt{SIGINT} et \texttt{SIGTSTP})}
 
 \subsubsection*{Étape 13.3 (Masquer les signaux \texttt{SIGINT} et \texttt{SIGTSTP})}
+\addcontentsline{toc}{subsubsection}{Étape 13.3 (Masquer les signaux \texttt{SIGINT} et \texttt{SIGTSTP})}
 
 \begin{lstlisting}[language=C, caption=ajout de la question 13.3]
     int main(void) {
@@ -329,12 +346,12 @@ Sur la figure 6, on voit que le \texttt{minishell} ne réagit plus aux signaux \
     \centering
     \includegraphics[width=\textwidth]{./resources/E13.3.png}
     \caption{Test de la frappe au clavier de \texttt{ctrl-c} et \texttt{ctrl-z}}
-    \label{fig:E13.3}
 \end{figure}
 
 \subsection*{Étape 14 (Détacher les processus fils en arrière plan)}
+\addcontentsline{toc}{subsection}{Étape 14 (Détacher les processus fils en arrière plan)}
 
-En enlevant le masquage réalisé juste au dessus (je l'ai comenté dans mon code) et en détachant les processus fils en arrière plan (à l'aide de \texttt{setpgrp}), les signaux \texttt{SIGINT} et \texttt{SIGTSTP} n'ateignent plus le processus père et ses fils en arrière plan.
+En enlevant le masquage réalisé juste au dessus (je l'ai commenté dans mon code) et en détachant les processus fils en arrière plan (à l'aide de \texttt{setpgrp}), les signaux \texttt{SIGINT} et \texttt{SIGTSTP} n'ateignent plus le processus père et ses fils en arrière plan.
 
 \begin{lstlisting}[language=C, caption=ajout de la question 14]
 /* ... */
@@ -352,21 +369,22 @@ Dans la figure 7, on voit qu'un processus en avant plan est interrompu mais qu'u
     \centering
     \includegraphics[width=\textwidth]{./resources/E14.png}
     \caption{Test de la frappe au clavier de \texttt{ctrl-c} et \texttt{ctrl-z}}
-    \label{fig:E14}
 \end{figure}
 
 \subsection*{Étape 15 (Rendu)}
+\addcontentsline{toc}{subsection}{Étape 15 (Rendu)}
 
 Rien à faire.
 
 \subsection*{Étape 16 (Redirections)}
+\addcontentsline{toc}{subsection}{Étape 16 (Redirections)}
 
-Pour cette étape, il faut ajouter à la fois la gestion d'entrée et de sortie. Ces deux étapes sont similaires, il suffit de remplacer le descripteur de fichier standard d'entrée (\texttt{0}) par le descripteur du fichier d'entrée et le descripteur de sortie standard (\texttt{1}) par le descripteur du fichier de sortie.
+Pour cette étape, il faut ajouter à la fois la gestion d'entrée et de sortie. Ces deux étapes sont similaires, il suffit de remplacer le descripteur de fichier standard d'entrée (\texttt{STDIN\_FILENO}) par le descripteur du fichier d'entrée et le descripteur de sortie standard (\texttt{STDOUT\_FILENO}) par le descripteur du fichier de sortie.
 
 Dans les deux cas, il faut :
 \begin{itemize}
     \item[1] ouvrir le fichier avec \texttt{open}
-    \item[2] dupliquer le descripteur de fichier sur celui voulu (\texttt{0}/\texttt{1}) avec \texttt{dup2}
+    \item[2] dupliquer le descripteur de fichier sur celui voulu (entrée / sortie) avec \texttt{dup2}
     \item[3] fermer le descripteur de fichier ouvert avec \texttt{close}
 \end{itemize}
 À chacune de ces étapes, on vérifie que l'opération s'est bien déroulée pour éviter les mauvaises surprises.
@@ -382,7 +400,7 @@ case 0: /* code du fils */
             fprintf(stderr, "Erreur a l'ouverture de %s", in);
             exit(EXIT_FAILURE);
         }
-        if (dup2(in_desc, 0) == -1) {
+        if (dup2(in_desc, STDIN_FILENO) == -1) {
             fprintf(stderr, "Erreur au dup in");
             exit(EXIT_FAILURE);
         }
@@ -400,7 +418,7 @@ case 0: /* code du fils */
             fprintf(stderr, "Erreur a l'ouverture de %s", out);
             exit(EXIT_FAILURE);
         }
-        if (dup2(out_desc, 1) == -1) {
+        if (dup2(out_desc, STDOUT_FILENO) == -1) {
             fprintf(stderr, "Erreur au dup out");
             exit(EXIT_FAILURE);
         }
@@ -417,20 +435,89 @@ Voyez dans la figure 8 un exemple de ces redirections utilisant les commandes \t
     \centering
     \includegraphics[width=\textwidth]{./resources/E16.png}
     \caption{Test de la redirection de l'entrée et de la sortie}
-    \label{fig:E16}
 \end{figure}
 
 Le texte \texttt{[texte]} est bien écrit dans \texttt{f1} à la première commande, puis, le contenu de \texttt{f1} est écrit dans \texttt{f2} à la deuxième commande. La troisième commande vérifie que le contenu de \texttt{f2} est bien celui prévu.
 
 \subsection*{Étape 17 (Rendus 2)}
+\addcontentsline{toc}{subsection}{Étape 17 (Rendus 2)}
 
 Rien à faire.
 
 \subsection*{Étape 19 (Tubes simples)}
+\addcontentsline{toc}{subsection}{Étape 19 (Tubes simples)}
+
+Voir l'étape 20.
 
 \subsection*{Étape 20 (Pipelines)}
+\addcontentsline{toc}{subsection}{Étape 20 (Pipelines)}
+
+Une pipeline est une liste de commandes séparées par des tubes (\texttt{|}). La sortie de chaque commande est redirigée vers l'entrée de la commande suivante. Pour implémenter cela, il suffit de savoir si la commande actuelle est la première ou la dernière du pipeline et de mémoriser les descripteurs de fichier du tube d'une commande à l'autre.
+
+Il est facile de savoir si une commande est la dernière d'un pipeline, le champ \texttt{seq} de \texttt{struct cmdline} se termine toujours par \texttt{NULL}. On teste donc la nullité de la commande suivante.
+
+En revanche, pour savoir si une commande est la première d'un pipeline, j'ai introduit une nouvelle variable entière \texttt{dernier\_lu}. Cette variable garde en mémoire le descripteur de fichier de la sortie de la commande précédente.
+
+Avec ces deux informations, il est facile de chainer les commandes entre elles, en remplaçant simplement les entrées / sorties des commandes par les descripteurs de fichier des tubes de la même manière que pour les redirections de l'étape 16.
+
+\begin{lstlisting}[language=C, caption=gestion des pipelines]
+while((cmd = commande->seq[indexseq])) {
+    // tant qu'on n'est pas a la fin du pipeline
+    /* ... */
+    else {
+        int tube[2];
+        if (commande->seq[indexseq + 1] != NULL) {
+            // s'il y a une commande suivante, creer un tube
+            safepipe(tube);
+        }
+        switch (pid_fils = fork()) {
+            /* ... */
+            case 0: /* code du fils */
+                /* ... */
+                // redirection des tubes
+                if (dernier_lu != -1) {
+                    // si ce n'est pas la premiere commande, fixer l'entree standard a la sortie du tube precedent et fermer la sortie du tube
+                    safedup2(dernier_lu, STDIN_FILENO, "in");
+                    safeclose(dernier_lu, "in");
+                }
+                if (commande->seq[indexseq + 1] != NULL) {
+                    // si ce n'est pas la derniere commande, fixer la sortie standard a l'entree du tube et fermer l'entree du tube
+                    safeclose(tube[0], "dernier_lu2");
+                    safedup2(tube[1], STDOUT_FILENO, "tube[1]");
+                    safeclose(tube[1], "dernier_lu3");
+                }
+                /* ... */
+                break;
+            default: /* code du pere */
+
+                if (dernier_lu != -1) {
+                    // si un tube est ouvert, le fermer (le pere n'en a pas besoin)
+                    safeclose(dernier_lu, "dernier_lu4");
+                }
+                if (commande->seq[indexseq + 1] != NULL) {
+                    // s'il y a une commande suivante, fermer la sortie (pas besoin dans le pere)
+                    safeclose(tube[1], "dernier_lu5");
+                    // sauvegarder la sortie du tube pour la prochaine commande
+                    dernier_lu = tube[0];
+                }
+                /* ... */
+        }
+    }
+}
+\end{lstlisting}
+
+Dans la figure 9, on voit un exemple de pipeline avec les commandes \texttt{cat}, \texttt{grep} et \texttt{wc -l}. On compte le nombre de lignes de \texttt{minishell.c} contenant le mot \texttt{int}. \texttt{cat} affiche le contenu du fichier, \texttt{grep} filtre les lignes contenant le mot \texttt{int} et \texttt{wc -l} compte le nombre de lignes.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{./resources/E20.png}
+    \caption{Test d'un pipeline}
+\end{figure}
+
+On compte donc 29 lignes différentes contenant au moins une fois le mot \texttt{int} dans le fichier \texttt{minishell.c}. On remarque aussique les deux premières commandes s'arrètent avant l'affichage du résultat. C'est cohérent avec l'implémentation réalisée.
 
 \subsection*{Étape 21 (Rendu)}
+\addcontentsline{toc}{subsection}{Étape 21 (Rendu)}
 
 Rien à faire.
 
