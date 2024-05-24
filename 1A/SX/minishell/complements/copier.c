@@ -1,9 +1,9 @@
+#include <fcntl.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
-#include <fcntl.h>
 
-#define TAILLE 1024
+#define BUFSIZE 1024
 /*
  * Équivalent à la commande cp
  */
@@ -25,9 +25,9 @@ int main(int argc, char **argv) {
         exit(EXIT_FAILURE);
     }
 
-    char tampon[TAILLE];
+    char tampon[BUFSIZE];
     ssize_t lus;
-    while((lus = read(fd_src, tampon, TAILLE)) > 0) {
+    while ((lus = read(fd_src, tampon, BUFSIZE)) > 0) {
         write(fd_dst, tampon, lus);
     }
 
@@ -40,4 +40,3 @@ int main(int argc, char **argv) {
         exit(EXIT_FAILURE);
     }
 }
-

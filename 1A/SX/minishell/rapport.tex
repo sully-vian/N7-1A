@@ -50,7 +50,7 @@
 
 \section{Architecture}
 
-L'architecture de ce projet est simple état donnée qu'elle nous est presque imposée par le sujet. La majorité du code utile sur trouve dans le fichier \texttt{minishell.c}. Le package formé par \texttt{readcmd.c} et \texttt{readcmd.h} est utilisé pour extraire de la commande utilisateur les informations telles que la mise en arrière plan, les redirections, les tubes etc.
+L'architecture de ce projet est simple étant donné qu'elle nous est presque imposée par le sujet. La majorité du code utile sur trouve dans le fichier \texttt{minishell.c}. Le package formé par \texttt{readcmd.c} et \texttt{readcmd.h} est utilisé pour extraire de la commande utilisateur les informations telles que la mise en arrière plan, les redirections, les tubes etc.
 
 \section{Choix et spécificités de conception}
 
@@ -110,6 +110,7 @@ Dans les listings, je pourrais ne pas montrer ces processus de gestion d'erreur 
 
 \section{Méthodologie des tests}
 
+Pour les étapes où des changements majeurs sont apportés au code, jai pris soin de vérifier que toutes les fonctionnalités précédentes fonctionnaient toujours. Par exemple, après l'étape 20, j'ai vérifié que les redirections classiques (\texttt{cmd < file} et \texttt{cmd > file}) étaient bien effectuées. De même, j'ai testé que les redirections et pipelines en arrière plan fonctionnaient correctement.
 
 \section{Étapes}
 
@@ -382,11 +383,11 @@ Rien à faire.
 Pour cette étape, il faut ajouter à la fois la gestion d'entrée et de sortie. Ces deux étapes sont similaires, il suffit de remplacer le descripteur de fichier standard d'entrée (\texttt{STDIN\_FILENO}) par le descripteur du fichier d'entrée et le descripteur de sortie standard (\texttt{STDOUT\_FILENO}) par le descripteur du fichier de sortie.
 
 Dans les deux cas, il faut :
-\begin{itemize}
-    \item[1] ouvrir le fichier avec \texttt{open}
-    \item[2] dupliquer le descripteur de fichier sur celui voulu (entrée / sortie) avec \texttt{dup2}
-    \item[3] fermer le descripteur de fichier ouvert avec \texttt{close}
-\end{itemize}
+\begin{enumerate}
+    \item ouvrir le fichier avec \texttt{open}
+    \item dupliquer le descripteur de fichier sur celui voulu (entrée / sortie) avec \texttt{dup2}
+    \item fermer le descripteur de fichier ouvert avec \texttt{close}
+\end{enumerate}
 À chacune de ces étapes, on vérifie que l'opération s'est bien déroulée pour éviter les mauvaises surprises.
 
 \begin{lstlisting}[language=C, caption=gestion des redirections]
@@ -520,5 +521,37 @@ On compte donc 29 lignes différentes contenant au moins une fois le mot \texttt
 \addcontentsline{toc}{subsection}{Étape 21 (Rendu)}
 
 Rien à faire.
+
+\section{Codes complémentaires}
+
+Dans le sujet, il nous est demandé de réaliser des codes complémentaires. J'ai placé ces codes dans le dossier \texttt{complement}.
+
+\subsection{\texttt{copier.c}}
+
+Ce pogramme est équivalent à la commande \texttt{cp} de Unix. Il se déroule en 3 étapes:
+
+\begin{enumerate}
+    \item ouvrir le fichier source en lecture seule et le fichier destination en écriture seule.
+    \item boucler pour lire le contenu du fichier source fragment par fragment (de taille \texttt{BUFSIZE}) et écrire le fragment dans le fichier destination. Cette boucle s'arrête lorsqu'il n'y a plus rien à lire.
+    \item fermer les fichiers source et destination.
+\end{enumerate}
+
+\subsection{\texttt{tube1.c}}
+
+Ce programme ne peut pas fonctionner car le fils ne connait pas le tube créé par le père. Le fils a un descripteur de fichier identique à celui du père au moment du fork, mais ces copies de sont pas partagées.
+
+\subsection{\texttt{tube2.c}}
+
+Ce programme fonctionne correctement, le fils affiche bien l'entier écrit par le père.
+
+\subsection{\texttt{tube3.c}}
+
+Ce programme ne fonctionne pas comme espéré. Le père n'écrit plus dans le tube donc lefils n'a plus rien à y lire. Or, \texttt{read} est bloquant. Le fils reste donc bloqué dans la boucle. Le père non plus ne s'arrête pas car il attend un signal (\texttt{pause}).
+
+\subsection{\texttt{tube4.c}}
+
+Cette fois, le porgramme se termine bien parce que le père se termine après 10 secondes. En revanche, le fils n'affiche toujours pas de message puisque read est toujours bloquant. Il reste encore coincé dans la boucle.
+
+\subsection{\texttt{tube5.c}}
 
 \end{document}

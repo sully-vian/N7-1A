@@ -7,7 +7,6 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
-#include "readcmd.h"
 
 /* Ne peut pas marcher puisque le descripteur de fichier du fils ne contient
  * pas le tube créé par le père APRÉS le fork.

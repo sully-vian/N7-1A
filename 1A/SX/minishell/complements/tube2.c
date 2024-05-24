@@ -1,5 +1,5 @@
-#include <features.h>
 #include <fcntl.h>
+#include <features.h>
 #include <signal.h>
 #include <stdbool.h>
 #include <stdio.h>
@@ -8,7 +8,6 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
-#include "readcmd.h"
 
 // - Un processus père crée un tube, puis écrit un entier dans le tube.
 // – Il crée ensuite un fils qui lit un entier dans le tube et affiche l’entier lu.
@@ -20,31 +19,29 @@ int main() {
         exit(EXIT_FAILURE);
     }
 
-    int aecrire = 3;
+    int aecrire = 10;
     if (write(p[1], &aecrire, sizeof(aecrire)) == -1) {
         fprintf(stderr, "Erreur à l'écriture dans le tube par le père");
         exit(EXIT_FAILURE);
     }
 
-    switch (fork())
-    {
-    case -1:
-        fprintf(stderr, "Erreur au fork");
-        exit(EXIT_FAILURE);
-        break;
-
-    case 0: /* fils */
-        int lu;
-        if (read(p[0], &lu, sizeof(lu)) == -1) {
-            fprintf(stderr, "Erreur à la lecture dans le tube par le fils");
+    switch (fork()) {
+        case -1:
+            fprintf(stderr, "Erreur au fork");
             exit(EXIT_FAILURE);
-        }
-        fprintf(stdout, "Entier lu: %d\n", lu);
+            break;
 
+        case 0: /* fils */
+            int lu;
+            if (read(p[0], &lu, sizeof(lu)) == -1) {
+                fprintf(stderr, "Erreur à la lecture dans le tube par le fils");
+                exit(EXIT_FAILURE);
+            }
+            fprintf(stdout, "Entier lu: %d\n", lu);
 
-        break;
+            break;
 
-    default: /* père */
-        break;
+        default: /* père */
+            break;
     }
 }

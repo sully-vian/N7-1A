@@ -30,8 +30,7 @@ int main() {
         default: /* père */
             for (int i = 0; i < 10; i++) {
                 if (write(p[1], &i, sizeof(i)) == -1) {
-                    fprintf(stderr,
-                            "Erreur à l'écriture dans le tube par le père");
+                    fprintf(stderr, "Erreur à l'écriture dans le tube par le père");
                     exit(EXIT_FAILURE);
                 }
             }

@@ -14,7 +14,8 @@ void traitement(int sig) {
 
 int main() {
     char tableau[N];
-    char tampon[512];
+    char tampon[128];
+    pid_t pid_fils;
 
     int p[2];
     if (pipe(p) == -1) {
@@ -22,7 +23,7 @@ int main() {
         exit(EXIT_FAILURE);
     }
 
-    switch (fork()) {
+    switch (pid_fils = fork()) {
         case -1:
             fprintf(stderr, "Erreur au fork");
             exit(EXIT_FAILURE);
@@ -48,6 +49,7 @@ int main() {
             break;
 
         default: /* père */
+            printf("pid du fils = %d\n", pid_fils);
             for (;;) {
                 int necrits = write(p[1], tableau, N);
                 sleep(1);
