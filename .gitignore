@@ -1,2 +1,5 @@
 *.tar.gz
 *.tar
+*.o
+*.ali
+*~
