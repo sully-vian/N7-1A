@@ -1,0 +1,83 @@
+Nom       : Hervy
+Prénom    : Vianney
+Groupe TP : H
+
+Les « ... » indiquent les endroits à compléter.
+
+=====[ Temps passé ]============================================================
+
+Ces informations de temps sont demandées à titre indicatif et ne sont pas
+prises en compte dans la notation du projet.
+
+
+* Temps passé sur la V1 : 10 heures 0 minute
+* Temps passé sur la V2 : ... heures ... minutes
+
+Pour la V2 on ne tiendra pas compte du temps passé sur la V1.
+
+
+=====[ Questions ]==============================================================
+
+--------------------------------------------------------------------------------
+Pourquoi l'exception OperationInterditeException ne peut pas être définie
+comme vérifiée par le compilateur ?
+--------------------------------------------------------------------------------
+
+En étudiant l'utilisation de l'exception, j'ai remarqué qu'elle devait être
+levée par JeuProxy.retirer. Or, d'après l'architecture de la figure 2 (cf
+sujet), JeuProxy doit implémenter l'interface Jeu. Problème : Jeu.retirer ne
+lève que CoupInvalideException. J'en ai conclu que JeuPRoxy.retirer ne pouvait
+lever OperationInterditeException...
+
+... à moins de l'implanter comme sous-type de CoupInvalideException (ce qui
+n'est pas tout à fait absurde non plus). Dans ce cas là il reste seulement à
+ordonner les 'catch' dans Arbitre.arbitrer de façon à bien récupérer
+OperationInterditeException lorsqu'elle est levée.
+
+
+Toutefois, après le retour1, je comprends que la première solution est mauvaise
+puisque l'auteur d'une stratégie connaît cette exception et peut décider
+lui-même de la récupérer, afin qu'elle ne soit pas transmise à l'arbitre. Il est
+donc préférable de laisser l'exception comme non-vérifiée.
+
+L'autre solution (finalement implémentée) est de définir
+OperationInterditeException comme non-vérifiée, de telle sorte que la signature
+de JeuProxy.retirer ne soit pas impactée par la levée de cette exception.
+
+
+--------------------------------------------------------------------------------
+Expliquer ce qu'il faut faire pour ajouter un nouveau niveau de jeu, par
+exemple la stratégie lente (C13).  Pour plus de précision, on numérotera
+les étapes à faire.
+--------------------------------------------------------------------------------
+
+1. Créer la classe StrategieLente qui implémente l'interface Strategie.
+
+2. Dans StrategieLente, implémenter la méthode abstraite Strategie.getPrise.
+
+3. Dans Jouer.creerJoueur, ajouter un nouveau 'case' qui permet la création d'un
+joueur de stratégie lente.
+
+
+--------------------------------------------------------------------------------
+Expliquer ce qui permet, dans votre conception, de changer dynamiquement
+(en cours d'exécution du programme) la stratégie d'un joueur (C14).
+--------------------------------------------------------------------------------
+
+Un joueur dispose d'un attribut "strategie", que l'on peut à tout moment
+modifier. On peut imaginer une méthode Joueur.setStrategie(Strategie strategie)
+qui changerait la stratégie. Ce changement serait visible dès le prochain tour du
+joueur (appel de Joueur.getPrise).
+
+
+=====[ Explications ]===========================================================
+
+--------------------------------------------------------------------------------
+Donner ici les explications supplémentaires utiles à la compréhension du
+travail rendu.
+--------------------------------------------------------------------------------
+
+Encore une fois, un Makefile a été créé, il se révèle toutefois util seulement
+pour réaliser des tests et nettoyer le workspace.
+
+--------------------------------------------------------------------------------

@@ -1,0 +1,15 @@
+@startuml diag
+
+class PDV {
+    getIdentifiant() : long
+    getLatitude() : double
+    getLongitude() : double
+    getVille() : String
+    getAdresse() : String
+    getCodePostal() : String
+    getServices() : Set<String>
+    getPrix() : Map<Carburant, NavigableMap<LocalDateTime, Integer>>
+    getPrix(Carburant, LocalDateTime) : int
+}
+
+@enduml

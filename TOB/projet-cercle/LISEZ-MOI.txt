@@ -1,0 +1,46 @@
+Nom       : HERVY
+Prénom    : Vianney
+Groupe TP : H
+
+
+Consigne :  Ci-dessous, répondre à la place des « ... ».
+
+
+=====[ Temps ]==================================================================
+
+Temps passé sur la V1 : 5 heures 0 minutes
+Temps passé sur la V2 : 0 heures 30 minutes
+Pour la V2 on ne tiendra pas compte du temps passé sur la V1.
+Bien sûr, les temps renseignés ici ne sont pas pris en compte dans la notation.
+
+
+=====[ Questions ]==============================================================
+
+Indiquer la relation UML entre Cercle et le Point centre du cercle.
+-------------------------------------------------------------------
+
+`Cercle` et `Point` partagent une relation de dépendance structurelle de
+composition.
+
+
+Comment est réalisée l'exigence E18 ?
+-------------------------------------
+
+On ne veut pas qu'un `Cercle` puisse être modifié par l'utilisateur autrement
+que via les méthodes de cette classe. C'est pourquoi les attributs de `Cercle`
+sont tous privés donc non-modifiables. Seul le centre a posé problème. C'est le
+seul attribut objet dont l'utilisateur pourrait disposer d'une poignée. La
+méthode `Cercle.getCentre` ne devait pas retourner une poignée de l'objet
+`Cercle.centre` à l'utilisateur qui y aurait alors accès. Au lieu de cela,
+`Cercle.getCentre` retourne un nouveau `Point` de caractéristiques identiques à
+celles de `Cercle.centre`. De même, lors de la création d'un cercle, pour être
+sûr de ne pas avoir pour centre un point auquel l'utilisateur aurait accès, la
+méthode crée un nouveau point de caractéristiques identiques à celui fourni.
+
+
+=====[ Explications ]===========================================================
+
+Le projet peut être compilé puis testé avec `make main`. On la suppréession des
+bytecodes générés est réalisée par `make clean`. Le fichier `CercleTest.java`
+doit être exécuté avec l'option `-ea`, afin que les écondtions de type "rayon
+nul" soient traîtées.

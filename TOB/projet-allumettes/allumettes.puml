@@ -1,0 +1,140 @@
+@startuml allumettes
+
+skinparam ClassBackgroundColor BUSINESS
+skinparam ClassBorderColor DarkRed
+skinparam ClassBorderThickness 2
+skinparam ArrowColor DarkRed
+skinparam RoundCorner 0
+skinparam Shadowing true
+skinparam ArrowFontStyle italic
+
+package "allumettes" {
+    title Diagramme de Classe de l'application allumettes
+
+    left to right direction
+
+    class Arbitre
+    class Jouer
+
+    interface Jeu
+    class JeuProxy
+    class JeuReel
+
+    class Joueur
+    interface Strategie
+    class StrategieHumain
+    class StrategieExpert
+    class StrategieNaif
+    class StrategieRapide
+    class StrategieTricheur
+
+    exception ConfigurationException
+    exception OperationInterditeException
+    exception CoupInvalideException
+
+    interface Strategie {
+        .. Requêtes ..
+        **getPrise**(Jeu) : int
+    }
+
+    class StrategieHumain {
+        .. Constructeurs ..
+        + **StrategieHumain**(String, Scanner)
+    }
+
+    interface Jeu {
+        .. Requêtes ..
+        **getNombreAllumettes**() : int
+        .. Commandes ..
+        **retirer**(int)
+    }
+
+    class JeuReel {
+        .. Constructeurs ..
+        + **JeuReel**(int)
+    }
+
+    class JeuProxy {
+        .. Constructeurs ..
+        + **JeuProxy**(Jeu)
+    }
+
+    class Jouer {
+        .. Requêtes ..
+        + **confiance**(String[]) : Boolean
+        + **creerJoueur**(String) : Joueur
+        .. Commandes ..
+        + **main**(String[])
+        + **verifierArguments**(String[])
+        + **afficherUsage**()
+    }
+
+    class Arbitre {
+        .. Requêtes ..
+        + **coupValide**(int, int) : Boolean
+
+        + **joueurSuivant**(Joueur) : Joueur
+        .. Commandes ..
+        + **arbitrer**(Jeu)
+        + **jouerTour**(Jeu, Jeu, int, Joueur)
+        + **anoncerResultats**(Joueur)
+        .. Constructeurs ..
+        + **Arbitre**(Joueur, Joueur)
+        + **Arbitre**(Boolean, Joueur, Joueur)
+    }
+
+    class Joueur {
+        .. Requêtes ..
+        + **getNom**() : String
+        + **getPrise**(Jeu) : int
+        .. Constructeurs ..
+        + **Joueur**(String, Strategie)
+    }
+
+    exception ConfigurationException {
+        .. Constructeurs ..
+        + **ConfigurationException**(String)
+    }
+
+    exception CoupInvalideException {
+        .. Requêtes ..
+        + **getCoup**() : int
+        + **getProbleme**() : String
+        .. Constructeurs ..
+        + **CoupInvalideException**(int, String)
+    }
+
+    exception OperationInterditeException {
+        .. Requêtes ..
+        + **getCoup**() : int
+        .. Constructeurs ..
+        + **OperationInterditeException**(int)
+    }
+}
+
+Arbitre ..> CoupInvalideException : <<throws>>
+Joueur .left.> CoupInvalideException : <<throws>>
+Arbitre "*" --> "2" Joueur
+Arbitre .left.> Jeu
+
+JeuProxy .up.|> Jeu : <<implements>>
+JeuReel .up.|> Jeu : <<implements>>
+Jeu ..> CoupInvalideException : <<throws>>
+
+JeuProxy ..> OperationInterditeException : <<throws>>
+
+Jouer .left.> ConfigurationException : <<throws>>
+Jouer ..> Arbitre
+Jouer ..> Jeu
+Jouer ..> Joueur
+
+Joueur "*" --> "1" Strategie
+
+StrategieExpert .up.|> Strategie : <<implements>>
+StrategieHumain .up.|> Strategie : <<implements>>
+StrategieNaif .up.|> Strategie : <<implements>>
+StrategieRapide .up.|> Strategie : <<implements>>
+StrategieTricheur .up.|> Strategie : <<implements>>
+
+
+@enduml

@@ -1,0 +1,11 @@
+
+Résultat de l'interprétation du fichier points-equipiers.txt :
+
+Yassine BOUGACHA (yba4779) :  1.00
+Leilie CANILLAC (lcanilla) :  1.00
+Noe ENGEL (nengel)         :  0.00
+Baptiste GOMEZ (bgz1903)   :  2.00
+Amelie ROUGE (are6135)     :  2.00
+Thomas SABATIER (tsr2066)  :  0.00
+
+Points attribués : 6 sur 6

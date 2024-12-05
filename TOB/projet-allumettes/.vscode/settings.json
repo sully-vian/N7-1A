@@ -1,0 +1,6 @@
+{
+    "java.project.referencedLibraries": [
+        "/mnt/n7fs/ens/tp_cregut/junit4.jar", // N7
+        "/usr/lib/jvm/lib/junit4.jar" // maisong
+    ]
+}
