@@ -6,9 +6,9 @@ import java.awt.Graphics2D;
 import simulation2D.objects.Particule;
 import simulation2D.simulation.SimulationState;
 
-
 /**
- * La classe <code>Affichage</code> est responsable de l'affichage des particules.
+ * La classe <code>Affichage</code> est responsable de l'affichage des
+ * particules.
  *
  * @author Vianney Hervy
  */
@@ -21,6 +21,7 @@ public class Affichage {
 
     /**
      * Construire un nouvel <code>Affichage</code> avec l'état de la simulation.
+     *
      * @param simulationState l'état de la simulation
      */
     public Affichage(SimulationState simulationState) {
@@ -29,6 +30,7 @@ public class Affichage {
 
     /**
      * Afficher les particules de la simulation.
+     *
      * @param g le contexte graphique
      */
     public void render(Graphics2D g) {

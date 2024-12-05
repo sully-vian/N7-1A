@@ -32,7 +32,7 @@ public class FamilleMenu extends JPanel {
     private Famille famille;
 
     /**
-     * La configuration concernée
+     * La configuration concernée.
      */
     private Configuration config;
 
@@ -80,7 +80,7 @@ public class FamilleMenu extends JPanel {
 
         nameField = new JLabel(this.famille.getNom());
         nameField.setHorizontalAlignment(SwingConstants.RIGHT);
-        
+
         this.add(nameField);
 
         colorButton = new JButton();
@@ -95,7 +95,7 @@ public class FamilleMenu extends JPanel {
                 SousMenu menuFamille = new SousMenu(null, "Modifier une famille", true, FamilleMenu.this.famille);
                 menuFamille.majFamille();
                 FamilleMenu.this.famille = menuFamille.getFamille();
-                FamilleMenu.this.colorButton.setBackground(FamilleMenu.this.famille.getColor());;
+                FamilleMenu.this.colorButton.setBackground(FamilleMenu.this.famille.getColor());
                 FamilleMenu.this.nameField.setText(FamilleMenu.this.famille.getNom());
             }
         });
@@ -122,7 +122,8 @@ public class FamilleMenu extends JPanel {
                     JPanel panNombre = new JPanel();
                     panNombre.setBackground(Color.white);
                     panNombre.setPreferredSize(new Dimension(250, 100));
-                    nombre = new JTextField(String.valueOf(FamilleMenu.this.config.getRelations().getIntensite(FamilleMenu.this.famille, famille)));
+                    nombre = new JTextField(String.valueOf(
+                            FamilleMenu.this.config.getRelations().getIntensite(FamilleMenu.this.famille, famille)));
                     nombre.setPreferredSize(new Dimension(120, 35));
                     panNombre.setBorder(BorderFactory.createTitledBorder(famille.getNom()));
                     nombreLabel = new JLabel("Saisir relation (nombre) :");
@@ -132,16 +133,18 @@ public class FamilleMenu extends JPanel {
                     FamilleMenu.this.relationValues.add(nombre);
                 }
                 JPanel control = new JPanel();
-                JButton BoutonOk = new JButton("Ok");
-                BoutonOk.addActionListener(new ActionListener() {
+                JButton boutonOk = new JButton("Ok");
+                boutonOk.addActionListener(new ActionListener() {
                     public void actionPerformed(ActionEvent arg0) {
                         for (int i = 0; i < FamilleMenu.this.relationValues.size(); i++) {
-                            FamilleMenu.this.config.getRelations().setRelation(FamilleMenu.this.famille, FamilleMenu.this.familles.get(i), Double.parseDouble(relationValues.get(i).getText()));
+                            FamilleMenu.this.config.getRelations().setRelation(FamilleMenu.this.famille,
+                                    FamilleMenu.this.familles.get(i),
+                                    Double.parseDouble(relationValues.get(i).getText()));
                         }
                         FamilleMenu.this.main.dispose();
                     }
                 });
-                control.add(BoutonOk);
+                control.add(boutonOk);
                 main.getContentPane().add(content, BorderLayout.CENTER);
                 main.getContentPane().add(control, BorderLayout.SOUTH);
 

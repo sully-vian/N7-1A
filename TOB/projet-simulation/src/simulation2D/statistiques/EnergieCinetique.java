@@ -51,8 +51,7 @@ public class EnergieCinetique implements Statistique {
         energieCinetique = energieCinetique / nbParticules;
         if (updateIteration < Launch.FPS) {
             energie += energieCinetique;
-        }
-        else {
+        } else {
             this.data.add(energie);
             updateIteration = 0;
             energie = 0;

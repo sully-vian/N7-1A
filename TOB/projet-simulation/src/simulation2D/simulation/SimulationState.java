@@ -2,7 +2,6 @@ package simulation2D.simulation;
 
 import java.util.List;
 
-
 import simulation2D.objects.Particule;
 import simulation2D.objects.Famille;
 import simulation2D.objects.DicoRelations2D;
@@ -45,8 +44,7 @@ public class SimulationState {
      * familles donnés.
      *
      * @param particules les particules actuellement dans la simulation
-     * @param relations  les relations entre les familles
-     * @param familles   les familles de particules
+     * @param configuration la configuration de la simulation
      */
     public SimulationState(List<Particule> particules, Configuration configuration) {
         this.particules = particules;

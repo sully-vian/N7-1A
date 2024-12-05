@@ -56,9 +56,7 @@ public class Launch {
     /**
      * Lancer la simulation.
      *
-     * @param particules   la liste des particules
-     * @param relations le dictionnaire des relations entre les familles
-     * @param familles  la liste des familles
+     * @param configuration la configuration de la simulation
      */
     public static void launch(Configuration configuration) {
 

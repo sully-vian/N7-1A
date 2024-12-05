@@ -1,1 +1,54 @@
-{"relations":{"Famille 3":{"Famille 3":-800,"Famille 2":400,"Famille 1":-400},"Famille 2":{"Famille 3":100,"Famille 2":1000,"Famille 1":-100},"Famille 1":{"Famille 3":-100,"Famille 2":100,"Famille 1":100}},"familles":{"Famille 3":{"mass":10,"vitesseInit":{"y":0,"x":0},"couleur":-15112676,"nbParticule":74,"radius":5.652,"nom":"Famille 3"},"Famille 2":{"mass":10,"vitesseInit":{"y":0,"x":0},"couleur":-3157179,"nbParticule":30,"radius":6.425,"nom":"Famille 2"},"Famille 1":{"mass":10,"vitesseInit":{"y":0,"x":0},"couleur":-11798916,"nbParticule":12,"radius":19.916,"nom":"Famille 1"}}}
+{
+    "relations": {
+        "Famille 3": {
+            "Famille 3": -800,
+            "Famille 2": 400,
+            "Famille 1": -400
+        },
+        "Famille 2": {
+            "Famille 3": 100,
+            "Famille 2": 1000,
+            "Famille 1": -100
+        },
+        "Famille 1": {
+            "Famille 3": -100,
+            "Famille 2": 100,
+            "Famille 1": 100
+        }
+    },
+    "familles": {
+        "Famille 3": {
+            "mass": 10,
+            "vitesseInit": {
+                "y": 0,
+                "x": 0
+            },
+            "couleur": -15112676,
+            "nbParticule": 74,
+            "radius": 5.652,
+            "nom": "Famille 3"
+        },
+        "Famille 2": {
+            "mass": 10,
+            "vitesseInit": {
+                "y": 0,
+                "x": 0
+            },
+            "couleur": -3157179,
+            "nbParticule": 30,
+            "radius": 6.425,
+            "nom": "Famille 2"
+        },
+        "Famille 1": {
+            "mass": 10,
+            "vitesseInit": {
+                "y": 0,
+                "x": 0
+            },
+            "couleur": -11798916,
+            "nbParticule": 12,
+            "radius": 19.916,
+            "nom": "Famille 1"
+        }
+    }
+}

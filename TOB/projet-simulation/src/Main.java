@@ -14,7 +14,7 @@ public class Main {
      * @param args les arguments de la ligne de commande ( ne sont pas utilisés)
      */
     public static void main(String[] args) {
-        //Launch.launch();
+        // Launch.launch();
         new RogueMenu();
     }
 

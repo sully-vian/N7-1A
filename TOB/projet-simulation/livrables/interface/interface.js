@@ -54,13 +54,13 @@ var chart = new Chart(ctx2, {
                 label: "Normalised Total Energy",
                 backgroundColor: "rgb(255, 99, 132)",
                 borderColor: "rgb(255, 99, 132)",
-                data: Array.from({length: 7}, () => Math.random() * 100),
+                data: Array.from({ length: 7 }, () => Math.random() * 100),
             },
             {
                 label: "Density Variance",
                 backgroundColor: "rgb(0, 99, 0)",
                 borderColor: "rgb(0, 99, 0)",
-                data: Array.from({length: 7}, () => Math.random() * 100),
+                data: Array.from({ length: 7 }, () => Math.random() * 100),
             }
         ],
     },

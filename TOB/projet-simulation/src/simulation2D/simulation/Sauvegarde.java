@@ -28,7 +28,8 @@ public class Sauvegarde {
 
     /**
      * Créer une sauvegarde de l'état initial de la simulation.
-     * @param nomSauvegarde Le nom de la sauvegarde.
+     *
+     * @param nomSauvegarde   Le nom de la sauvegarde.
      * @param simulationState L'état initial de la simulation à sauvegarder.
      */
     public Sauvegarde(String nomSauvegarde, SimulationState simulationState) {
@@ -38,19 +39,21 @@ public class Sauvegarde {
 
     /**
      * Créer une sauvegarde de l'état initial de la simulation.
+     *
      * @throws Exception Si une erreur survient lors de la sauvegarde.
      */
     public Sauvegarde() throws Exception {
-        //On créer le fichier de sauvegarde
+        // On créer le fichier de sauvegarde
         FileWriter fichierSave = new FileWriter(this.nom);
 
-        //On récupère les données à sauvegarder
+        // On récupère les données à sauvegarder
         List<Particule> listeParticule = this.etatInitial.getParticles();
         // DicoRelations2D dicoRelations = this.etatInitial.getRelations();
         List<Famille> listeFamille = this.etatInitial.getFamilles();
 
-        //Pour l'instant on ne sauvegarde que quelques paramètres
-        //On trouvera dans le fichier le nombre de particule par famille puis le nombre de famille
+        // Pour l'instant on ne sauvegarde que quelques paramètres
+        // On trouvera dans le fichier le nombre de particule par famille puis le nombre
+        // de famille
         fichierSave.write(Integer.toString(listeParticule.size()));
         fichierSave.write(Integer.toString(listeFamille.size()));
 

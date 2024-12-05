@@ -19,7 +19,7 @@ public class SousMenu extends JDialog {
     private List<Particule> objects;
     private DicoRelations2D relations;
     private Famille famille;
-    private JButton Boutonok;
+    private JButton boutonOk;
 
     private Case caseNom;
     private Case caseNombre;
@@ -29,14 +29,14 @@ public class SousMenu extends JDialog {
     private Case caseCouleur;
 
     // Constructeur Sousmenu
-    public SousMenu(JFrame parent, String titre, boolean modal, Famille famille){
+    public SousMenu(JFrame parent, String titre, boolean modal, Famille famille) {
         super(parent, titre, modal);
         this.setSize(850, 600);
         this.setLocationRelativeTo(null);
         this.setResizable(false);
         this.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE);
 
-        // Initialisation de la liste des familles et des objets 
+        // Initialisation de la liste des familles et des objets
         this.objects = new ArrayList<>();
         this.relations = new DicoRelations2D();
         this.famille = famille;
@@ -45,7 +45,7 @@ public class SousMenu extends JDialog {
     }
 
     // La méthode crée les cases à compléter
-    public void majFamille(){    
+    public void majFamille() {
 
         // Ajout des différentes cases au sous-menu
         JPanel fenetre = new JPanel();
@@ -53,7 +53,8 @@ public class SousMenu extends JDialog {
 
         // Création des différentes cases
         this.caseNom = new Case("Nom de la famille", "Saisir un nom :  ", this.famille.getNom());
-        this.caseNombre = new Case("Nombre de particules", "Saisir un nombre : ", String.valueOf(this.famille.getNbParticules()));
+        this.caseNombre = new Case("Nombre de particules", "Saisir un nombre : ",
+                String.valueOf(this.famille.getNbParticules()));
         this.caseMasse = new Case("Masse", "Saisir une masse : ", String.valueOf(this.famille.getMass()));
         this.caseVitesse = new Case("Vitesse", "Vx :", "Vy :", "Vitesse par défaut", this.famille.getVitesseInit());
         this.caseRayon = new Case("Rayon", "Saisir un rayon : ", String.valueOf(this.famille.getRadius()));
@@ -68,8 +69,8 @@ public class SousMenu extends JDialog {
         fenetre.add(this.caseCouleur);
 
         JPanel control = new JPanel();
-        Boutonok = new JButton("OK");
-        Boutonok.addActionListener(new ActionListener(){
+        boutonOk = new JButton("OK");
+        boutonOk.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 String nomFamille = SousMenu.this.caseNom.getTextsousFenetre();
                 int nombreParticules = Integer.parseInt(SousMenu.this.caseNombre.getTextsousFenetre());
@@ -79,7 +80,7 @@ public class SousMenu extends JDialog {
 
                 double vX;
                 double vY;
-                if (!defaut){
+                if (!defaut) {
                     vX = Double.parseDouble(SousMenu.this.caseVitesse.getVitesse().get(0));
                     vY = Double.parseDouble(SousMenu.this.caseVitesse.getVitesse().get(1));
                 } else {
@@ -89,25 +90,27 @@ public class SousMenu extends JDialog {
 
                 double rayonFamille = Double.parseDouble(SousMenu.this.caseRayon.getTextsousFenetre());
 
-                genererSimulation(nomFamille, nombreParticules, rayonFamille, masseFamille, couleurFamille, 1, defaut, vX, vY);         
+                genererSimulation(nomFamille, nombreParticules, rayonFamille, masseFamille, couleurFamille, 1, defaut,
+                        vX, vY);
                 setVisible(false);
             }
         });
 
-        JButton BoutonAnnuler = new JButton("Annuler");
-        BoutonAnnuler.addActionListener(new ActionListener(){
+        JButton boutonAnnuler = new JButton("Annuler");
+        boutonAnnuler.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
                 setVisible(false);
-            }      
+            }
         });
 
-        control.add(Boutonok);
-        control.add(BoutonAnnuler);
+        control.add(boutonOk);
+        control.add(boutonAnnuler);
         this.getContentPane().add(fenetre, BorderLayout.CENTER);
         this.getContentPane().add(control, BorderLayout.SOUTH);
     }
 
-    private void genererSimulation(String nom, int nombre, Double rayon, Double masse, Color couleur, int nbFamilles, boolean defaut, Double vX, Double vY) {
+    private void genererSimulation(String nom, int nombre, Double rayon, Double masse, Color couleur, int nbFamilles,
+            boolean defaut, Double vX, Double vY) {
         this.famille.setColor(couleur);
         this.famille.setMass(masse);
         this.famille.setNbParticules(nombre);

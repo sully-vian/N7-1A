@@ -1,47 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <link rel="stylesheet" href="interface.css" />
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Particle Life Simulation</title>
-    </head>
-    <body>
-        <div class="container">
-            <div class="left">
-                <div class="panel" id="particle-panel">
-                    <h2>Particle Panel</h2>
-                    <canvas
-                        id="particle-canvas"
-                        width="1400"
-                        height="700"></canvas>
-                </div>
+
+<head>
+    <link rel="stylesheet" href="interface.css" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Particle Life Simulation</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="left">
+            <div class="panel" id="particle-panel">
+                <h2>Particle Panel</h2>
+                <canvas id="particle-canvas" width="1400" height="700"></canvas>
             </div>
-            <div class="right">
-                <div class="panel" id="control-panel">
-                    <h2>Control Panel</h2>
-                    <label for="particle-count">Particle Count:</label>
-                    <input
-                        type="number"
-                        id="particle-count"
-                        min="1"
-                        value="100" />
-                    <label for="particle-size">Particle Size:</label>
-                    <input type="number" id="particle-size" min="1" value="5" />
-                    <button id="start-button">Start Simulation</button>
-                    <button id="stop-button">Stop Simulation</button>
-                </div>
-                <div class="panel" id="statistics-panel">
-                    <h2>Statistics Panel</h2>
-                    <div class="stats">
-                        <p>Mean Speed: <span id="mean-speed">0.23 px/s</span></p>
-                        <canvas class="graph" id="graph"></canvas>
-                    </div>
+        </div>
+        <div class="right">
+            <div class="panel" id="control-panel">
+                <h2>Control Panel</h2>
+                <label for="particle-count">Particle Count:</label>
+                <input type="number" id="particle-count" min="1" value="100" />
+                <label for="particle-size">Particle Size:</label>
+                <input type="number" id="particle-size" min="1" value="5" />
+                <button id="start-button">Start Simulation</button>
+                <button id="stop-button">Stop Simulation</button>
+            </div>
+            <div class="panel" id="statistics-panel">
+                <h2>Statistics Panel</h2>
+                <div class="stats">
+                    <p>Mean Speed: <span id="mean-speed">0.23 px/s</span></p>
+                    <canvas class="graph" id="graph"></canvas>
                 </div>
             </div>
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script src="interface.js"></script>
-        
-    </body>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="interface.js"></script>
+
+</body>
+
 </html>

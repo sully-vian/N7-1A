@@ -5,7 +5,6 @@ import simulation2D.Launch;
 import simulation2D.objects.Famille;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.JPanel;
@@ -17,7 +16,6 @@ import javax.swing.DefaultListModel;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -47,6 +45,7 @@ public class ConfigurationMenu extends JPanel {
      * Créer un menu de configuration pour une simulation.
      *
      * @param configuration la configuration à modifier
+     * @param mainMenu      le menu principal
      */
     public ConfigurationMenu(Configuration configuration, RogueMenu mainMenu) {
 
@@ -71,7 +70,8 @@ public class ConfigurationMenu extends JPanel {
         ajoutButton.setPreferredSize(new Dimension(80, 30));
         ajoutButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent arg0) {
-                Famille famille = new Famille("Famille " + String.valueOf(1 + ConfigurationMenu.this.configuration.getRelations().getNbFamilles()));
+                Famille famille = new Famille("Famille "
+                        + String.valueOf(1 + ConfigurationMenu.this.configuration.getRelations().getNbFamilles()));
                 SousMenu menuFamille = new SousMenu(null, "Modifier une famille", true, famille);
                 menuFamille.majFamille();
                 famille = menuFamille.getFamille();
@@ -86,14 +86,14 @@ public class ConfigurationMenu extends JPanel {
         JButton boutonSauver = new JButton("Sauvegarder");
         boutonSauver.setPreferredSize(new Dimension(80, 30));
         boutonSauver.addActionListener(new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    JFileChooser fileChooser = new JFileChooser("./configs/");
-                    int returnValue = fileChooser.showSaveDialog(ConfigurationMenu.this);
-                    if (returnValue == JFileChooser.APPROVE_OPTION) {
-                        File file = fileChooser.getSelectedFile();
-                        ConfigurationMenu.this.configuration.sauvegarder(file);
-                    }
+            public void actionPerformed(ActionEvent e) {
+                JFileChooser fileChooser = new JFileChooser("./configs/");
+                int returnValue = fileChooser.showSaveDialog(ConfigurationMenu.this);
+                if (returnValue == JFileChooser.APPROVE_OPTION) {
+                    File file = fileChooser.getSelectedFile();
+                    ConfigurationMenu.this.configuration.sauvegarder(file);
                 }
+            }
         });
 
         JButton lancerButton = new JButton("Lancer");
@@ -115,6 +115,7 @@ public class ConfigurationMenu extends JPanel {
     /**
      * Créer une liste de menus pour les familles de particules.
      *
+     * @param panel le panneau où ajouter les menus
      * @return la liste des menus des familles
      */
     private JScrollPane createFamilleMenuList(JPanel panel) {

@@ -4,4 +4,10 @@
 *.ali
 *~
 [bB]~*
+*.log
 
+# for latex
+*.aux
+*.out
+*.synctex.gz
+*.toc

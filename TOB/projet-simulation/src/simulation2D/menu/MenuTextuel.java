@@ -121,6 +121,7 @@ public class MenuTextuel {
 
     /**
      * Générer une famille aléatoire.
+     *
      * @return la famille générée
      */
     private Famille genererFamille() {

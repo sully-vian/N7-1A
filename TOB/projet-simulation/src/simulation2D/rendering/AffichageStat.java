@@ -1,17 +1,16 @@
 package simulation2D.rendering;
 
-import java.awt.*;
-import javax.swing.*;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JComponent;
+import javax.swing.JFrame;
 
 import simulation2D.Launch;
 import simulation2D.statistiques.EnergieCinetique;
-//import simulation2D.Launch;
 import simulation2D.statistiques.Statistique;
-
-//import java.awt.geom.Line2D;
-import java.util.ArrayList;
-//import java.util.Collection;
-import java.util.List;
 
 class StatCanva extends JComponent {
     Statistique stat;
@@ -32,8 +31,8 @@ class StatCanva extends JComponent {
 
         // --- Draw axis ---
         graphics.setColor(Color.GRAY);
-        graphics.drawLine( 3, (int) (getHeight()-3),(int) (getWidth()-3), (int) (getHeight()-3) );   //axe x
-        graphics.drawLine( 3, 3, 3, (int) (getHeight()-3));  //axe y
+        graphics.drawLine(3, (int) (getHeight() - 3), (int) (getWidth() - 3), (int) (getHeight() - 3)); // axe x
+        graphics.drawLine(3, 3, 3, (int) (getHeight() - 3)); // axe y
 
         // --- Draw values ---
         graphics.setColor(Color.BLACK);
@@ -52,27 +51,18 @@ class StatCanva extends JComponent {
         }
 
         List<Double> dataMoy = moyenneVal(data);
-        int taille =  dataMoy.size();
+        int taille = dataMoy.size();
         double max = max(dataMoy);
         int oldX = xToPixel(0, taille);
-        int oldY = yToPixel( dataMoy.get(0) , max);
-        for (int i = 1; i < taille-1 ;  i++){
-            int dx = xToPixel((double) i, taille );
-            int dy = yToPixel( dataMoy.get(i), max );
-            graphics.drawLine( dx, dy, oldX, oldY );
+        int oldY = yToPixel(dataMoy.get(0), max);
+        for (int i = 1; i < taille - 1; i++) {
+            int dx = xToPixel((double) i, taille);
+            int dy = yToPixel(dataMoy.get(i), max);
+            graphics.drawLine(dx, dy, oldX, oldY);
             oldX = dx;
             oldY = dy;
         }
     }
-
-    /**
-     * Construire un graphique des statistiques données.
-     *
-     * @param data
-     */
-    // public StatCanva(Statistique data) {
-    // this.donnees = data;
-    // }
 
     public StatCanva(Statistique stat) {
         super();
@@ -89,59 +79,61 @@ class StatCanva extends JComponent {
         return max;
     }
 
-        private List<Double> moyenneVal(List<Double> liste) {
-            List<Double> listeMoy = new ArrayList<>();
-            int taille = liste.size();
-            if (taille > 100) {
-                int q = taille / 100;
-                int r = taille % 100;
-                for (int i = 0; i<q; i++) {
-                    double moy = 0;
-                    for (int j = 0; j<100; j++) {
-                        moy = moy + liste.get(j);
-                    }
-                    moy = moy /100;
-                    listeMoy.add(i, moy);
+    private List<Double> moyenneVal(List<Double> liste) {
+        List<Double> listeMoy = new ArrayList<>();
+        int taille = liste.size();
+        if (taille > 100) {
+            int q = taille / 100;
+            int r = taille % 100;
+            for (int i = 0; i < q; i++) {
+                double moy = 0;
+                for (int j = 0; j < 100; j++) {
+                    moy = moy + liste.get(j);
                 }
-                double moy2 = 0;
-                for (int i=100*q; i<taille; i++) {
-                    moy2 = moy2 + liste.get(i);
-                }
-                listeMoy.add(moy2/r);
-            } else {
-                listeMoy = liste;
-            }      
-            // double max = max(listeMoy);
-            // for (Double element : listeMoy) {
-            //     element = element / max;
-            // }
-            //listeMoy.replaceAll(nb -> nb/max);      
-            return listeMoy;
-        }
-        /**
-         * Convertir une valeur x en pixel.
-         *
-         * @param x la valeur x
-         * @return la valeur x en pixel
-         */
-        private int xToPixel( double x , int taille) {
-            if (taille > 100) {
-                return (int) (getWidth() * x /taille) + 3;
-            } else {
-                return (int)( getWidth() * x/100) + 3;
+                moy = moy / 100;
+                listeMoy.add(i, moy);
             }
+            double moy2 = 0;
+            for (int i = 100 * q; i < taille; i++) {
+                moy2 = moy2 + liste.get(i);
+            }
+            listeMoy.add(moy2 / r);
+        } else {
+            listeMoy = liste;
         }
-    
-    
-        /**
-         * Convertir une valeur y en pixel.
-         *
-         * @param y la valeur y
-         * @return la valeur y en pixel
-         */
-        private int yToPixel( double y, double max) {
-            return (int)(getHeight() *(1-y/max) );     //10000000 valeur arbitraire
+        // double max = max(listeMoy);
+        // for (Double element : listeMoy) {
+        // element = element / max;
+        // }
+        // listeMoy.replaceAll(nb -> nb/max);
+        return listeMoy;
+    }
+
+    /**
+     * Convertir une valeur x en pixel.
+     *
+     * @param x la valeur x
+     * @param taille chépa
+     * @return la valeur x en pixel
+     */
+    private int xToPixel(double x, int taille) {
+        if (taille > 100) {
+            return (int) (getWidth() * x / taille) + 3;
+        } else {
+            return (int) (getWidth() * x / 100) + 3;
         }
+    }
+
+    /**
+     * Convertir une valeur y en pixel.
+     *
+     * @param y la valeur y
+     * @param max la valeur max
+     * @return la valeur y en pixel
+     */
+    private int yToPixel(double y, double max) {
+        return (int) (getHeight() * (1 - y / max)); // 10000000 valeur arbitraire
+    }
 }
 
 public class AffichageStat extends JFrame {
@@ -155,7 +147,7 @@ public class AffichageStat extends JFrame {
 
         this.setSize(550, 500);
         this.setLocationRelativeTo(Launch.frame);
-        this.setLocation(this.getLocation().x + Launch.WIDTH-132,this.getLocation().y + nb);
+        this.setLocation(this.getLocation().x + Launch.WIDTH - 132, this.getLocation().y + nb);
         this.getContentPane().add(new StatCanva(this.stat));
         this.setVisible(true);
     }

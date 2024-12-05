@@ -77,7 +77,7 @@ public class SimulationLoop implements Runnable {
         DensityStat statistiqueDensite = new DensityStat(5);
         AffichageStat windowCin = new AffichageStat(statistiqueEnergieCinetique, -68);
         AffichageStat windowCol = new AffichageStat(statistiqueCollision, 424);
-        long Milliseconds = System.currentTimeMillis();
+        long milliseconds = System.currentTimeMillis();
 
         while (running) {
             long currentMilliseconds = System.currentTimeMillis();
@@ -92,11 +92,11 @@ public class SimulationLoop implements Runnable {
             statistiqueCollision.updateStat(simulationState);
             statistiqueEnergieCinetique.updateStat(simulationState);
             statistiqueDensite.updateStat(simulationState);
-            if (currentMilliseconds - Milliseconds > 1000) {
+            if (currentMilliseconds - milliseconds > 1000) {
                 windowCin.update(statistiqueEnergieCinetique);
                 windowCol.update(statistiqueCollision);
-                //statistiqueDensite.afficher();
-                Milliseconds = currentMilliseconds;
+                // statistiqueDensite.afficher();
+                milliseconds = currentMilliseconds;
             }
             // demander une mise à jour du rendu
             SwingUtilities.invokeLater(new Runnable() {

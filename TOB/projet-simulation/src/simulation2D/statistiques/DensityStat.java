@@ -1,10 +1,15 @@
 package simulation2D.statistiques;
 
 import java.util.List;
+
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.Timer;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.image.BufferedImage;
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -19,7 +24,7 @@ import simulation2D.simulation.SimulationState;
  */
 public class DensityStat {
 
-    private int updateIteration ;
+    private int updateIteration;
     /**
      * La matrice contenant l'information.
      */
@@ -63,7 +68,7 @@ public class DensityStat {
     public void updateStat(SimulationState state) {
         List<Particule> particules = state.getParticles();
         int nbParticules = particules.size();
-        if (this.updateIteration > Launch.FPS) { 
+        if (this.updateIteration > Launch.FPS) {
             for (Particule particule : particules) {
                 int col = (int) (particule.getX() / size);
                 int row = (int) (particule.getY() / size);
@@ -97,12 +102,12 @@ public class DensityStat {
         this.frame.pack();
         this.frame.setVisible(true);
         // la fenetre sera fermer automatiquement apres 1 seconde.
-        Timer timer = new Timer(1000,new ActionListener() {
-           @Override 
-           public void actionPerformed(ActionEvent e) {
-            DensityStat.this.frame.dispose();
-           } 
-            
+        Timer timer = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                DensityStat.this.frame.dispose();
+            }
+
         });
         timer.setRepeats(false);
         timer.start();

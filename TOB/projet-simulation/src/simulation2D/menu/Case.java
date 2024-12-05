@@ -25,7 +25,6 @@ public class Case extends JPanel {
     private Color couleurSelectionne;
     private JPanel carreCouleur;
     private JColorChooser palette;
-    
 
     // Constructeur pour les cases avec zone de texte (rayon, masse, nombre, nom)
     public Case(String bord, String instruction, String defaut) {
@@ -45,7 +44,7 @@ public class Case extends JPanel {
         return sousFenetre.getText();
     }
 
-    //Constructeur pour créer une case pour sélectionner une couleur
+    // Constructeur pour créer une case pour sélectionner une couleur
     public Case(String labelText, Color defaut) {
         super();
         this.setLayout(new FlowLayout());
@@ -65,7 +64,7 @@ public class Case extends JPanel {
             @Override
             public void stateChanged(ChangeEvent e) {
                 Case.this.couleurSelectionne = Case.this.palette.getColor();
-                Case.this.carreCouleur.setBackground(couleurSelectionne); 
+                Case.this.carreCouleur.setBackground(couleurSelectionne);
             }
         });
 
@@ -74,7 +73,6 @@ public class Case extends JPanel {
         this.add(palette);
     }
 
-    
     // Constructeur pour la case pour la vitesse
     public Case(String bord, String vx, String vy, String caseParDefaut, Vecteur2D defaut) {
         super();
@@ -86,7 +84,8 @@ public class Case extends JPanel {
         caseVitesseDefaut.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 boolean defaut = caseVitesseDefaut.isSelected();
-                // Activer ou désactiver les zones de texte en fonction de l'état de la case à cocher
+                // Activer ou désactiver les zones de texte en fonction de l'état de la case à
+                // cocher
                 vX.setEnabled(!defaut);
                 vY.setEnabled(!defaut);
             }

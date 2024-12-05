@@ -66,7 +66,7 @@ public class RogueMenu extends JFrame {
         boutonCharger.setPreferredSize(tailleBouton);
 
         this.menuPanel = new JPanel();
-        this.menuPanel.setLayout(new GridLayout(2,1,10,30));
+        this.menuPanel.setLayout(new GridLayout(2, 1, 10, 30));
         this.menuPanel.add(boutonCreer);
         // menuPanel.add(Box.createVerticalStrut(10));
         this.menuPanel.add(boutonCharger);

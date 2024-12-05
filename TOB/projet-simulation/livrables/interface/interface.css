@@ -19,7 +19,7 @@ body {
     overflow-y: auto;
 }
 
-#control-panel  {
+#control-panel {
     display: flex;
     flex-direction: column;
 }

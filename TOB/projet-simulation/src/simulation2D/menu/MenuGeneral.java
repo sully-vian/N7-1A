@@ -141,7 +141,7 @@ public class MenuGeneral extends JFrame {
             boutonSupprimer.setPreferredSize(new Dimension(40, 25));
             boutonSupprimer.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent arg0) {
-                    //familles.remove(famille);
+                    // familles.remove(famille);
                     afficheFamilles();
                 }
             });

@@ -18,6 +18,7 @@ public class CollisionStat implements Statistique {
     private List<Double> data;
     private double nbcollision;
     private int updateIteration;
+
     /**
      * Créer un nouvel objet gérant les statistiques de collision.
      */
@@ -36,7 +37,8 @@ public class CollisionStat implements Statistique {
     }
 
     /**
-     * Mettre à jour les données sur les collisions à l'aide de l'état actuel de la simulation.
+     * Mettre à jour les données sur les collisions à l'aide de l'état actuel de la
+     * simulation.
      *
      * @param state l'état actuel de la simulation
      */
@@ -44,14 +46,15 @@ public class CollisionStat implements Statistique {
     public void updateStat(SimulationState state) {
         double nbParticules = state.getParticles().size();
         updateIteration++;
-        if (updateIteration < Launch.FPS) { 
-            this.nbcollision += state.getNbCollisions(); 
+        if (updateIteration < Launch.FPS) {
+            this.nbcollision += state.getNbCollisions();
         } else {
             this.data.add(nbcollision / nbParticules);
             this.nbcollision = 0;
             this.updateIteration = 0;
-        }  
-    } 
+        }
+    }
+
     /**
      * Afficher les statistiques concernant les collisions.
      */
