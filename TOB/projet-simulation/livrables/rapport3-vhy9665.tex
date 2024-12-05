@@ -1,0 +1,21 @@
+\documentclass{article}
+
+\usepackage{hyperref}
+
+\title{TOB - Rapport 3}
+\author{Vianney Hervy - groupe GH3}
+\date{27 mai 2024}
+
+\begin{document}
+
+\maketitle
+
+Cette troisième itération a été l'occasion de rassembler les différents travaux réalisés pendant l'itération précédente. Cela inclu de modifier les menus pour les rendre compatibles entre eux. J'ai également implémenté la charge et la sauvegarde de configuration de simulation. \\
+
+Pour gagner en clarté, j'ai entièrement recodé et documenté les structures de donnée \texttt{DicoRelations} et \texttt{DicoRelations2D} permettant l'accès  aux relations inter-familiales. \\
+
+J'ai rencontré des problèmes lorsque j'ai constaté que certaines parties du code utilisaient des fonctionnalités encore inexistante en Java 7 (référence dans une sous-classe anonyme à une variable locale non-finale de la classe englobante). \\
+
+Finalement, j'ai créé quelques configurations de simulation à charger pour la présentation.
+
+\end{document}

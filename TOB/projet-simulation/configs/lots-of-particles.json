@@ -1,0 +1,51 @@
+{
+    "relations": {
+        "Famille 3": {
+            "Famille 2": 0,
+            "Famille 1": 0
+        },
+        "Famille 2": {
+            "Famille 3": 0,
+            "Famille 1": 0
+        },
+        "Famille 1": {
+            "Famille 3": 0,
+            "Famille 2": 0
+        }
+    },
+    "familles": {
+        "Famille 3": {
+            "mass": 10,
+            "vitesseInit": {
+                "y": 29.197,
+                "x": 39.815
+            },
+            "couleur": -16777216,
+            "nbParticule": 100,
+            "radius": 5,
+            "nom": "Famille 3"
+        },
+        "Famille 2": {
+            "mass": 10,
+            "vitesseInit": {
+                "y": 9.131,
+                "x": 3.707
+            },
+            "couleur": -65485,
+            "nbParticule": 50,
+            "radius": 10,
+            "nom": "Famille 2"
+        },
+        "Famille 1": {
+            "mass": 10,
+            "vitesseInit": {
+                "y": 20,
+                "x": -50
+            },
+            "couleur": -16776961,
+            "nbParticule": 1000,
+            "radius": 2,
+            "nom": "Famille 1"
+        }
+    }
+}

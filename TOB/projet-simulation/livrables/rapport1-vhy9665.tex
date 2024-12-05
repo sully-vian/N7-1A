@@ -1,0 +1,22 @@
+\documentclass{article}
+
+\usepackage{hyperref}
+
+
+\title{TOB - rapport 1}
+\author{Vianney Hervy - groupe GH3}
+\date{29 avril 2024}
+
+\begin{document}
+
+\maketitle
+
+Durant cette première itération, j'ai réalisé l'implémentation de la classe \texttt{objects.Particule}, des packages \texttt{rendering}, \texttt{simulation} ainsi que des classes \texttt{Collision}, \texttt{Force}, \texttt{MoteurPhysique} et \texttt{Vecteur2D} du package \texttt{simulation.physics}. J'ai produit la documentation Javadoc complète de chacune de ces classes. \\
+
+Ces classes sont terminées à moins de changer l'architecture du projet. \texttt{Particule} et \texttt{Vecteur2D} sont testées. \\
+
+Avec l'aide de Baptiste GOMEZ, j'ai aussi préparé l'architecture globale du projet, créant des dossier encore vide pour les classes à venir. \\
+
+Tout cela permet notamment de simuler un environnement simple où des particules circulaires entrent en collision entre elles et avec les murs. Elles peuvent être soumises à des forces constantes autres que celles résultant des collisions (le poids par exemple). Les caractéristiques de ces particules sont la masse, la taille, la position, la vitesse (initiale) et la résultante des forces s'appliquant sur elle.
+
+\end{document}

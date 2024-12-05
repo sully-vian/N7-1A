@@ -1,0 +1,16 @@
+
+Fonctionnalités :
+
+* Qu'est ce que c'est qu'une famille ?
+* La configuration va être fastidieuse. Prévoir des modèles ?
+
+Interface utilisateur :
+
+* OK.
+* A quoi ressemble la définition des familles ?
+
+
+Scénario :
+
+* Que signifie "relation de puissance 15 de rouge sur bleu" ?
+
