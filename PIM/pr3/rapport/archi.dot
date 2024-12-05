@@ -1,0 +1,57 @@
+digraph G1 {
+    rankdir = TB;
+    nodesep = 0.5;
+    ranksep = 1.0;
+    
+    node [shape = plaintext;];
+    subgraph cluster_Legend {
+        label = "Légende";
+        fontsize = "20pt";
+        realise [label = <"Réalise" →>;fontsize = "20pt";];
+        utilise [label = <"Utilise" ⇢>;fontsize = "20pt";];
+    }
+    
+    subgraph cluster_main {
+        label = "Programme principal";
+        fontsize = "20pt";
+        "pagerank.adb" [shape = box;style = bold;];
+        "pagerank_doc.ads" [shape = box;color = green;];
+        "pagerank_doc.adb" [shape = box;color = green;];
+        "pagerank_exceptions.ads" [shape = box;];
+    }
+    
+    subgraph cluster_package {
+        label = "Modules de calcul";
+        fontsize = "20pt";
+        "matrice_creuse.ads" [shape = box;color = blue;];
+        "matrice_creuse.adb" [shape = box;color = blue;];
+        "matrice_pleine.ads" [shape = box;color = red;];
+        "matrice_pleine.adb" [shape = box;color = red;];
+    }
+    
+    subgraph cluster_tests {
+        label = Tests;
+        fontsize = "20pt";
+        "test_creuse.adb" [shape = rect;color = gray;];
+        "test_pleine.adb" [shape = box;color = gray;];
+    }
+    
+    // prog principal
+    "pagerank.adb" -> "matrice_creuse.ads" [style = bold;];
+    "pagerank.adb" -> "matrice_pleine.ads" [style = bold;];
+    "pagerank.adb" -> "pagerank_doc.ads" [style = bold;];
+    "pagerank.adb" -> "pagerank_exceptions.ads" [style = bold;];
+    
+    // modules
+    "matrice_creuse.adb" -> "pagerank_doc.ads" [color = blue;];
+    "matrice_creuse.adb" -> "matrice_creuse.ads" [color = blue; style = dashed;];
+    "matrice_creuse.adb" -> "pagerank_exceptions.ads" [color = blue;];
+    "matrice_pleine.adb" -> "pagerank_doc.ads" [color = red;];
+    "matrice_pleine.adb" -> "matrice_pleine.ads" [color = red; style = dashed;];
+    "matrice_pleine.adb" -> "pagerank_exceptions.ads" [color = red;];
+    "pagerank_doc.adb" -> "pagerank_doc.ads" [color = green; style = dashed;];
+    
+    // tests
+    "test_creuse.adb" -> "matrice_creuse.ads" [color = gray;];
+    "test_pleine.adb" -> "matrice_pleine.ads" [color = gray;];
+}
