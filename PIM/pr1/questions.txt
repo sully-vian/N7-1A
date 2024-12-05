@@ -1,0 +1,96 @@
+Auteur 1 (exercice 1 & 3) : Emmanuel DUBOIS
+Auteur 2 (exercice 2) 	: Vianney HERVY
+
+Vous devez répondre de manière courte aux questions suivantes.
+Il n'est pas demandé de modifier le programme que vous avez écrit mais
+simplement d'expliquer les modifications qu'il faudrait y apporter.
+
+Il faut remplacer les « ... » par votre réponse en laissant les lignes
+blanches avant et après.
+
+--------------------------------------------------------------------------------
+C1. Que se passe-t-il si dans Jeu_Devin_Exo2 l'utilisateur répond d'abord trop
+grand puis toujours trop petit ?
+--------------------------------------------------------------------------------
+
+Réponse : Dans ce cas-là, l’ordinateur devine que l’utilisateur a triché car il obtient deux bornes égales au moment d’effectuer sa dichotomie, et le chiffre n’est toujours pas égal à une de ces bornes. 
+
+
+--------------------------------------------------------------------------------
+C2. Est-on sûr que Jeu_Devin_Exo1 se termine ?  Quel argument peut-on donner ?
+--------------------------------------------------------------------------------
+
+Réponse : Comme l’ordinateur sélectionne un nombre qui reste invariant tout au long de l’exécution du programme, l’utilisateur est donc garanti de deviner une fois le nombre que l’ordinateur a choisi. 
+Dans ce cas-là, on sort de la boucle principale de la procédure et on a donc terminaison de l’exécution.
+L'utilisateur peut dans tous les cas faire se terminer le programme mais il peut aussi indéfiniment proposer un mauvais nombre, sans prendre en compte les indications du programme.
+
+--------------------------------------------------------------------------------
+C3. Est-on sûr que Jeu_Devin_Exo2 se termine ?  Quel argument peut-on donner ?
+--------------------------------------------------------------------------------
+
+Réponse : Chaque indice donné par l'utilisateur fait soit décroître la valeur de la borne max soit croître la valeur de la borne min. Le nombre de choix possibles pour l'ordinateur diminue donc à chaque étape. Lorsqu'il atteint 1, l'ordinateur ne peut se tromper sans triche : la boucle se termine. S'il se trompe, c'est que l'utilisateur triche : la boucle se termine aussi. Les lignes de codes suivantes ne sont pas des boucles, le programme se termine bel et bien.
+
+
+--------------------------------------------------------------------------------
+F1. Les noms Jeu_Devin_Exo1, Jeu_Devin_Exo2 et Jeu_Devin_Exo3 ne sont pas très
+parlants.  Par quoi pourrait-on les remplacer ?
+--------------------------------------------------------------------------------
+
+Réponse : On pourrait les renommer respectivement "Deviner_Nombre", "Faire_Deviner_Nombre" et "Jeu_Devin_Nombre".
+
+
+--------------------------------------------------------------------------------
+E1. Quelles sont les modifications à apporter à votre programme pour chercher
+des nombres compris entre 1 et 9999 ?
+--------------------------------------------------------------------------------
+
+Réponse : Il faudrait initialiser les bornes à des valeurs différentes.
+
+
+--------------------------------------------------------------------------------
+E2. Quelles sont les modifications à apporter pour que que l'utilisateur
+puisse utiliser aussi les caractères <, > et = pour indiquer si le nombre
+proposé est trop petit, trop grand ou le bon ?
+--------------------------------------------------------------------------------
+
+Réponse : Dans le bloc Selon de Jeu_Devin_Exo2, il faudrait ajouter les caractères dans les cas possibles.
+
+
+--------------------------------------------------------------------------------
+E3. On veut limiter le nombre de tentatives à 10.  Si le nombre n'a pas été
+trouvé avant, le joueur a perdu.  Comment prendre en compte cette évolution ?
+--------------------------------------------------------------------------------
+
+Réponse : On peut utiliser un indice entier initialisé à 0 qui est incrémenté de 1 à chaque tentative. On ajoute également dans la condition de la boucle Répéter que cet indice est supérieur strictement à 10.
+
+
+--------------------------------------------------------------------------------
+E4. La recherche dichotomique conduit à toujours proposer les mêmes nombres.
+Comment faire pour donner l'impression que le programme joue comme un humain
+tout en restant efficace ?
+--------------------------------------------------------------------------------
+
+Réponse : Le programme pourrait proposer aléatoirement des nombres autour de la valeur médiane des bornes, tout en restant entre ces dernières.
+
+
+--------------------------------------------------------------------------------
+E5. Actuellement, l'utilisateur doit attendre la fin d'un jeu pour quitter le
+programme.  On veut qu'il puisse le faire dès qu'il saisit 0 quand on lui pose
+une question. Le programme doit alors dire que l'utilisateur a abandonné la
+partie.  Comment faire ?
+--------------------------------------------------------------------------------
+
+Réponse : On peut ajouter une variable booléenne Abandon initialisée à Faux. Il faut ensuite ajouter une condition sur l’entrée de l’utilisateur dans chacun des programmes, dans laquelle on entre uniquement si l’entrée de l’utilisateur est 0. Dans ce cas-là, la variable booléenne est passée à Vrai, et l’entrée de l’utilisateur au chiffre choisi par l’ordinateur dans le cas de l’exercice 1, ou à ‘t’ dans le cas de l’exercice 2. Ainsi, le jeu se finit, il suffit juste d’ajouter une condition regardant si Abandon vaut Vrai et qui affiche que l’utilisateur a abandonné la partie.
+
+
+--------------------------------------------------------------------------------
+E6. Quand le programme détecte que l'utilisateur a triché, comment faire pour
+que le programme explique au joueur quand il a triché ?
+--------------------------------------------------------------------------------
+
+Réponse : Il faudrait conserver le numéro du dernier essai à partir duquel l’utilisateur a commencé une série de mêmes réponses (par exemple, l’utilisateur indique plusieurs fois d'affilée que le chiffre est trop grand). Ainsi, lorsque l’ordinateur détecte que le joueur triche (c’est-à-dire que les bornes sont égales et que le chiffre n’est pas égal aux bornes), il sait que l’utilisateur a commencé à tricher au début de la série de réponses.
+
+
+--------------------------------------------------------------------------------
+
+
